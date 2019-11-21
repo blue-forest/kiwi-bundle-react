@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="<%= htmlWebpackPlugin.options.lang %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=5,minimal-ui">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <div id="render"></div>
+  <%= htmlWebpackPlugin.options.generateKiwiConfig(webpack) %>
+</body>
+</html>
