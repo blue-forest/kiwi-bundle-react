@@ -1,15 +1,14 @@
 import WebpackDevServer from "webpack-dev-server"
 import pathLib from "path"
 import Webpack from "webpack"
-import { readConfig } from "./config"
 import generateWebpackConfig from "../webpack/config"
-import { webpackConsoleLog } from "./utils"
 import chalk from "chalk"
 import { WebpackMode } from "../webpack/core"
 
-export default (path: string) => {
-  readConfig(path).then((kiwiConfig: any) => {
-    const outputPath = pathLib.resolve(path, kiwiConfig.platforms.web.buildDir)
+export default {
+
+  start: (path: string) => {
+    const outputPath = pathLib.resolve(path, )
     const webpackConfig = generateWebpackConfig(path, outputPath, kiwiConfig, WebpackMode.DEVELOPMENT)
     const server = new WebpackDevServer(Webpack(webpackConfig), webpackConfig.devServer)
     webpackConsoleLog("Webpack launched for a watched development build...")
@@ -19,9 +18,18 @@ export default (path: string) => {
         chalk.bold(`http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}`)
       )
     })
-    /*process.on("exit", () => {
-      webpackConsoleLog("Webpack server stopped")
-      server.close()
-    })*/
-  })
-}
+  },
+
+  build: (path: string) => {
+    webpackConsoleLog("Webpack launched for production build...")
+      Webpack(generateWebpackConfig(path, outputPath, kiwiConfig, WebpackMode.PRODUCTION), (err, stats) => {
+        if(err) {
+          console.error("Webpack error :", err)
+          process.exit(1)
+        } else {
+          console.log(stats.toString({ colors: true }))
+        }
+      })
+  },
+
+} as KiwiBundleHandler

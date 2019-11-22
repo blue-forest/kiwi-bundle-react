@@ -1,4 +1,4 @@
-import { setCurrentLanguage } from "dropin-recipes"
+import { i18nSettings } from "dropin-recipes"
 import { render } from "react-dom"
 import { logger } from "./logger"
 import { Router } from "../routes/Router"
@@ -16,7 +16,7 @@ export class Client {
 
   constructor(router: Router) {
     // Locale
-    setCurrentLanguage(navigator.language.slice(0, 2))
+    i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
 
     // Render
     render(router.render(), document.getElementById("render"), () => {
@@ -35,9 +35,9 @@ export class Client {
 
   private loadHotModule() {
     // Listen for updates
-    const moduleCacheChildren: string[] = require.cache[0].children
-    const clientModuleName: string = moduleCacheChildren[moduleCacheChildren.length - 1]
-    const clientModule: NodeModule = require.cache[clientModuleName]
+    const moduleCacheChildren: NodeModule[] = require.cache[0].children
+    const clientModuleName: NodeModule = moduleCacheChildren[moduleCacheChildren.length - 1]
+    const clientModule: NodeModule = require.cache[clientModuleName.id]
     if(typeof clientModule.hot !== "undefined") {
       clientModule.hot.accept()
       logger.logInfo("Hot", "Listening")
