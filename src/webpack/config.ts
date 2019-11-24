@@ -1,8 +1,9 @@
+import { Environment } from "dropin-recipes"
 import Webpack from "webpack"
 import pathLib from "path"
-import { WebpackMode } from "./core"
-import configRules from "./config.rules"
-import configPlugins from "./config.plugins"
+import { KiwiBundleHandlersOptions } from "../.bundles/kiwi-bundle/handlers"
+import { configRules } from "./config.rules"
+import { configPlugins } from "./config.plugins"
 
 interface WebpackConfig extends Webpack.Configuration {
   entry: any
@@ -11,24 +12,24 @@ interface WebpackConfig extends Webpack.Configuration {
   optimization: any
 }
 
-const generateJsOutputPath = (mode: WebpackMode, data?: any) => {
+const generateJsOutputPath = (env: Environment, data?: any) => {
   const isSw = typeof data !== "undefined" && data.chunk.name === "sw"
-  const isProd = mode === WebpackMode.PRODUCTION
+  const isProd = env === Environment.PRODUCTION
   return `${isSw ? "" : "static/"}[name].${isProd ? "[contenthash].min" : "[hash]"}.js`
 }
 
-export default (rootPath: string, outputPath: string, kiwiConfig: any, mode: WebpackMode): WebpackConfig => {
-  const bundlePath = pathLib.join(rootPath, "node_modules", "kiwi-bundle")
+export const generateWebpackConfig = (rootPath: string, outputDir: string, options: KiwiBundleHandlersOptions, env: Environment): WebpackConfig => {
+  const bundlePath = pathLib.join(rootPath, "node_modules", "kiwi-bundle-react")
 
   // Common config
   const config: WebpackConfig = {
-    mode,
+    mode: env === Environment.PRODUCTION ? "production" : "development",
 
     resolve: {
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
-        pathLib.join(bundlePath, "node_modules"),
+        // pathLib.join(bundlePath, "node_modules"),
       ],
       /*alias: {
         "kiwi-bundle": bundlePath,
@@ -39,30 +40,30 @@ export default (rootPath: string, outputPath: string, kiwiConfig: any, mode: Web
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
-        pathLib.join(bundlePath, "node_modules"),
+        // pathLib.join(bundlePath, "node_modules"),
       ],
     },
 
     entry: {
       main: [ pathLib.join(rootPath, "src", "index.ts") ],
-      sw: pathLib.join(bundlePath, "src", "sw", "index.ts"),
+      // TODO sw: pathLib.join(bundlePath, "src", "sw", "index.ts"),
     },
 
     output: {
-      filename: (data: any) => generateJsOutputPath(mode, data),
-      chunkFilename: generateJsOutputPath(mode),
+      filename: (data: any) => generateJsOutputPath(env, data),
+      chunkFilename: generateJsOutputPath(env),
       globalObject: "(typeof self !== 'undefined' ? self : this)",
       publicPath: "/",
-      path: outputPath,
+      path: pathLib.join(rootPath, outputDir),
     },
 
     module: {
-      rules: configRules.generate(mode),
+      rules: configRules.generate(env),
     },
 
-    plugins: configPlugins(rootPath, bundlePath, kiwiConfig).generate(mode),
+    plugins: configPlugins(rootPath, bundlePath, options).generate(env),
 
-    devtool: mode === WebpackMode.PRODUCTION ? "source-map" : "eval",
+    devtool: env === Environment.PRODUCTION ? "source-map" : "eval",
 
     performance: {
       hints: false,
@@ -82,19 +83,19 @@ export default (rootPath: string, outputPath: string, kiwiConfig: any, mode: Web
   }
 
   // Mode options
-  if(mode === WebpackMode.DEVELOPMENT) {
+  if(env === Environment.DEVELOPMENT) {
 
     // DEV SERVER & HOT RELOADER ENTRIES
     config.entry.main.unshift("webpack/hot/only-dev-server")
     config.entry.main.unshift(
       "webpack-dev-server/client"
-        + `?http://${kiwiConfig.platforms.web.devHost}:${kiwiConfig.platforms.web.devPort}`
+        + `?http://${options.dev.webHost}:${options.dev.webPort}`
     )
 
     // DEV SERVER CONFIG
     config.devServer = {
-      host: kiwiConfig.platforms.web.devHost,
-      port: kiwiConfig.platforms.web.devPort,
+      host: options.dev.webHost,
+      port: options.dev.webPort,
       historyApiFallback: true, // Disable if HashRouter is used
       clientLogLevel: "warning",
       inline: true,

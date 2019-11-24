@@ -1,11 +1,6 @@
-
-export enum WebpackMode {
-  PRODUCTION = "production",
-  DEVELOPMENT = "development",
-}
+import { Environment } from "dropin-recipes"
 
 type WebpackCallback = () => any[]
-
 
 interface WebpackConfigParams {
   common?: any[]|WebpackCallback
@@ -13,7 +8,7 @@ interface WebpackConfigParams {
   production?: WebpackCallback
 }
 
-export default class WebpackConfig implements WebpackConfigParams {
+export class WebpackConfig implements WebpackConfigParams {
   common?: any[]|WebpackCallback
   development?: WebpackCallback
   production?: WebpackCallback
@@ -28,7 +23,7 @@ export default class WebpackConfig implements WebpackConfigParams {
     }
   }
 
-  generate(mode: WebpackMode) {
+  generate(env: Environment) {
     if(Array.isArray(this.common)) {
       return this.common
     } else {
@@ -36,11 +31,11 @@ export default class WebpackConfig implements WebpackConfigParams {
       if(typeof this.common !== "undefined") {
         final = this.common()
       }
-      if(mode === WebpackMode.DEVELOPMENT) {
+      if(env === Environment.DEVELOPMENT) {
         if(typeof this.development !== "undefined") {
           final = final.concat(this.development())
         }
-      } else if(mode === WebpackMode.PRODUCTION) {
+      } else if(env === Environment.PRODUCTION) {
         if(typeof this.production !== "undefined") {
           final = final.concat(this.production())
         }

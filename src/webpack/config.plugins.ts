@@ -3,11 +3,12 @@ import { CheckerPlugin } from "awesome-typescript-loader"
 import StyleLintPlugin from "stylelint-webpack-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import AppManifestWebpackPlugin from "app-manifest-webpack-plugin"
-import Webpack, { Compiler, IgnorePlugin } from "webpack"
-import WebpackConfig from "./core"
 import etag from "etag"
+import Webpack, { Compiler } from "webpack"
+import { KiwiBundleHandlersOptions } from "../.bundles/kiwi-bundle/handlers"
+import { WebpackConfig } from "./core"
 
-const generateIconsAndManifest = (kiwiConfig: any, path: string, dev: boolean) => {
+const generateIconsAndManifest = (options: KiwiBundleHandlersOptions, path: string, dev: boolean) => {
   return new AppManifestWebpackPlugin({
     logo: pathLib.join(path, "assets", "logo.png"),
     prefix: "/static/icons/",
@@ -15,10 +16,9 @@ const generateIconsAndManifest = (kiwiConfig: any, path: string, dev: boolean) =
     persistentCache: dev,
     inject: true,
     config: {
-      appName: kiwiConfig.project.title,
-      appDescription: kiwiConfig.project.description,
-      lang: kiwiConfig.project.lang,
-      developerName: kiwiConfig.project.author,
+      appName: options.app.name,
+      appDescription: options.app.description,
+      developerName: options.app.author,
       display: "standalone",
       orientation: "portrait",
       start_url: "/?homescreen=1",
@@ -70,16 +70,15 @@ const generateStatsCheck = (exitOnError = false) => {
   }
 }
 
-const plugins = (path: string, bundlePath: string, kiwiConfig: any) => new WebpackConfig({
+export const configPlugins = (path: string, bundlePath: string, options: KiwiBundleHandlersOptions) => new WebpackConfig({
 
   common: () => [
     new CheckerPlugin(),
     new StyleLintPlugin(),
     new HtmlWebpackPlugin({
-      template: pathLib.join(bundlePath, "opt", "index.html.ejs"),
-      lang: kiwiConfig.project.lang,
-      title: kiwiConfig.project.title,
-      description: kiwiConfig.project.description,
+      template: pathLib.join(bundlePath, ".models", "ejs", "index.html.ejs"),
+      title: options.app.name,
+      description: options.app.description,
       generateKiwiConfig: (webpack: any) => {
         const config: any = {}
         if(Array.isArray(webpack.assetsByChunkName.sw)) {
@@ -99,16 +98,14 @@ const plugins = (path: string, bundlePath: string, kiwiConfig: any) => new Webpa
 
   development: () => [
     new Webpack.HotModuleReplacementPlugin(),
-    generateIconsAndManifest(kiwiConfig, path, true),
+    generateIconsAndManifest(options, path, true),
     generateKiwiJson(),
   ],
 
   production: () => [
-    generateIconsAndManifest(kiwiConfig, path, false),
+    generateIconsAndManifest(options, path, false),
     generateKiwiJson(),
     generateStatsCheck(true),
   ],
 
 })
-
-export default plugins

@@ -1,6 +1,6 @@
-import WebpackConfig from "./core"
+import { WebpackConfig } from "./core"
 
-const rules = new WebpackConfig([
+export const configRules = new WebpackConfig([
   {
     test: /\.js$/,
     use: [ "babel-loader?cacheDirectory", "source-map-loader" ],
@@ -51,5 +51,3 @@ const rules = new WebpackConfig([
     loader: "json-loader",
   }
 ])
-
-export default rules

@@ -1,4 +1,4 @@
-import { WebpackMode } from "../../webpack/core"
+import { Environment } from "dropin-recipes"
 
 const generateCss = (color: string) => [
 //  "border: 1px solid black",
@@ -15,7 +15,7 @@ class Logger {
   private previous: Date|null = null
 
   constructor() {
-    if(process.env.NODE_ENV !== WebpackMode.PRODUCTION) {
+    if(process.env.NODE_ENV !== Environment.PRODUCTION) {
       this.enabled = true
     }
   }
