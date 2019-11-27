@@ -5,6 +5,8 @@ import { KiwiBundleHandlersOptions } from "../.bundles/kiwi-bundle/handlers"
 import { configRules } from "./config.rules"
 import { configPlugins } from "./config.plugins"
 
+const TSConfig = require("../../tsconfig.json")
+
 interface WebpackConfig extends Webpack.Configuration {
   entry: any
   output: any
@@ -46,7 +48,7 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
 
     entry: {
       main: [ pathLib.join(rootPath, "src", "index.ts") ],
-      // TODO sw: pathLib.join(bundlePath, "src", "sw", "index.ts"),
+      sw: pathLib.join(bundlePath, TSConfig.compilerOptions.outDir, "sw", "index.js"),
     },
 
     output: {

@@ -1,3 +1,4 @@
+import * as React from "react"
 import { i18nSettings } from "dropin-recipes"
 import { render } from "react-dom"
 import { logger } from "./logger"
@@ -15,8 +16,19 @@ export function onDevEnv(callback: () => void) {
 export class Client {
 
   constructor(router: Router) {
-    // Locale
+    // i18n
     i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
+    i18nSettings.setMarkdownCompiler<React.ReactElement>({
+      bold: (id, children) => <strong key={id} children={children}/>,
+      link: (id, link, children, options) => <a
+        key={id}
+        href={link}
+        children={children}
+        id={options.id}
+        className={options.className}
+        target={options.target}
+      />,
+    })
 
     // Render
     render(router.render(), document.getElementById("render"), () => {
@@ -35,9 +47,9 @@ export class Client {
 
   private loadHotModule() {
     // Listen for updates
-    const moduleCacheChildren: NodeModule[] = require.cache[0].children
-    const clientModuleName: NodeModule = moduleCacheChildren[moduleCacheChildren.length - 1]
-    const clientModule: NodeModule = require.cache[clientModuleName.id]
+    const moduleCacheChildren: string[] = require.cache[0].children as any
+    const clientModuleName = moduleCacheChildren[moduleCacheChildren.length - 1]
+    const clientModule: NodeModule = require.cache[clientModuleName]
     if(typeof clientModule.hot !== "undefined") {
       clientModule.hot.accept()
       logger.logInfo("Hot", "Listening")
