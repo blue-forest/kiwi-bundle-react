@@ -8,3 +8,5 @@ export const actionWithObjectKey = (object: any, key: string, action: (data: any
     action(object[key])
   }
 }
+
+export const regexParameter = (prefix: string = "") => new RegExp(`(\\?|\\&)(${prefix})([^=&]*)=([^&]*)`, "g")

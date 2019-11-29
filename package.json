@@ -9,10 +9,10 @@
     "test": "kiwi test",
     "build": "kiwi build"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/core/index.js",
   "bundles": {
     "kiwi-bundle": {
-      "handlers": "./lib/handlers.js"
+      "handlers": "./lib/handlers/index.js"
     }
   },
   "dependencies": {

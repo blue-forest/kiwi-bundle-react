@@ -1,19 +1,25 @@
-import { PureComponent } from "react"
-import { i18nData, i18nSettings, i18n } from "dropin-recipes"
+import React from "react"
+import { XOR, i18nData, i18nSettings, i18n } from "dropin-recipes"
 
-interface TextProps {
+type TextProps = XOR<{
   keyPrefix: string
   i18n: i18nData
-}
+}, {
+  children: React.ReactNode
+}>
 
-export class Text extends PureComponent<TextProps> {
+export class Text extends React.PureComponent<TextProps> {
 
   constructor(props: TextProps) {
     super(props)
   }
 
   render() {
-    return i18nSettings.compileMarkdown<React.ReactElement>(this.props.keyPrefix, i18n(this.props.i18n))
+    const { i18n: i18nValue, keyPrefix, children } = this.props
+    if(typeof i18nValue !== "undefined" && typeof keyPrefix !== "undefined") {
+      return i18nSettings.compileMarkdown<React.ReactElement>(keyPrefix, i18n(i18nValue))
+    }
+    return children
   }
 
 }

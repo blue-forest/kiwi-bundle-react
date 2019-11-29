@@ -1,13 +1,14 @@
-import * as React from "react"
+import React from "react"
 import { i18nSettings } from "dropin-recipes"
 import { render } from "react-dom"
+import { Router } from "../router/Router"
+import { Link } from "../components"
 import { logger } from "./logger"
-import { Router } from "../routes/Router"
 import "./sw"
 
 let STARTED = false
 
-export function onDevEnv(callback: () => void) {
+export const onDevEnv = (callback: () => void) => {
   if(typeof module.hot !== "undefined") {
     callback()
   }
@@ -20,12 +21,10 @@ export class Client {
     i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
     i18nSettings.setMarkdownCompiler<React.ReactElement>({
       bold: (id, children) => <strong key={id} children={children}/>,
-      link: (id, link, children, options) => <a
+      link: (id, link, children, options) => <Link
         key={id}
-        href={link}
+        action={link}
         children={children}
-        id={options.id}
-        className={options.className}
         target={options.target}
       />,
     })

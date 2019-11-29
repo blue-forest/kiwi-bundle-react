@@ -1,5 +1,5 @@
 import { isUndefined } from "util"
-import { uniqueHash, actionWithObjectKey } from "../../utils"
+import { uniqueHash, actionWithObjectKey } from "../utils"
 // import Storage from "./Storage"
 
 // -------------------------------------------------------------

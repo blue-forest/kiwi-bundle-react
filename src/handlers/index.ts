@@ -2,7 +2,7 @@ import { b5r, Environment } from "dropin-recipes"
 import WebpackDevServer from "webpack-dev-server"
 import Webpack from "webpack"
 import chalk from "chalk"
-import { KiwiBundleHandlers } from "./.bundles/kiwi-bundle/handlers"
+import { KiwiBundleHandlers } from "../.bundles/kiwi-bundle/handlers"
 import { generateWebpackConfig } from "./webpack/config"
 
 const webpackConsoleLog = (text: string) => {

@@ -1,7 +1,7 @@
 import { Environment } from "dropin-recipes"
 import Webpack from "webpack"
 import pathLib from "path"
-import { KiwiBundleHandlersOptions } from "../.bundles/kiwi-bundle/handlers"
+import { KiwiBundleHandlersOptions } from "../../.bundles/kiwi-bundle/handlers"
 import { configRules } from "./config.rules"
 import { configPlugins } from "./config.plugins"
 

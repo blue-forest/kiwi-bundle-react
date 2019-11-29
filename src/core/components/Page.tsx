@@ -1,13 +1,13 @@
-import { Component, ReactNode } from "react"
+import React from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { logger } from "../client/logger"
 
-interface WebPageType {
+interface PageType {
   getTitle?: () => string
-  render: () => ReactNode
+  render: () => React.ReactNode
 }
 
-export class WebPage<Params = {}> extends Component<RouteComponentProps> implements WebPageType {
+export class Page<Params = {}> extends React.Component<RouteComponentProps> implements PageType {
   params: Params
 
   constructor(props: any) {
@@ -26,6 +26,6 @@ export class WebPage<Params = {}> extends Component<RouteComponentProps> impleme
 
 }
 
-export interface WebPageConstructor {
-  new(props?: any): WebPage
+export interface PageConstructor {
+  new(props?: any): Page
 }

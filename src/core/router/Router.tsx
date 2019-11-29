@@ -1,9 +1,10 @@
 import * as React from "react"
 import { createBrowserHistory } from "history"
 import { Router as ReactRouter, Switch, Route as ReactRoute, Redirect as ReactRedirect } from "react-router-dom"
-import { LinkAction } from "./Link"
+import { LinkAction } from "../components/Link"
 import { Redirect } from "./Redirect"
 import { Route } from "./Route"
+import { regexParameter } from "../utils"
 
 interface RouteAuthentifier {
   unauthRedirectPathForRoute: (route: Route) => string
@@ -15,11 +16,9 @@ interface RouterOptions {
   routeAuthentifier?: RouteAuthentifier
 }
 
-const HISTORY = createBrowserHistory()
-
-const regexParameter = (prefix: string = "") => new RegExp(`(\\?|\\&)(${prefix})([^=&]*)=([^&]*)`, "g")
-
 export class Router {
+  static history = createBrowserHistory()
+
   routes: (Route|Redirect)[] = []
   options: RouterOptions
 
@@ -30,12 +29,12 @@ export class Router {
     this.options = options
   }
 
-  getLinkAction(path: string): LinkAction {
+  static getLinkAction(path: string): LinkAction {
     return {
       path,
       call: () => {
         // window.location.hash = path
-        HISTORY.push(path)
+        Router.history.push(path)
       }
     }
   }
@@ -109,7 +108,7 @@ export class Router {
 
   render() {
     // return <HashRouter>
-    return <ReactRouter history={HISTORY}>
+    return <ReactRouter history={Router.history}>
       <Switch>
         {this.getReactRoutes()}
         <ReactRedirect from="*" to="/"/>

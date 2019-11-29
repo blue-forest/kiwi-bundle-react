@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import AppManifestWebpackPlugin from "app-manifest-webpack-plugin"
 import etag from "etag"
 import Webpack, { Compiler } from "webpack"
-import { KiwiBundleHandlersOptions } from "../.bundles/kiwi-bundle/handlers"
+import { KiwiBundleHandlersOptions } from "../../.bundles/kiwi-bundle/handlers"
 import { WebpackConfig } from "./core"
 
 const generateIconsAndManifest = (options: KiwiBundleHandlersOptions, path: string, dev: boolean) => {
