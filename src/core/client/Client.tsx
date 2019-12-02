@@ -1,6 +1,7 @@
 import React from "react"
 import { i18nSettings } from "dropin-recipes"
 import { render } from "react-dom"
+import { Theme } from "../styles/Theme"
 import { Router } from "../router/Router"
 import { Link } from "../components"
 import { logger } from "./logger"
@@ -15,8 +16,11 @@ export const onDevEnv = (callback: () => void) => {
 }
 
 export class Client {
+  private theme?: Theme
 
-  constructor(router: Router) {
+  constructor(router: Router, theme?: Theme) {
+    this.theme = theme
+
     // i18n
     i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
     i18nSettings.setMarkdownCompiler<React.ReactElement>({

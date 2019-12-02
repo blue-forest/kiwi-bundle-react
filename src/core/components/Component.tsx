@@ -1,13 +1,11 @@
 import React from "react"
 import { logger } from "../client/logger"
 
-export interface ComponentInterface {
-  render: React.ReactFragment
-}
+type ComponentProps<Props> = Props & { style?: StyleSheet | undefined }
 
-export class Component<Props = {}, S = {}, SS = any> extends React.Component<Props, S, SS> {
+export class Component<Props = {}, S = {}, SS = any> extends React.Component<ComponentProps<Props>, S, SS> {
 
-  constructor(props: Props) {
+  constructor(props: ComponentProps<Props>) {
     super(props)
   }
 
@@ -16,11 +14,11 @@ export class Component<Props = {}, S = {}, SS = any> extends React.Component<Pro
   }
 
   componentDidUpdate() {
-    logger.logView(this, "Update")
+    logger.logView(this, "Updated")
   }
 
 }
 
-export interface ComponentConstructor {
-  new(props?: any): Component
+export interface ComponentConstructor<Type extends Component> {
+  new(props?: Type["props"]): Type
 }

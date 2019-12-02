@@ -4,7 +4,7 @@ const generateCss = (color: string) => [
 //  "border: 1px solid black",
   "padding: 2px 10px",
   "background-color: " + color,
-//  "color: white",
+  "color: black",
   "font-size: 12px",
 ].join(";")
 

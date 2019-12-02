@@ -21,7 +21,7 @@ export class Page<Params = {}> extends React.Component<RouteComponentProps> impl
   }
 
   componentDidUpdate() {
-    logger.logView(this, "Update")
+    logger.logView(this, "Updated")
   }
 
 }
