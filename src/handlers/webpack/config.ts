@@ -5,7 +5,7 @@ import { KiwiBundleHandlersOptions } from "../../.bundles/kiwi-bundle/handlers"
 import { configRules } from "./config.rules"
 import { configPlugins } from "./config.plugins"
 
-const TSConfig = require("../../tsconfig.json")
+const TSConfig = require("../../../tsconfig.json")
 
 interface WebpackConfig extends Webpack.Configuration {
   entry: any

@@ -1,4 +1,4 @@
-import { PageConstructor } from "../components/Page"
+import { PageConstructor } from "../components"
 
 interface RouteOptions {
   authLevels?: Array<string>
@@ -6,12 +6,12 @@ interface RouteOptions {
 
 export class Route {
   path: string|string[]
-  component: PageConstructor
+  page: PageConstructor
   options: RouteOptions
 
-  constructor(path: string|string[], component: PageConstructor, options: RouteOptions = {}) {
+  constructor(path: string|string[], page: PageConstructor, options: RouteOptions = {}) {
     this.path = path
-    this.component = component
+    this.page = page
     this.options = options
   }
 }

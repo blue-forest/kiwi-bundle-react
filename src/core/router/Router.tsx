@@ -29,9 +29,10 @@ export class Router {
     this.options = options
   }
 
-  static getLinkAction(path: string): LinkAction {
+  static getLinkAction(path: string, external = false): LinkAction {
     return {
       path,
+      external,
       call: () => {
         // window.location.hash = path
         Router.history.push(path)
@@ -100,7 +101,7 @@ export class Router {
             }}/>
           }
 
-          return <route.component {...props}/>
+          return <route.page {...props}/>
         }}
       />
     })

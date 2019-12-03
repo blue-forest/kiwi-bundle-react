@@ -1,11 +1,14 @@
 import React from "react"
 import { logger } from "../client/logger"
+import { StyleSheetData } from "../styles"
 
-type ComponentProps<Props> = Props & { style?: StyleSheet | undefined }
+type ComponentExtraProps<Props> = Props & {
+  style?: React.CSSProperties
+}
 
-export class Component<Props = {}, S = {}, SS = any> extends React.Component<ComponentProps<Props>, S, SS> {
+export class Component<Props = {}, S = {}, SS = any> extends React.Component<ComponentExtraProps<Props>, S, SS> {
 
-  constructor(props: ComponentProps<Props>) {
+  constructor(props: Props) {
     super(props)
   }
 
@@ -19,6 +22,15 @@ export class Component<Props = {}, S = {}, SS = any> extends React.Component<Com
 
 }
 
-export interface ComponentConstructor<Type extends Component> {
-  new(props?: Type["props"]): Type
+export interface ComponentConstructor<Props= {}> {
+  new(props?: Props): Component
+}
+
+interface KiwiBundleComponentRender<Props> {
+  props: Props
+  architect: (style: StyleSheetData) => React.CSSProperties
+}
+
+export interface KiwiBundleComponent<Props> {
+  render(data: KiwiBundleComponentRender<Props>): React.ReactNode
 }

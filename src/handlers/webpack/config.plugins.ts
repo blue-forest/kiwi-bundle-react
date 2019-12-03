@@ -74,7 +74,7 @@ export const configPlugins = (path: string, bundlePath: string, options: KiwiBun
 
   common: () => [
     new CheckerPlugin(),
-    new StyleLintPlugin(),
+    // new StyleLintPlugin(),
     new HtmlWebpackPlugin({
       template: pathLib.join(bundlePath, ".models", "ejs", "index.html.ejs"),
       title: options.app.name,

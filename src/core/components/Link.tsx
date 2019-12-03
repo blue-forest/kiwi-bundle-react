@@ -2,7 +2,11 @@ import * as React from "react"
 import { Component } from "./Component"
 import { Router } from "../router"
 
-export type LinkAction = { path: string, call: (() => void) }
+export interface LinkAction {
+  path: string
+  external: boolean
+  call: (() => void)
+}
 
 interface Props {
   action: string | LinkAction
@@ -14,11 +18,13 @@ export class Link extends Component<Props> {
 
   constructor(props: Props) {
     super(props)
-    this.action = typeof props.action === "string" ? Router.getLinkAction(props.action) : props.action
+    this.action = typeof props.action === "string" ? Router.getLinkAction(props.action, true) : props.action
   }
 
   onClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault()
+    if(!this.action.external) {
+      event.preventDefault()
+    }
     this.action.call()
   }
 

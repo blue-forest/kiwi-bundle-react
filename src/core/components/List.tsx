@@ -1,13 +1,11 @@
 import * as React from "react"
-import { Component, ComponentConstructor } from "./Component"
-import { ListElement } from "./ListElement"
+import { Component } from "./Component"
 
-interface Props {
-  children: ListElement[] // ComponentConstructor<ListElement>[]
-}
+interface Props {}
 
 export class List extends Component<Props> {
+
   render() {
-    return <ul children={this.props.children}/>
+    return <ul style={this.props.style} children={this.props.children}/>
   }
 }

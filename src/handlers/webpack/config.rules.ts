@@ -10,7 +10,7 @@ export const configRules = new WebpackConfig([
     test: /\.tsx?$/,
     use: [ "babel-loader?cacheDirectory", "awesome-typescript-loader" ],
   },
-  {
+  /*{
     test: /\.css$/,
     use: [
       "style-loader",
@@ -24,7 +24,7 @@ export const configRules = new WebpackConfig([
       { loader: "css-loader", options: { importLoaders: 1 } },
       "sass-loader",
     ],
-  },
+  },*/
   {
     test: /\.(jpe?g|png|gif|svg)$/i,
     loaders: [

@@ -2,13 +2,11 @@ import { CSSProperties } from "react"
 import { KeysObject } from "dropin-recipes"
 
 type StyleSheetMediaQuery = {
-  minWidth?: number
-  maxWidth?: number
+  min?: number
+  max?: number
   style: CSSProperties
 }
 
-export type StyleSheet = CSSProperties | StyleSheetMediaQuery[]
+export type StyleSheetData = CSSProperties | StyleSheetMediaQuery[]
 
-type StyleSheetInput<Data> = KeysObject<Data, StyleSheet | ((...params: any[]) => StyleSheet)>
-
-export const StyleSheet = <Data extends StyleSheetInput<Data>>(data: Data): Data => data
+export type StyleSheet<Data> = KeysObject<Data, StyleSheetData | ((...params: any[]) => StyleSheetData)>

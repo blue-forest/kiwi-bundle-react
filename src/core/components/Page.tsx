@@ -1,15 +1,13 @@
-import React from "react"
+import React, { ReactText } from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { logger } from "../client/logger"
 
-interface PageType {
-  getTitle?: () => string
-  render: () => React.ReactNode
+export interface KiwiBundlePage<Params> {
+  render(data: { params: Params }): React.ReactNode
 }
 
-export class Page<Params = {}> extends React.Component<RouteComponentProps> implements PageType {
+export class Page<Params = {}> extends React.Component<RouteComponentProps> {
   params: Params
-
   constructor(props: any) {
     super(props)
     this.params = props.match.params
@@ -23,9 +21,8 @@ export class Page<Params = {}> extends React.Component<RouteComponentProps> impl
   componentDidUpdate() {
     logger.logView(this, "Updated")
   }
-
 }
 
 export interface PageConstructor {
-  new(props?: any): Page
+  new(props: any): Page
 }
