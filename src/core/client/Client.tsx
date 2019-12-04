@@ -4,6 +4,8 @@ import { render } from "react-dom"
 import { Router } from "../router/Router"
 import { Link } from "../components"
 import { logger } from "./logger"
+import { KiwiBundleTheme } from "../bundle"
+import { Architect } from "./Architect"
 
 export const onDevEnv = (callback: () => void) => {
   if(typeof module.hot !== "undefined") {
@@ -11,7 +13,7 @@ export const onDevEnv = (callback: () => void) => {
   }
 }
 
-export const Client = (router: Router): void => {
+export const Client = (router: Router, theme?: KiwiBundleTheme): void => {
   // i18n
   i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
   i18nSettings.setMarkdownCompiler<React.ReactElement>({
@@ -24,8 +26,14 @@ export const Client = (router: Router): void => {
     />,
   })
 
-  // Render
   let STARTED = false
+
+  // Architect
+  if(!STARTED && typeof theme !== "undefined") {
+    Architect.init(theme)
+  }
+
+  // Render
   render(router.render(), document.getElementById("render"), () => {
     logger.logSuccess("Client", STARTED ? "Restarted" : "Started")
     STARTED = true

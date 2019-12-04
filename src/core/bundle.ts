@@ -3,11 +3,11 @@ import { Client } from "./client/Client"
 import { Page, PageConstructor, Component, KiwiBundlePage, KiwiBundleComponent } from "./components"
 import { Router } from "./router/Router"
 import { Route } from "./router/Route"
-import { StyleSheet, StyleSheetData } from "./styles"
+import { StyleSheetData } from "./styles"
 
-export interface KiwiBundleTheme<Data extends KiwiBundleTheme = any> {
-  sizes?: KeysObject<Data["sizes"], number>
-  colors?: KeysObject<Data["colors"], string>
+export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
+  sizes: KeysObject<Data["sizes"], number>
+  colors: KeysObject<Data["colors"], string>
 }
 
 interface KiwiBundleValues<Data extends KiwiBundleValues = any> {
@@ -22,11 +22,7 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     this.values = values
   }
 
-  private architect(style: StyleSheetData): React.CSSProperties {
-    return (style as any)[0].style
-  }
-
-  StyleSheet<Data extends StyleSheet<Data>>(style: (theme: Values["theme"]) => Data): Data {
+  StyleSheet<Data extends StyleSheetData<Data>>(style: (theme: Values["theme"]) => Data): Data {
     return style(this.values.theme)
   }
 
@@ -39,10 +35,9 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
   }
 
   Component<Props = {}>(page: KiwiBundleComponent<Props>) {
-    const architect = this.architect
     return class extends Component<Props> {
       render() {
-        return page.render({ props: this.props, architect })
+        return page.render({ props: this.props })
       }
     }
   }
@@ -58,6 +53,6 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
   }
 
   Client(router: Router): void {
-    Client(router)
+    Client(router, this.values.theme)
   }
 }

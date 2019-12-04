@@ -1,11 +1,10 @@
 import * as React from "react"
-import { Component } from "./Component"
+import { ComponentProps, Component } from "./Component"
 
-interface Props {}
+interface Props extends ComponentProps {}
 
 export class List extends Component<Props> {
-
   render() {
-    return <ul style={this.props.style} children={this.props.children}/>
+    return <ul style={this.state.style} children={this.props.children}/>
   }
 }

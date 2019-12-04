@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Component } from "./Component"
+import { ComponentProps, Component } from "./Component"
 import { Router } from "../router"
 
 export interface LinkAction {
@@ -8,7 +8,7 @@ export interface LinkAction {
   call: (() => void)
 }
 
-interface Props {
+interface Props extends ComponentProps {
   action: string | LinkAction
   target?: string
 }

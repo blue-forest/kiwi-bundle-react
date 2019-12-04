@@ -7,6 +7,6 @@ type StyleSheetMediaQuery = {
   style: CSSProperties
 }
 
-export type StyleSheetData = CSSProperties | StyleSheetMediaQuery[]
+export type StyleSheet = CSSProperties | StyleSheetMediaQuery[]
 
-export type StyleSheet<Data> = KeysObject<Data, StyleSheetData | ((...params: any[]) => StyleSheetData)>
+export type StyleSheetData<Data> = KeysObject<Data, StyleSheet | ((...params: any[]) => StyleSheet)>

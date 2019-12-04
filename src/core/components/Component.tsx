@@ -1,15 +1,29 @@
-import React from "react"
+import * as React from "react"
 import { logger } from "../client/logger"
-import { StyleSheetData } from "../styles"
+import { StyleSheet } from "../styles"
+import { Architect } from "../client/Architect"
 
-type ComponentExtraProps<Props> = Props & {
+export interface ComponentProps {
+  style?: StyleSheet
+}
+
+export interface ComponentState {
   style?: React.CSSProperties
 }
 
-export class Component<Props = {}, S = {}, SS = any> extends React.Component<ComponentExtraProps<Props>, S, SS> {
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>
+  extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
+    if(typeof this.state === "undefined") {
+      this.state = {} as State
+    }
+    if(typeof props.style !== "undefined") {
+      (this.state as State).style = Architect.bind(props.style, style => {
+        this.setState({ style })
+      })
+    }
   }
 
   componentDidMount() {
@@ -22,13 +36,8 @@ export class Component<Props = {}, S = {}, SS = any> extends React.Component<Com
 
 }
 
-export interface ComponentConstructor<Props= {}> {
-  new(props?: Props): Component
-}
-
 interface KiwiBundleComponentRender<Props> {
   props: Props
-  architect: (style: StyleSheetData) => React.CSSProperties
 }
 
 export interface KiwiBundleComponent<Props> {
