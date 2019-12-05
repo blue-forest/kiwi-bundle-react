@@ -11,7 +11,7 @@ export interface ComponentState {
   style?: React.CSSProperties
 }
 
-export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.Component<Props, State> {
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
   architect: number | null = null
 
   constructor(props: Props) {
@@ -30,7 +30,7 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
   }
 
   componentDidMount() {
-    logger.logView(this, "Mounted")
+    logger.logView(this, "Mounted  ")
   }
 
   componentDidUpdate() {

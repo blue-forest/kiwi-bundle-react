@@ -1,7 +1,6 @@
 import * as React from "react"
 import { createBrowserHistory } from "history"
 import { Router as ReactRouter, Switch, Route as ReactRoute, Redirect as ReactRedirect } from "react-router-dom"
-import { LinkAction } from "../components/Link"
 import { Redirect } from "./Redirect"
 import { Route } from "./Route"
 import { regexParameter } from "../utils"
@@ -27,17 +26,6 @@ export class Router {
   constructor(routes: (Route|Redirect)[] = [], options: RouterOptions = {}) {
     this.routes = routes
     this.options = options
-  }
-
-  static getLinkAction(path: string, external = false): LinkAction {
-    return {
-      path,
-      external,
-      call: () => {
-        // window.location.hash = path
-        Router.history.push(path)
-      }
-    }
   }
 
   getParamsAsString(prefix?: string | string[]): string[] {

@@ -1,4 +1,4 @@
 export * from "../bundle"
-export * from "./Client"
+export * from "./Renderer"
 export * from "./logger"
-export * from "./sw"
+export * from "../sw"

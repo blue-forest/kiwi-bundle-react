@@ -6,7 +6,7 @@ export interface KiwiBundlePage<Params> {
   render(data: { params: Params }): React.ReactNode
 }
 
-export class Page<Params = {}> extends React.Component<RouteComponentProps> {
+export class Page<Params = {}> extends React.PureComponent<RouteComponentProps> {
   params: Params
   constructor(props: any) {
     super(props)

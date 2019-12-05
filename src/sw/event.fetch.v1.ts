@@ -54,7 +54,7 @@ export default (event: any) => {
             } else {
               return fetchDocResponse(cache, event.request, splitedPath)
             }
-          } else { // SOMETHING ELSE
+          } else { // SOMETHING ELSE
             return fetchAssetResponse(cache, event.request, splitedPath)
           }
         })

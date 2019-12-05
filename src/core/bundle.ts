@@ -4,7 +4,7 @@ import { Page as PageBase, Component as ComponentBase, KiwiBundlePage,
 import { Router } from "./router/Router"
 import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
-import { Client } from "./client/Client"
+import { Renderer } from "./client/Renderer"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   sizes: KeysObject<Data["sizes"], number>
@@ -58,6 +58,6 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
   }
 
   Client(router: Router): void {
-    Client(router, this.values.theme)
+    Renderer(router, this.values.theme)
   }
 }

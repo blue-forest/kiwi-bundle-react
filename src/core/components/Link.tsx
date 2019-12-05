@@ -1,37 +1,38 @@
 import * as React from "react"
+import { XOR } from "dropin-recipes"
 import { ComponentProps, Component } from "./Component"
 import { Router } from "../router"
 
-export interface LinkAction {
+type Props = ComponentProps & XOR<{
   path: string
-  external: boolean
-  call: (() => void)
-}
-
-interface Props extends ComponentProps {
-  action: string | LinkAction
   target?: string
-}
+}, {
+  route: string
+}>
 
 export class Link extends Component<Props> {
-  action: LinkAction
+  href: string = ""
 
   constructor(props: Props) {
     super(props)
-    this.action = typeof props.action === "string" ? Router.getLinkAction(props.action, true) : props.action
+    if(typeof props.path !== "undefined") {
+      this.href = props.path
+    } else if(typeof props.route !== "undefined") {
+      this.href = props.route
+    }
   }
 
   onClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    if(!this.action.external) {
+    if(typeof this.props.route !== "undefined") {
       event.preventDefault()
+      Router.history.push(this.props.route)
     }
-    this.action.call()
   }
 
   render() {
-    const { action, target } = this.props
+    const { path, target, route } = this.props
     return <a
-      href={this.action.path}
+      href={this.href}
       onClick={this.onClick.bind(this)}
       children={this.props.children}
       target={target}
