@@ -17,28 +17,29 @@ export class Architect {
   private static height = 0
   private static currentSize = 0
 
-  private static convertStyle(style: StyleSheet) {
-    return (style as any).reduce((result: any, currentStyle: any) => {
-      if(
-        (typeof currentStyle.min === "undefined" || this.currentSize <= currentStyle.min)
-        && (typeof currentStyle.max === "undefined" || this.currentSize >= currentStyle.max)
-      ) {
-        result = Object.assign(result, currentStyle.style)
-      }
-      return result
-    }, {})
+  private static convertStyle(style: StyleSheet): React.CSSProperties {
+    if(Array.isArray(style)) {
+      return style.reduce((result, currentStyle) => {
+        if(
+          (typeof currentStyle.min === "undefined" || this.currentSize >= currentStyle.min)
+          && (typeof currentStyle.max === "undefined" || this.currentSize <= currentStyle.max)
+        ) {
+          result = Object.assign(result, currentStyle.style)
+        }
+        return result
+      }, {} as React.CSSProperties)
+    }
+    return style
   }
 
   private static update() {
     this.width = window.innerWidth
     this.height = window.innerHeight
     if(typeof this.theme !== "undefined") {
-      const newSize = Object.values(this.theme.sizes).reduce((result, current) => {
-        if(current <= this.width) {
-          return current
-        }
+      const newSize = Object.values(this.theme.sizes).reduce((result, current, index) => {
+        if(index === 0 || result <= this.width) return current + 1
         return result
-      }, this.currentSize)
+      }, 0)
       if(newSize !== this.currentSize) {
         this.currentSize = newSize
         this.bindings.forEach(binding => {
@@ -55,12 +56,20 @@ export class Architect {
     logger.logSuccess("Architect", "Init")
   }
 
-  static bind(style: StyleSheet, update: ArchitectUpdate): React.CSSProperties {
+  static bind(style: StyleSheet, update: ArchitectUpdate): number | null {
     if(typeof this.theme !== "undefined") {
       this.bindings.push({ style, update })
-      return this.convertStyle(style)
+      return this.bindings.length - 1
     }
-    return {}
+    return null
+  }
+
+  static getStyle(index: number): React.CSSProperties {
+    return this.convertStyle(this.bindings[index].style)
+  }
+
+  static unbind(index: number) {
+    this.bindings.splice(index, 1)
   }
 
 }

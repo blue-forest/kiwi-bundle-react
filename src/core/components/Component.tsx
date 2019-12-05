@@ -11,8 +11,8 @@ export interface ComponentState {
   style?: React.CSSProperties
 }
 
-export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>
-  extends React.Component<Props, State> {
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.Component<Props, State> {
+  architect: number | null = null
 
   constructor(props: Props) {
     super(props)
@@ -20,9 +20,12 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
       this.state = {} as State
     }
     if(typeof props.style !== "undefined") {
-      (this.state as State).style = Architect.bind(props.style, style => {
+      this.architect = Architect.bind(props.style, style => {
         this.setState({ style })
       })
+      if(this.architect !== null) {
+        (this.state as State).style = Architect.getStyle(this.architect)
+      }
     }
   }
 
@@ -34,6 +37,12 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
     logger.logView(this, "Updated")
   }
 
+  componentWillUnmount() {
+    if(this.architect !== null) {
+      Architect.unbind(this.architect)
+    }
+    logger.logView(this, "Unmounted")
+  }
 }
 
 interface KiwiBundleComponentRender<Props> {

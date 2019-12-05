@@ -93,8 +93,8 @@ export class Router {
         path={route.path}
         render={(props) => {
           if(this.options.routeAuthentifier
-            && !this.options.routeAuthentifier.currentUserHasAccessToRoute(route)) {
-
+            && !this.options.routeAuthentifier.currentUserHasAccessToRoute(route))
+          {
             return <ReactRedirect exact key={`route${index}`} to={{
               pathname: this.options.routeAuthentifier!.unauthRedirectPathForRoute(route),
               state: { unauthRedirect: true },

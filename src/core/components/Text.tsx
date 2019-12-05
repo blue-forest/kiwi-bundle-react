@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { XOR, i18nData, i18nSettings, i18n } from "dropin-recipes"
 
 type TextProps = XOR<{

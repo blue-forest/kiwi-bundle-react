@@ -1,9 +1,10 @@
 import { KeysObject } from "dropin-recipes"
-import { Client } from "./client/Client"
-import { Page, PageConstructor, Component, KiwiBundlePage, KiwiBundleComponent } from "./components"
+import { Page as PageBase, Component as ComponentBase, KiwiBundlePage,
+  KiwiBundleComponent, ComponentProps, ComponentState } from "./components"
 import { Router } from "./router/Router"
 import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
+import { Client } from "./client/Client"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   sizes: KeysObject<Data["sizes"], number>
@@ -27,26 +28,30 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
   }
 
   Page<Params = {}>(page: KiwiBundlePage<Params>) {
-    return class extends Page<Params> {
+    return class Page extends PageBase<Params> {
       render() {
         return page.render({ params: this.params })
       }
     }
   }
 
-  Component<Props = {}>(page: KiwiBundleComponent<Props>) {
-    return class extends Component<Props> {
+  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props>) {
+    return class Component extends ComponentBase<Props, State> {
       render() {
-        return page.render({ props: this.props })
+        return component.render({ props: this.props })
       }
     }
   }
 
-  Layout<Props = {}>(layout: KiwiBundleComponent<Props>) {
-    return this.Component<Props>(layout)
+  Layout<Props extends ComponentProps = {}, State extends ComponentState = {}>(layout: KiwiBundleComponent<Props>) {
+    return class Layout extends this.Component<Props, State>(layout) {
+      render() {
+        return layout.render({ props: this.props })
+      }
+    }
   }
 
-  Router<Routes extends KeysObject<Values["routes"], PageConstructor>>(routes: Routes) {
+  Router<Routes extends KeysObject<Values["routes"], any>>(routes: Routes) {
     return new Router(Object.keys(routes).map(route => {
       return new Route((this.values.routes as any)[route], (routes as any)[route])
     }))
