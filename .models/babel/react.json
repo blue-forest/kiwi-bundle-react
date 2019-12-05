@@ -18,5 +18,8 @@
         "@babel/preset-react"
       ]
     }
-  }
+  },
+  "plugins": [
+    "object-to-json-parse"
+  ]
 }

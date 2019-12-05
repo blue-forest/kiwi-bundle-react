@@ -36,6 +36,7 @@
     "app-manifest-webpack-plugin": "^1.2.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "babel-plugin-object-to-json-parse": "^0.0.8",
     "css-loader": "^3.2.1",
     "dropin-recipes": "^1.7.1",
     "etag": "^1.8.1",
