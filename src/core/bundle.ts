@@ -1,6 +1,6 @@
+import * as React from "react"
 import { KeysObject } from "dropin-recipes"
-import { Page as PageBase, Component as ComponentBase, KiwiBundlePage,
-  KiwiBundleComponent, ComponentProps, ComponentState } from "./components"
+import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState } from "./components"
 import { Router } from "./router/Router"
 import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
@@ -8,12 +8,22 @@ import { Renderer } from "./client/Renderer"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   sizes: KeysObject<Data["sizes"], number>
-  colors: KeysObject<Data["colors"], string>
+  colors?: KeysObject<Data["colors"], string>
+  fonts?: WebFont.Config
+  css?: { [rule: string]: string }
 }
 
-interface KiwiBundleValues<Data extends KiwiBundleValues = any> {
+interface KiwiBundleValues<Data extends KiwiBundleValues<Data>> {
   routes: KeysObject<Data["routes"], string>
-  theme: KiwiBundleTheme<Data["theme"]>,
+  theme: KiwiBundleTheme<Data["theme"]>
+}
+
+interface KiwiBundlePage<Params, Theme> {
+  render(data: { params: Params, theme: Theme }): React.ReactNode
+}
+
+interface KiwiBundleComponent<Props, Theme> {
+  render(data: { props: Props, theme: Theme, style?: React.CSSProperties }): React.ReactNode
 }
 
 export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
@@ -27,26 +37,29 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     return style(this.values.theme)
   }
 
-  Page<Params = {}>(page: KiwiBundlePage<Params>) {
+  Page<Params = {}>(page: KiwiBundlePage<Params, Values["theme"]>) {
+    const theme = this.values.theme
     return class Page extends PageBase<Params> {
       render() {
-        return page.render({ params: this.params })
+        return page.render({ params: this.params, theme })
       }
     }
   }
 
-  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props>) {
+  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props, Values["theme"]>) {
+    const theme = this.values.theme
     return class Component extends ComponentBase<Props, State> {
       render() {
-        return component.render({ props: this.props })
+        return component.render({ props: this.props, theme, style: this.state.style })
       }
     }
   }
 
-  Layout<Props extends ComponentProps = {}, State extends ComponentState = {}>(layout: KiwiBundleComponent<Props>) {
-    return class Layout extends this.Component<Props, State>(layout) {
+  Layout<Props extends ComponentProps = {}, State extends ComponentState = {}>(layout: KiwiBundleComponent<Props, Values["theme"]>) {
+    const theme = this.values.theme
+    return class Layout extends ComponentBase<Props, State> {
       render() {
-        return layout.render({ props: this.props })
+        return layout.render({ props: this.props, theme, style: this.state.style })
       }
     }
   }

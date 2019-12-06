@@ -33,7 +33,7 @@ export const configRules = new WebpackConfig([
     ],
   },
   {
-    test: /\.(mov|mp4)$/,
+    test: /\.(mp4|mov)$/,
     loaders: [
       "file-loader?name=static/medias/[hash].[ext]",
     ],

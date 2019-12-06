@@ -31,7 +31,7 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
-        // pathLib.join(bundlePath, "node_modules"),
+        pathLib.join(bundlePath, "node_modules"),
       ],
       /*alias: {
         "kiwi-bundle": bundlePath,
@@ -42,7 +42,7 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
-        // pathLib.join(bundlePath, "node_modules"),
+        pathLib.join(bundlePath, "node_modules"),
       ],
     },
 
@@ -65,7 +65,7 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
 
     plugins: configPlugins(rootPath, bundlePath, options).generate(env),
 
-    devtool: env === Environment.PRODUCTION ? "source-map" : "eval",
+    devtool: env === Environment.PRODUCTION ? /*"source-map"*/ undefined : "eval",
 
     performance: {
       hints: false,

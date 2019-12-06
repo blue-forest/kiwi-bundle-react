@@ -44,11 +44,3 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
     logger.logView(this, "Unmounted")
   }
 }
-
-interface KiwiBundleComponentRender<Props> {
-  props: Props
-}
-
-export interface KiwiBundleComponent<Props> {
-  render(data: KiwiBundleComponentRender<Props>): React.ReactNode
-}

@@ -1,5 +1,6 @@
 import React from "react"
 import { i18nSettings } from "dropin-recipes"
+import WebFont from "webfontloader"
 import { render } from "react-dom"
 import { Router } from "../router/Router"
 import { Text, Link } from "../components"
@@ -28,16 +29,38 @@ export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
     />,
   })
 
-  // Architect
-  if(!STARTED && typeof theme !== "undefined") {
-    Architect.init(theme)
-  }
+  // Render element
+  const div = document.getElementById("render")
+  if(div !== null) {
 
-  // Render
-  render(router.render(), document.getElementById("render"), () => {
-    logger.logSuccess("Renderer", STARTED ? "Restarted" : "Started")
-    STARTED = true
-  })
+    // Theme
+    if(!STARTED && typeof theme !== "undefined") {
+
+      // Architect
+      Architect.init(theme)
+
+      // Fonts
+      if(typeof theme.fonts !== "undefined") {
+        WebFont.load(theme.fonts)
+      }
+
+      // Main style
+      if(typeof theme.css !== "undefined") {
+        (div as any).style = Object.keys(theme.css).reduce((result, key) => {
+          if(result.length !== 0) result += " "
+          return `${result}${key}: ${(theme.css as any)[key]};`
+        }, "")
+      }
+
+    }
+
+    // React DOM Render
+    render(router.render(), div, () => {
+      logger.logSuccess("Renderer", STARTED ? "Restarted" : "Started")
+      STARTED = true
+    })
+
+  }
 
   // Development mode
   onDevEnv(() => {
