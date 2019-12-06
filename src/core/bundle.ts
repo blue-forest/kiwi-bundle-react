@@ -5,6 +5,7 @@ import { Router } from "./router/Router"
 import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
 import { Renderer } from "./client/Renderer"
+import { Values } from "./values/Values"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   sizes: KeysObject<Data["sizes"], number>
@@ -13,7 +14,7 @@ export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   css?: { [rule: string]: string }
 }
 
-interface KiwiBundleValues<Data extends KiwiBundleValues<Data>> {
+interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
   routes: KeysObject<Data["routes"], string>
   theme: KiwiBundleTheme<Data["theme"]>
 }
@@ -26,19 +27,23 @@ interface KiwiBundleComponent<Props, Theme> {
   render(data: { props: Props, theme: Theme, style?: React.CSSProperties }): React.ReactNode
 }
 
-export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
-  private values: Values
+export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
+  private options: Options
 
-  constructor(values: Values) {
-    this.values = values
+  constructor(options: Options) {
+    this.options = options
   }
 
-  StyleSheet<Data extends StyleSheetData<Data>>(style: (theme: Values["theme"]) => Data): Data {
-    return style(this.values.theme)
+  Values<Data extends Values<Data, any>>(values: (theme: Options["theme"]) => Data): Data {
+    return values(this.options.theme)
   }
 
-  Page<Params = {}>(page: KiwiBundlePage<Params, Values["theme"]>) {
-    const theme = this.values.theme
+  StyleSheet<Data extends StyleSheetData<Data>>(style: (theme: Options["theme"]) => Data): Data {
+    return style(this.options.theme)
+  }
+
+  Page<Params = {}>(page: KiwiBundlePage<Params, Options["theme"]>) {
+    const theme = this.options.theme
     return class Page extends PageBase<Params> {
       render() {
         return page.render({ params: this.params, theme })
@@ -46,8 +51,8 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     }
   }
 
-  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props, Values["theme"]>) {
-    const theme = this.values.theme
+  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props, Options["theme"]>) {
+    const theme = this.options.theme
     return class Component extends ComponentBase<Props, State> {
       render() {
         return component.render({ props: this.props, theme, style: this.state.style })
@@ -55,8 +60,8 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     }
   }
 
-  Layout<Props extends ComponentProps = {}, State extends ComponentState = any>(layout: KiwiBundleComponent<Props, Values["theme"]>) {
-    const theme = this.values.theme
+  Layout<Props extends ComponentProps = {}, State extends ComponentState = any>(layout: KiwiBundleComponent<Props, Options["theme"]>) {
+    const theme = this.options.theme
     return class Layout extends ComponentBase<Props, State> {
       render() {
         return layout.render({ props: this.props, theme, style: this.state.style })
@@ -64,13 +69,13 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     }
   }
 
-  Router<Routes extends KeysObject<Values["routes"], any>>(routes: Routes) {
+  Router<Routes extends KeysObject<Options["routes"], any>>(routes: Routes) {
     return new Router(Object.keys(routes).map(route => {
-      return new Route((this.values.routes as any)[route], (routes as any)[route])
+      return new Route((this.options.routes as any)[route], (routes as any)[route])
     }))
   }
 
   Client(router: Router): void {
-    Renderer(router, this.values.theme)
+    Renderer(router, this.options.theme)
   }
 }
