@@ -1,12 +1,12 @@
 import * as React from "react"
 import { ComponentProps, Component } from "./Component"
 
-interface TextProps extends ComponentProps {
+interface VideoProps extends ComponentProps {
   sources: string[]
   keyPrefix: string
 }
 
-export class Video extends Component<TextProps> {
+export class Video extends Component<VideoProps> {
 
   render() {
     const { sources, keyPrefix } = this.props

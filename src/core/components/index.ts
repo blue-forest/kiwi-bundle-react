@@ -1,5 +1,7 @@
 export * from "./Component"
 export * from "./Container"
+export * from "./Grid"
+export * from "./GridElement"
 export * from "./Image"
 export * from "./Link"
 export * from "./List"

@@ -55,7 +55,7 @@ export class KiwiBundle<Values extends KiwiBundleValues<Values>> {
     }
   }
 
-  Layout<Props extends ComponentProps = {}, State extends ComponentState = {}>(layout: KiwiBundleComponent<Props, Values["theme"]>) {
+  Layout<Props extends ComponentProps = {}, State extends ComponentState = any>(layout: KiwiBundleComponent<Props, Values["theme"]>) {
     const theme = this.values.theme
     return class Layout extends ComponentBase<Props, State> {
       render() {

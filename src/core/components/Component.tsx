@@ -8,11 +8,14 @@ export interface ComponentProps {
 }
 
 export interface ComponentState {
-  style?: React.CSSProperties
+  style: React.CSSProperties
 }
 
 export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
   architect: number | null = null
+  state = {
+    style: {},
+  } as any
 
   constructor(props: Props) {
     super(props)
