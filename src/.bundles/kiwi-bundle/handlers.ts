@@ -1,18 +1,14 @@
-import { NameField_ByLanguage } from "dropin-recipes"
+import { KiwiBundleOptions } from "./options"
 
-export interface KiwiBundleHandlersOptions {
-  app: {
-    name: string
-    author: string
-    description: NameField_ByLanguage
-  }
-  dev: {
-    webHost: string
-    webPort: number
+interface KiwiBundleHandlerParams {
+  path: string
+  outDir: string
+  options: KiwiBundleOptions
+  handlers: {
+    client: string
   }
 }
 
-export interface KiwiBundleHandlers {
-  start: (path: string, outputDir: string, options: KiwiBundleHandlersOptions) => void
-  build: (path: string, outputDir: string, options: KiwiBundleHandlersOptions) => void
-}
+export type KiwiBundleStartHandler = (params: KiwiBundleHandlerParams) => void
+
+export type KiwiBundleBuildHandler = (params: KiwiBundleHandlerParams) => void

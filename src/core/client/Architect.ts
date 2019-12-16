@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleSheet } from "../styles"
+import { StyleSheet, CSSProperties } from "../styles"
 import { KiwiBundleTheme } from "../bundle"
 import { logger } from "./logger"
 
@@ -17,7 +17,7 @@ export class Architect {
   private static height = 0
   private static currentSize = 0
 
-  private static convertStyle(style: StyleSheet): React.CSSProperties {
+  private static convertStyle(style: StyleSheet): CSSProperties {
     if(Array.isArray(style)) {
       return style.reduce((result, currentStyle) => {
         if(

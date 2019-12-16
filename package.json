@@ -7,12 +7,17 @@
   "scripts": {
     "start": "kiwi start",
     "test": "kiwi test",
-    "build": "kiwi build"
+    "build": "kiwi build",
+    "deploy": "kiwi deploy",
+    "undeploy": "kiwi undeploy"
   },
   "main": "./lib/core/index.js",
   "bundles": {
     "kiwi-bundle": {
-      "handlers": "./lib/handlers/index.js"
+      "handlers": {
+        "start": "./handlers/index.start",
+        "build": "./handlers/index.build"
+      }
     }
   },
   "dependencies": {

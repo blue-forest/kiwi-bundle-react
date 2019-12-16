@@ -1,5 +1,7 @@
-import { CSSProperties } from "react"
+import { CSSProperties as ReactCSS } from "react"
 import { KeysObject } from "dropin-recipes"
+
+export type CSSProperties = ReactCSS
 
 type StyleSheetMediaQuery = {
   min?: number

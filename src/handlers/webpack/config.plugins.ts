@@ -5,10 +5,10 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import AppManifestWebpackPlugin from "app-manifest-webpack-plugin"
 import etag from "etag"
 import Webpack, { Compiler } from "webpack"
-import { KiwiBundleHandlersOptions } from "../../.bundles/kiwi-bundle/handlers"
+import { KiwiBundleOptions } from "../../.bundles/kiwi-bundle/options"
 import { WebpackConfig } from "./core"
 
-const generateIconsAndManifest = (options: KiwiBundleHandlersOptions, path: string, dev: boolean) => {
+const generateIconsAndManifest = (options: KiwiBundleOptions, path: string, dev: boolean) => {
   return new AppManifestWebpackPlugin({
     logo: pathLib.join(path, "assets", "logo.png"),
     prefix: "/static/icons/",
@@ -70,7 +70,7 @@ const generateStatsCheck = (exitOnError = false) => {
   }
 }
 
-export const configPlugins = (path: string, bundlePath: string, options: KiwiBundleHandlersOptions) => new WebpackConfig({
+export const configPlugins = (path: string, bundlePath: string, options: KiwiBundleOptions) => new WebpackConfig({
 
   common: () => [
     new CheckerPlugin(),

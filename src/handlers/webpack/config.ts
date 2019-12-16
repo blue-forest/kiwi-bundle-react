@@ -1,7 +1,7 @@
 import { Environment } from "dropin-recipes"
 import Webpack from "webpack"
 import pathLib from "path"
-import { KiwiBundleHandlersOptions } from "../../.bundles/kiwi-bundle/handlers"
+import { KiwiBundleOptions } from "../../.bundles/kiwi-bundle/options"
 import { configRules } from "./config.rules"
 import { configPlugins } from "./config.plugins"
 
@@ -20,8 +20,15 @@ const generateJsOutputPath = (env: Environment, data?: any) => {
   return `${isSw ? "" : "static/"}[name].${isProd ? "[contenthash].min" : "[hash]"}.js`
 }
 
-export const generateWebpackConfig = (rootPath: string, outputDir: string, options: KiwiBundleHandlersOptions, env: Environment): WebpackConfig => {
+export const generateWebpackConfig = (rootPath: string, outputDir: string, options: KiwiBundleOptions, handlers: any, env: Environment): WebpackConfig => {
   const bundlePath = pathLib.join(rootPath, "node_modules", "kiwi-bundle-react")
+
+  let client = pathLib.join(rootPath, "src", handlers.client)
+  const clientExt = pathLib.extname(client)
+  if(clientExt.length !== 0) {
+    client = client.slice(0, -clientExt.length)
+  }
+  client += ".ts"
 
   // Common config
   const config: WebpackConfig = {
@@ -47,7 +54,7 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
     },
 
     entry: {
-      main: [ pathLib.join(rootPath, "src", "index.ts") ],
+      main: [ client ],
       sw: pathLib.join(bundlePath, TSConfig.compilerOptions.outDir, "sw", "index.js"),
     },
 
