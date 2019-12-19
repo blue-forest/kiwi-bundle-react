@@ -4,6 +4,7 @@
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
+  "main": "./lib/core/index.js",
   "scripts": {
     "start": "kiwi start",
     "test": "kiwi test",
@@ -11,12 +12,11 @@
     "deploy": "kiwi deploy",
     "undeploy": "kiwi undeploy"
   },
-  "main": "./lib/core/index.js",
   "bundles": {
     "kiwi-bundle": {
       "handlers": {
-        "start": "./handlers/index.start",
-        "build": "./handlers/index.build"
+        "start": "./handlers/start.main",
+        "build": "./handlers/build.main"
       }
     }
   },
