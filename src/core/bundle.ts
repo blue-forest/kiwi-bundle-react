@@ -6,11 +6,12 @@ import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
 import { Renderer } from "./client/Renderer"
 import { Values } from "./values/Values"
+import { Config as WebFontConfig } from "webfontloader"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
   sizes: KeysObject<Data["sizes"], number>
   colors?: KeysObject<Data["colors"], string>
-  fonts?: WebFont.Config
+  fonts?: WebFontConfig
   css?: { [rule: string]: string }
 }
 

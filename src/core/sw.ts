@@ -67,7 +67,7 @@ class ServiceWorkerClient {
   }
 
   private onCacheMessage(message: WorkerCacheMessage) {
-    if(typeof module.hot === "undefined") {
+    if(typeof (module as any).hot === "undefined") {
       window.location.reload() // TODO : soft reload
     }
   }

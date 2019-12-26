@@ -8,8 +8,12 @@ import { logger } from "./logger"
 import { KiwiBundleTheme } from "../bundle"
 import { Architect } from "./Architect"
 
+interface KiwiBundleModule extends NodeModule {
+  hot: any
+}
+
 export const onDevEnv = (callback: () => void) => {
-  if(typeof module.hot !== "undefined") {
+  if(typeof (module as any).hot !== "undefined") {
     callback()
   }
 }
@@ -67,7 +71,7 @@ export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
     // Listen for updates
     const moduleCacheChildren: string[] = require.cache[0].children as any
     const clientModuleName = moduleCacheChildren[moduleCacheChildren.length - 1]
-    const clientModule: NodeModule = require.cache[clientModuleName]
+    const clientModule = require.cache[clientModuleName] as KiwiBundleModule
     if(typeof clientModule.hot !== "undefined") {
       clientModule.hot.accept()
       logger.logInfo("Hot", "Listening")
