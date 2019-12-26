@@ -7,7 +7,11 @@
     "paths": { "*": [ "./typings/*" ] },
     "declaration": true,
     "sourceMap": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "types": [
+      "node",
+      "react"
+    ]
   },
   "include": [
     "src/**/*"
