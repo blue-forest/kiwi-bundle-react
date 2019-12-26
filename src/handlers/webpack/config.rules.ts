@@ -8,7 +8,13 @@ export const configRules = new WebpackConfig([
   },
   {
     test: /\.tsx?$/,
-    use: [ "babel-loader?cacheDirectory", "awesome-typescript-loader" ],
+    use: [
+      {
+        loader: "babel-loader?cacheDirectory",
+        query: { presets: [ "@babel/preset-env", "@babel/preset-react" ] },
+      },
+      "awesome-typescript-loader"
+    ],
   },
   /*{
     test: /\.css$/,
