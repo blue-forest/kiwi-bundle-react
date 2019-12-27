@@ -9,7 +9,6 @@
     "sourceMap": true,
     "declarationMap": true,
     "types": [
-      "node",
       "react"
     ]
   },
