@@ -16,7 +16,7 @@ export const configRules = new WebpackConfig([
       "awesome-typescript-loader"
     ],
   },
-  /*{
+  {
     test: /\.css$/,
     use: [
       "style-loader",
@@ -30,7 +30,7 @@ export const configRules = new WebpackConfig([
       { loader: "css-loader", options: { importLoaders: 1 } },
       "sass-loader",
     ],
-  },*/
+  },
   {
     test: /\.(jpe?g|png|gif|svg)$/i,
     loaders: [
