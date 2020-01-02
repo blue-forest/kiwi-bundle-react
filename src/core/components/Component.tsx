@@ -12,22 +12,19 @@ export interface ComponentState {
 }
 
 export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
-  architect: number | null = null
+  architectId = -1
   state = {
     style: {},
-  } as any
+  } as State
 
   constructor(props: Props) {
     super(props)
-    if(typeof this.state === "undefined") {
-      this.state = {} as State
-    }
     if(typeof props.style !== "undefined") {
-      this.architect = Architect.bind(props.style, style => {
+      this.architectId = Architect.bind(props.style, style => {
         this.setState({ style })
       })
-      if(this.architect !== null) {
-        (this.state as State).style = Architect.getStyle(this.architect)
+      if(this.architectId !== -1) {
+        this.state.style = Architect.getStyle(this.architectId)
       }
     }
   }
@@ -41,8 +38,8 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
   }
 
   componentWillUnmount() {
-    if(this.architect !== null) {
-      Architect.unbind(this.architect)
+    if(this.architectId !== -1) {
+      Architect.unbind(this.architectId)
     }
     logger.logView(this, "Unmounted")
   }
