@@ -1,6 +1,6 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
-import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState } from "./components"
+import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState, PageConstructor } from "./components"
 import { Router } from "./router/Router"
 import { Route } from "./router/Route"
 import { StyleSheetData } from "./styles"
@@ -30,6 +30,7 @@ interface KiwiBundleComponent<Props, Theme> {
 
 export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
   private options: Options
+  private router?: Router
 
   constructor(options: Options) {
     this.options = options
@@ -70,13 +71,14 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
     }
   }
 
-  Router<Routes extends KeysObject<Options["routes"], any>>(routes: Routes) {
+  Router<Routes extends KeysObject<Options["routes"], PageConstructor>>(routes: Routes): Router {
     return new Router(Object.keys(routes).map(route => {
       return new Route((this.options.routes as any)[route], (routes as any)[route])
     }))
   }
 
   Client(router: Router): void {
-    Renderer(router, this.options.theme)
+    this.router = router
+    Renderer(this.router, this.options.theme)
   }
 }
