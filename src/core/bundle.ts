@@ -23,6 +23,12 @@ interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
 interface KiwiBundlePageFunctionsContext {
   state: KiwiBundlePageState,
   values: KiwiBundlePageValues,
+  props: {
+    [key: string]: any
+  },
+  params: {
+    [key: string]: any
+  },
   setState: (state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => void)) => void
 }
 
@@ -50,7 +56,7 @@ interface KiwiBundlePage<Params, Theme> {
 
   onDidMount?(context: KiwiBundlePageFunctionsContext): void
 
-  render(context: { params: Params, theme: Theme }): React.ReactNode
+  render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
 
   authLevels?: KiwiBundlePageAuthLevels[]
 }
@@ -106,12 +112,17 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
         return {
           state: this.state,
           values: page.values,
-          setState: this.setState.bind(this)
+          setState: this.setState.bind(this),
+          props: this.props,
+          params: this.params,
         }
       }
 
       render() {
-        return page.render({ params: this.params, theme })
+        return page.render(Object.assign(this.getContext(), {
+          params: this.params,
+          theme
+        }))
       }
     }
   }
