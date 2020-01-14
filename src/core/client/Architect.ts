@@ -25,7 +25,7 @@ export class Architect {
     if(Array.isArray(style)) {
       return style.reduce((result, currentStyle) => {
         if(
-          (typeof currentStyle.min === "undefined" || this.width > currentStyle.min)
+          (typeof currentStyle.min === "undefined" || this.width >= currentStyle.min)
           && (typeof currentStyle.max === "undefined" || this.width <= currentStyle.max)
         ) {
           result = Object.assign(result, currentStyle.style)

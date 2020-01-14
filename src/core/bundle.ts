@@ -20,12 +20,57 @@ interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
   theme: KiwiBundleTheme<Data["theme"]>
 }
 
+interface KiwiBundlePageFunctionsContext {
+  state: KiwiBundlePageState,
+  values: KiwiBundlePageValues,
+  props: {
+    [key: string]: any
+  },
+  params: {
+    [key: string]: any
+  },
+  setState: (state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => void)) => void
+}
+
+interface KiwiBundlePageValues {
+  [key: string]: any
+}
+
+interface KiwiBundlePageState {
+  [key: string]: any
+}
+
+export enum KiwiBundlePageAuthLevels {
+  USER = "user",
+  ANONYMOUS = "anonymous"
+}
+
 interface KiwiBundlePage<Params, Theme> {
-  render(data: { params: Params, theme: Theme }): React.ReactNode
+  values: KiwiBundlePageValues
+
+  functions: {
+    [key: string]: (context: KiwiBundlePageFunctionsContext) => any
+  }
+
+  init?(context: KiwiBundlePageFunctionsContext): void
+
+  onDidMount?(context: KiwiBundlePageFunctionsContext): void
+
+  render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
+
+  authLevels?: KiwiBundlePageAuthLevels[]
 }
 
 interface KiwiBundleComponent<Props, Theme> {
-  render(data: { props: Props, theme: Theme, style?: React.CSSProperties }): React.ReactNode
+  values: {
+    [key: string]: any
+  }
+
+  state: {
+    [key: string]: any
+  }
+  
+  render(context: { props: Props, theme: Theme } & { style?: React.CSSProperties }): React.ReactNode
 }
 
 export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
@@ -47,8 +92,37 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
   Page<Params = {}>(page: KiwiBundlePage<Params, Options["theme"]>) {
     const theme = this.options.theme
     return class Page extends PageBase<Params> {
+      constructor(props: any) {
+        super(props)
+
+        if (typeof page.init !== "undefined") {
+          page.init(this.getContext())
+        }
+      }
+
+      componentDidMount() {
+        super.componentDidMount()
+
+        if (typeof page.onDidMount !== "undefined") {
+          page.onDidMount(this.getContext())
+        }
+      }
+
+      getContext(): KiwiBundlePageFunctionsContext {
+        return {
+          state: this.state,
+          values: page.values,
+          setState: this.setState.bind(this),
+          props: this.props,
+          params: this.params,
+        }
+      }
+
       render() {
-        return page.render({ params: this.params, theme })
+        return page.render(Object.assign(this.getContext(), {
+          params: this.params,
+          theme
+        }))
       }
     }
   }
