@@ -26,7 +26,7 @@
           "name": "Example"
         },
         "dev": {
-          "webHost": "localhost",
+          "webHost": "0.0.0.0",
           "webPort": 8080
         }
       },
