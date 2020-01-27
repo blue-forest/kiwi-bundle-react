@@ -2,8 +2,6 @@
 
 
 ## Features
-
-- Works with Kiwi Bundle TypeScript
 - Webpack & Babel, for a perfect build
 - React & MobX, for your component views
 - built-in router and logger, simplified to the limit
@@ -11,7 +9,6 @@
 
 
 ## Getting Started
-
 **./package.json** (required)
 ```json
 {
@@ -20,9 +17,7 @@
   "scripts": {
     "start": "kiwi start",
     "test": "kiwi test",
-    "build": "kiwi build",
-    "deploy": "kiwi deploy",
-    "undeploy": "kiwi undeploy"
+    "build": "kiwi build"
   },
   "bundles": {
     "kiwi-bundle": {
@@ -32,7 +27,7 @@
         },
         "dev": {
           "webHost": "localhost",
-          "webPort": 8040
+          "webPort": 8080
         }
       },
       "handlers": {
@@ -41,8 +36,8 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "^3.0.1",
-    "kiwi-bundle-react": "^1.0.0"
+    "kiwi-bundle": "3.0.1",
+    "kiwi-bundle-react": "1.0.4"
   }
 }
 ```
@@ -66,10 +61,9 @@
 }
 ```
 
-**./src/bundle.ts** (required)
+**./src/bundle.ts** (example)
 ```typescript
 import { KiwiBundle } from "kiwi-bundle-react"
-
 export const Example = new KiwiBundle({
   routes: {
     HOME: "/",
@@ -77,28 +71,24 @@ export const Example = new KiwiBundle({
 })
 ```
 
-**./src/pages/Home.ts** (required)
+**./src/pages/Home.ts** (example)
 ```typescript
 import * as React from "react"
 import * as Kiwi from "kiwi-bundle-react"
 import { Example } from "../bundle"
-
 interface Params {}
-
 export const HomePage = Example.Page<Params>({
-  render: () => <Kiwi.Text>Hello</Kiwi.Text>
+  render: () => <Kiwi.Text>Hello :)</Kiwi.Text>
 })
 ```
 
-**./src/index.ts** (required)
+**./src/client.ts** (example)
 ```typescript
 import { Example } from "./bundle"
 import { HomePage } from "./pages/Home"
-
 const router = Example.Router({
   HOME: HomePage,
 })
-
 Example.Client(router)
 ```
 
