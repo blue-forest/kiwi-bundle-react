@@ -1,5 +1,5 @@
-# Kiwi Bundle - React
 
+![Kiwi Bundle React](./assets/cover.png)
 
 ## Features
 - Webpack & Babel, for a perfect build
