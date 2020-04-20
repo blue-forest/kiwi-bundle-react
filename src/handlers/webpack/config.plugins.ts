@@ -80,6 +80,7 @@ export const configPlugins = (path: string, bundlePath: string, options: KiwiBun
       title: options.app.name,
       description: options.app.description,
       generateKiwiConfig: (webpack: any) => {
+        return ""
         const config: any = {}
         if(Array.isArray(webpack.assetsByChunkName.sw)) {
           config.sw = webpack.assetsByChunkName.sw[0]
@@ -88,7 +89,7 @@ export const configPlugins = (path: string, bundlePath: string, options: KiwiBun
         }
         return `<script>window.kiwi=${JSON.stringify(config)}</script>`
       },
-      excludeChunks: [ "sw" ],
+      // excludeChunks: [ "sw" ],
       minify: {
         preserveLineBreaks: true,
         collapseWhitespace: true,

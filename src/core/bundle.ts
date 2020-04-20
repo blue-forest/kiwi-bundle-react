@@ -16,7 +16,7 @@ export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
 }
 
 interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
-  routes: KeysObject<Data["routes"], string>
+  routes: KeysObject<string, Data["routes"]>
   theme: KiwiBundleTheme<Data["theme"]>
 }
 
@@ -46,8 +46,8 @@ export enum KiwiBundlePageAuthLevels {
 }
 
 interface KiwiBundlePage<Params, Theme> {
-  values: KiwiBundlePageValues
-  functions: { [key: string]: (context: KiwiBundlePageFunctionsContext) => any }
+  values?: KiwiBundlePageValues
+  functions?: { [key: string]: (context: KiwiBundlePageFunctionsContext) => any }
   authLevels?: KiwiBundlePageAuthLevels[]
   init?(context: KiwiBundlePageFunctionsContext): void
   onDidMount?(context: KiwiBundlePageFunctionsContext): void
@@ -55,8 +55,8 @@ interface KiwiBundlePage<Params, Theme> {
 }
 
 interface KiwiBundleComponent<Props, Theme> {
-  values: { [key: string]: any }
-  state: { [key: string]: any }
+  values?: { [key: string]: any }
+  state?: { [key: string]: any }
   render(context: { props: Props, theme: Theme } & { style?: React.CSSProperties }): React.ReactNode
 }
 
@@ -82,7 +82,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
       constructor(props: any) {
         super(props)
 
-        if (typeof page.init !== "undefined") {
+        if(typeof page.init !== "undefined") {
           page.init(this.getContext())
         }
       }
@@ -90,7 +90,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
       componentDidMount() {
         super.componentDidMount()
 
-        if (typeof page.onDidMount !== "undefined") {
+        if(typeof page.onDidMount !== "undefined") {
           page.onDidMount(this.getContext())
         }
       }
@@ -132,14 +132,10 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
     }
   }
 
-  Router<Routes extends KeysObject<Options["routes"], PageConstructor>>(routes: Routes): Router {
-    return new Router(Object.keys(routes).map(route => {
+  Render<Routes extends KeysObject<PageConstructor, Options["routes"]>>(routes: Routes): void {
+    this.router = new Router(Object.keys(routes).map(route => {
       return new Route((this.options.routes as any)[route], (routes as any)[route])
     }))
-  }
-
-  Client(router: Router): void {
-    this.router = router
     Renderer(this.router, this.options.theme)
   }
 }

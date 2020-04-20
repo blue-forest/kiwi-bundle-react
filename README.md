@@ -31,13 +31,13 @@
         }
       },
       "handlers": {
-        "client": "./index"
+        "client": "./client"
       }
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.0.1",
-    "kiwi-bundle-react": "1.0.4"
+    "kiwi-bundle": "3.1.1",
+    "kiwi-bundle-react": "1.1.0"
   }
 }
 ```
@@ -86,10 +86,9 @@ export const HomePage = Example.Page<Params>({
 ```typescript
 import { Example } from "./bundle"
 import { HomePage } from "./pages/Home"
-const router = Example.Router({
+Example.Render({
   HOME: HomePage,
 })
-Example.Client(router)
 ```
 
 **./.gitignore** (recommended)

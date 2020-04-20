@@ -4,7 +4,7 @@ import { ComponentProps, Component } from "./Component"
 
 type TextProps = ComponentProps & XOR<{
   keyPrefix: string
-  i18n: i18nData
+  i18n: i18nData|string
 }, {
   children: React.ReactNode
 }>

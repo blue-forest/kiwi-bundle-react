@@ -69,7 +69,7 @@ export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
   // Development mode
   onDevEnv(() => {
     // Listen for updates
-    const moduleCacheChildren: string[] = require.cache[0].children as any
+    const moduleCacheChildren: string[] = (require.cache as any)[0].children as any
     const clientModuleName = moduleCacheChildren[moduleCacheChildren.length - 1]
     const clientModule = require.cache[clientModuleName] as KiwiBundleModule
     if(typeof clientModule.hot !== "undefined") {
