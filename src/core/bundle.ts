@@ -98,7 +98,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
       getContext(): KiwiBundlePageFunctionsContext {
         return {
           state: this.state,
-          values: page.values,
+          values: page.values || {},
           setState: this.setState.bind(this),
           props: this.props,
           params: this.params,
