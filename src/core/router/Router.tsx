@@ -79,7 +79,6 @@ export class Router {
       return <ReactRoute exact
         key={`route${index}`}
         path={route.path}
-        component={route.page}
         render={(props) => {
           if(this.options.routeAuthentifier
             && !this.options.routeAuthentifier.currentUserHasAccessToRoute(route))
