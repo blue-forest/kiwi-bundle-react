@@ -44,7 +44,7 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-object-to-json-parse": "0.2.0",
     "css-loader": "3.5.2",
-    "dropin-recipes": "1.7.3",
+    "dropin-recipes": "1.8.0",
     "etag": "1.8.1",
     "file-loader": "6.0.0",
     "html-webpack-plugin": "4.2.0",
@@ -75,6 +75,6 @@
     "yamljs": "0.3.0"
   },
   "devDependencies": {
-    "kiwi-bundle": "3.1.0"
+    "kiwi-bundle": "3.1.1"
   }
 }
