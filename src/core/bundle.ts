@@ -9,8 +9,8 @@ import { Values } from "./values/Values"
 import { Config as WebFontConfig } from "webfontloader"
 
 export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
-  sizes: KeysObject<Data["sizes"], number>
-  colors?: KeysObject<Data["colors"], string>
+  sizes: KeysObject<number, Data["sizes"]>
+  colors?: KeysObject<string, Data["colors"]>
   fonts?: WebFontConfig
   css?: { [rule: string]: string }
 }
@@ -47,29 +47,16 @@ export enum KiwiBundlePageAuthLevels {
 
 interface KiwiBundlePage<Params, Theme> {
   values: KiwiBundlePageValues
-
-  functions: {
-    [key: string]: (context: KiwiBundlePageFunctionsContext) => any
-  }
-
-  init?(context: KiwiBundlePageFunctionsContext): void
-
-  onDidMount?(context: KiwiBundlePageFunctionsContext): void
-
-  render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
-
+  functions: { [key: string]: (context: KiwiBundlePageFunctionsContext) => any }
   authLevels?: KiwiBundlePageAuthLevels[]
+  init?(context: KiwiBundlePageFunctionsContext): void
+  onDidMount?(context: KiwiBundlePageFunctionsContext): void
+  render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
 }
 
 interface KiwiBundleComponent<Props, Theme> {
-  values: {
-    [key: string]: any
-  }
-
-  state: {
-    [key: string]: any
-  }
-  
+  values: { [key: string]: any }
+  state: { [key: string]: any }
   render(context: { props: Props, theme: Theme } & { style?: React.CSSProperties }): React.ReactNode
 }
 
