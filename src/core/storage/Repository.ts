@@ -1,6 +1,6 @@
 import { EntityParams } from "./Entity"
 import { logger } from "../client/logger"
-import { serviceWorkerClient } from "../sw"
+// import { serviceWorkerClient } from "../sw"  // TODO : disabled
 import { WorkerMessageChangeType } from "../../sw/types"
 
 interface RepositoryParams<Entity, EntityData> {
@@ -59,7 +59,7 @@ export class Repository<Entity = {}, EntityData = {}> implements RepositoryParam
 
   private propagateToServiceWorker(type: WorkerMessageChangeType, entity: Entity) {
     if(typeof this.database !== "undefined") {
-      serviceWorkerClient.propagateChanges<Entity>(type, this.database.name, this.name, entity)
+      // serviceWorkerClient.propagateChanges<Entity>(type, this.database.name, this.name, entity) // TODO : disabled
     } else {
       this.swCallsQueue({ type, entity })
     }
@@ -81,9 +81,9 @@ export class Repository<Entity = {}, EntityData = {}> implements RepositoryParam
 
       // Handle queued hook to listen for new updates
       this.hooksQueue.map(hook => {
-        serviceWorkerClient.addChangesHook(database.name, this.name, (entity: Entity) => {
+        /*serviceWorkerClient.addChangesHook(database.name, this.name, (entity: Entity) => {
           hook(entity)
-        })
+        })*/
       })
   }
 
