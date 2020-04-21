@@ -24,7 +24,7 @@ export class Video extends Component<VideoProps> {
       finalSources = sources
     }
 
-    return <video style={this.state.style} loop autoPlay>
+    return <video key={id} style={this.state.style} loop autoPlay>
       {finalSources.map((source, index) => {
         const split = source.split(".")
         const format = split[split.length - 1]

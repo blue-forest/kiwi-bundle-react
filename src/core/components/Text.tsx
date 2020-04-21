@@ -1,22 +1,26 @@
 import * as React from "react"
-import { i18nData, i18nSettings, i18n } from "dropin-recipes"
+import { i18nData, i18nSettings, i18n, XOR } from "dropin-recipes"
 import { ComponentProps, Component } from "./Component"
 
-type TextProps = ComponentProps & {
+type TextProps = ComponentProps & XOR<{
   id: string
-  children: React.ReactNode|i18nData
-}
+  children: i18nData
+}, {
+  children: string
+}>
 
 export class Text extends Component<TextProps> {
 
   renderChildren() {
     const { children, id } = this.props
-    if(React.isValidElement(children)) return children
-    return i18nSettings.compileMarkdown<React.ReactElement>(id, i18n(children as i18nData))
+    if(typeof children === "object") {
+      return i18nSettings.compileMarkdown<React.ReactElement>(id as string, i18n(children as i18nData))
+    }
+    return children
   }
 
   render() {
-    return <span key={this.props.id} style={this.state.style} children={this.renderChildren()}/>
+    return <span style={this.state.style} children={this.renderChildren()}/>
   }
 
 }
