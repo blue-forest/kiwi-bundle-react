@@ -24,13 +24,8 @@ export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
   // i18n
   i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
   i18nSettings.setMarkdownCompiler<React.ReactElement>({
-    bold: (id, children) => <Text key={id} style={{ fontWeight: "bold", }} children={children}/>,
-    link: (id, link, children, options) => <Link
-      key={id}
-      path={link}
-      children={children}
-      target={options.target}
-    />,
+    bold: (id, children) => <Text id={id} style={{ fontWeight: "bold", }} children={children}/>,
+    link: (id, link, children, options) => <Link key={id} path={link} children={children} target={options.target}/>,
   })
 
   // Render element

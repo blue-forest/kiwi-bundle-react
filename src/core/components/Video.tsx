@@ -4,13 +4,13 @@ import { ComponentProps, Component } from "./Component"
 
 interface VideoProps extends ComponentProps {
   sources: string[]|LanguagesObject_IncludeAll<string[]>
-  keyPrefix: string
+  id: string
 }
 
 export class Video extends Component<VideoProps> {
 
   render() {
-    const { sources, keyPrefix } = this.props
+    const { sources, id } = this.props
 
     let finalSources: string[] = []
     if(typeof sources === "object") {
@@ -28,7 +28,7 @@ export class Video extends Component<VideoProps> {
       {finalSources.map((source, index) => {
         const split = source.split(".")
         const format = split[split.length - 1]
-        return <source key={`${keyPrefix}-${index}`} src={source} type={`video/${format}`}/>
+        return <source key={`${id}-${index}`} src={source} type={`video/${format}`}/>
       })}
       {this.props.children}
     </video>
