@@ -61,8 +61,7 @@ interface KiwiBundleComponent<Props, Theme> {
 }
 
 export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
-  private options: Options
-  private router?: Router
+  public options: Options
 
   constructor(options: Options) {
     this.options = options
@@ -106,10 +105,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
       }
 
       render() {
-        return page.render(Object.assign(this.getContext(), {
-          params: this.params,
-          theme
-        }))
+        return page.render(Object.assign(this.getContext(), { params: this.params, theme }))
       }
     }
   }
@@ -133,9 +129,9 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
   }
 
   Render<Routes extends KeysObject<PageConstructor, Options["routes"]>>(routes: Routes): void {
-    this.router = new Router(Object.keys(routes).map(route => {
+    const router = new Router(Object.keys(routes).map(route => {
       return new Route((this.options.routes as any)[route], (routes as any)[route])
     }))
-    Renderer(this.router, this.options.theme)
+    Renderer(router, this.options.theme)
   }
 }
