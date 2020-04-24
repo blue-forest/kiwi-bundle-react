@@ -13,7 +13,7 @@ export class Video extends Component<VideoProps> {
     const { sources, id } = this.props
 
     let finalSources: string[] = []
-    if(typeof sources === "object") {
+    if(!Array.isArray(sources)) {
       const sourcesAsLanguages = sources as LanguagesObject_IncludeAll<string[]>
       if(typeof sourcesAsLanguages[i18nSettings.getCurrentLanguage()] !== "undefined") {
         finalSources = sourcesAsLanguages[i18nSettings.getCurrentLanguage()]
@@ -24,7 +24,7 @@ export class Video extends Component<VideoProps> {
       finalSources = sources
     }
 
-    return <video key={id} style={this.state.style} loop autoPlay>
+    return <video key={id} style={this.state.style} muted autoPlay loop>
       {finalSources.map((source, index) => {
         const split = source.split(".")
         const format = split[split.length - 1]
