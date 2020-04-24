@@ -71,7 +71,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
     return values(this.options.theme)
   }
 
-  StyleSheet<Data extends StyleSheetData<Data> = StyleSheetData<any>>(style: (theme: Options["theme"]) => Data): Data {
+  StyleSheet<Data extends StyleSheetData<Data>>(style: (theme: Options["theme"]) => Data): Data {
     return style(this.options.theme)
   }
 
