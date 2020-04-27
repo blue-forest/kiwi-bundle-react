@@ -1,23 +1,22 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
 import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState, PageConstructor } from "./components"
-import { Router } from "./router/Router"
-import { Route } from "./router/Route"
+import { Router } from "./router"
 import { StyleSheetData } from "./styles"
 import { Renderer } from "./client/Renderer"
 import { Values } from "./values/Values"
 import { Config as WebFontConfig } from "webfontloader"
 
-export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
-  sizes: KeysObject<number, Data["sizes"]>
+export interface KiwiBundleReactTheme<Data extends KiwiBundleReactTheme<Data> = any> {
+  sizes?: KeysObject<number, Data["sizes"]>
   colors?: KeysObject<string, Data["colors"]>
   fonts?: WebFontConfig
   css?: { [rule: string]: string }
 }
 
-interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
+export interface KiwiBundleReactOptions<Data extends KiwiBundleReactOptions<Data> = { routes: {}, theme: {} }> {
   routes: KeysObject<string, Data["routes"]>
-  theme: KiwiBundleTheme<Data["theme"]>
+  theme: KiwiBundleReactTheme<Data["theme"]>
 }
 
 interface KiwiBundlePageFunctionsContext {
@@ -40,15 +39,11 @@ interface KiwiBundlePageState {
   [key: string]: any
 }
 
-export enum KiwiBundlePageAuthLevels {
-  USER = "user",
-  ANONYMOUS = "anonymous"
-}
+export type KiwiBundleReactRender = PageConstructor | string
 
 interface KiwiBundlePage<Params, Theme> {
   values?: KiwiBundlePageValues
   functions?: { [key: string]: (context: KiwiBundlePageFunctionsContext) => any }
-  authLevels?: KiwiBundlePageAuthLevels[]
   init?(context: KiwiBundlePageFunctionsContext): void
   onDidMount?(context: KiwiBundlePageFunctionsContext): void
   render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
@@ -60,8 +55,9 @@ interface KiwiBundleComponent<Props, Theme> {
   render(context: { props: Props, theme: Theme } & { style?: React.CSSProperties }): React.ReactNode
 }
 
-export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
+export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = KiwiBundleReactOptions> {
   public options: Options
+  public router = new Router()
 
   constructor(options: Options) {
     this.options = options
@@ -128,10 +124,7 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
     }
   }
 
-  Render<Routes extends KeysObject<PageConstructor, Options["routes"]>>(routes: Routes): void {
-    const router = new Router(Object.keys(routes).map(route => {
-      return new Route((this.options.routes as any)[route], (routes as any)[route])
-    }))
-    Renderer(router, this.options.theme)
+  Render<Routes extends KeysObject<KiwiBundleReactRender, Options["routes"]>>(routes: Routes): void {
+    Renderer(this, routes)
   }
 }

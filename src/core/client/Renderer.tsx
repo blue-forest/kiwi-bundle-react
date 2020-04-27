@@ -1,11 +1,12 @@
 import React from "react"
-import { i18nSettings } from "dropin-recipes"
+import { i18nSettings, KeysObject } from "dropin-recipes"
+import { Router as ReactRouter, Switch, Route as ReactRoute, Redirect as ReactRedirect } from "react-router-dom"
 import WebFont from "webfontloader"
 import { render } from "react-dom"
-import { Router } from "../router/Router"
-import { Text, Link } from "../components"
+import { Router } from "../router"
+import { Text, Link, PageConstructor } from "../components"
 import { logger } from "./logger"
-import { KiwiBundleTheme } from "../bundle"
+import { KiwiBundleReactOptions, KiwiBundleReact, KiwiBundleReactRender } from "../bundle"
 import { Architect } from "./Architect"
 
 interface KiwiBundleModule extends NodeModule {
@@ -20,7 +21,7 @@ export const onDevEnv = (callback: () => void) => {
 
 let STARTED = false
 
-export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
+export const Renderer = (bundle: KiwiBundleReact, routes: KeysObject<KiwiBundleReactRender>): void => {
   // i18n
   i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
   i18nSettings.setMarkdownCompiler<React.ReactElement>({
@@ -33,28 +34,53 @@ export const Renderer = (router: Router, theme?: KiwiBundleTheme): void => {
   if(div !== null) {
 
     // Theme
-    if(!STARTED && typeof theme !== "undefined") {
+    if(!STARTED && typeof bundle.options.theme !== "undefined") {
 
       // Architect
-      Architect.init(theme)
+      Architect.init(bundle.options.theme)
 
       // Fonts
-      if(typeof theme.fonts !== "undefined") {
-        WebFont.load(theme.fonts)
+      if(typeof bundle.options.theme.fonts !== "undefined") {
+        WebFont.load(bundle.options.theme.fonts)
       }
 
       // Main style
-      if(typeof theme.css !== "undefined") {
-        (div as any).style = Object.keys(theme.css).reduce((result, key) => {
+      if(typeof bundle.options.theme.css !== "undefined") {
+        (div as any).style = Object.keys(bundle.options.theme.css).reduce((result, key) => {
           if(result.length !== 0) result += " "
-          return `${result}${key}: ${(theme.css as any)[key]};`
+          return `${result}${key}: ${(bundle.options.theme.css as any)[key]};`
         }, "")
       }
 
     }
 
     // React DOM Render
-    render(router.render(), div, () => {
+    render(<ReactRouter history={Router.history}>
+      <Switch>
+        {(() => Object.keys(routes).map((route, index) => {
+          if(typeof routes[route] === "string") {
+            return <ReactRedirect exact key={`route-${index}`} to={routes[route] as string}/>
+          }
+          return <ReactRoute exact
+            key={`route-${index}`}
+            path={route}
+            render={(props) => {
+              /*if(this.options.routeAuthentifier
+                && !this.options.routeAuthentifier.currentUserHasAccessToRoute(route))
+              {
+                return <ReactRedirect exact key={`route${index}`} to={{
+                  pathname: this.options.routeAuthentifier!.unauthRedirectPathForRoute(route),
+                  state: { unauthRedirect: true },
+                }}/>
+              }*/
+              const RoutePage = routes[route]
+              return <RoutePage {...props}/>
+            }}
+          />
+        }))()}
+        <ReactRedirect from="*" to="/"/>
+      </Switch>
+    </ReactRouter>, div, () => {
       logger.logSuccess("Renderer", STARTED ? "Restarted" : "Started")
       STARTED = true
     })

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { StyleSheet, CSSProperties } from "../styles"
-import { KiwiBundleTheme } from "../bundle"
+import { KiwiBundleReactTheme } from "../bundle"
 import { logger } from "./logger"
 
 type ArchitectUpdate = (style: React.CSSProperties) => void
@@ -13,7 +13,7 @@ interface ArchitectBinding {
 // type ArchitectSizes = { [index: number]: { min: number[], max: number[] } }
 
 export class Architect {
-  private static theme?: KiwiBundleTheme
+  private static theme?: KiwiBundleReactTheme
   private static bindings: ArchitectBinding[] = []
   // private static sizes: ArchitectSizes = []
   private static width = 0
@@ -39,7 +39,7 @@ export class Architect {
   private static update() {
     this.width = window.innerWidth
     this.height = window.innerHeight
-    if(typeof this.theme !== "undefined") {
+    if(typeof this.theme !== "undefined" && typeof this.theme.sizes !== "undefined") {
       const newSize = Object.values(this.theme.sizes).reduce((result, current) => {
         return this.width > current ? current : result
       }, 0)
@@ -58,7 +58,7 @@ export class Architect {
     }
   }
 
-  static init(theme: KiwiBundleTheme) {
+  static init(theme: KiwiBundleReactTheme) {
     this.theme = theme
     this.update()
     window.addEventListener("resize", this.update.bind(this))
