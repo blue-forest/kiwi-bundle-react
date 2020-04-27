@@ -1,20 +1,20 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
 import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState, PageConstructor } from "./components"
+import { Config as WebFontConfig } from "webfontloader"
 import { Router } from "./router"
-import { StyleSheetData } from "./styles"
+import { StyleSheetData, CSSProperties } from "./styles"
 import { Renderer } from "./client/Renderer"
 import { Values } from "./values/Values"
-import { Config as WebFontConfig } from "webfontloader"
 
 export interface KiwiBundleReactTheme<Data extends KiwiBundleReactTheme<Data> = any> {
   sizes?: KeysObject<number, Data["sizes"]>
   colors?: KeysObject<string, Data["colors"]>
   fonts?: WebFontConfig
-  css?: { [rule: string]: string }
+  css?: { [rule in keyof CSSProperties]?: string | number }
 }
 
-export interface KiwiBundleReactOptions<Data extends KiwiBundleReactOptions<Data> = { routes: {}, theme: {} }> {
+export interface KiwiBundleReactOptions<Data extends KiwiBundleReactOptions<Data> = { routes: KeysObject<string>, theme: KiwiBundleReactTheme }> {
   routes: KeysObject<string, Data["routes"]>
   theme: KiwiBundleReactTheme<Data["theme"]>
 }
@@ -76,7 +76,6 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
     return class Page extends PageBase<Params> {
       constructor(props: any) {
         super(props)
-
         if(typeof page.init !== "undefined") {
           page.init(this.getContext())
         }
@@ -84,7 +83,6 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
 
       componentDidMount() {
         super.componentDidMount()
-
         if(typeof page.onDidMount !== "undefined") {
           page.onDidMount(this.getContext())
         }
@@ -125,6 +123,6 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
   }
 
   Render<Routes extends KeysObject<KiwiBundleReactRender, Options["routes"]>>(routes: Routes): void {
-    Renderer(this, routes)
+    Renderer(this.options, routes)
   }
 }

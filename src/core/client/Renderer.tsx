@@ -21,7 +21,7 @@ export const onDevEnv = (callback: () => void) => {
 
 let STARTED = false
 
-export const Renderer = (bundle: KiwiBundleReact, routes: KeysObject<KiwiBundleReactRender>): void => {
+export const Renderer = (options: KiwiBundleReactOptions, routes: KeysObject<KiwiBundleReactRender>): void => {
   // i18n
   i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
   i18nSettings.setMarkdownCompiler<React.ReactElement>({
@@ -34,21 +34,21 @@ export const Renderer = (bundle: KiwiBundleReact, routes: KeysObject<KiwiBundleR
   if(div !== null) {
 
     // Theme
-    if(!STARTED && typeof bundle.options.theme !== "undefined") {
+    if(!STARTED && typeof options.theme !== "undefined") {
 
       // Architect
-      Architect.init(bundle.options.theme)
+      Architect.init(options.theme)
 
       // Fonts
-      if(typeof bundle.options.theme.fonts !== "undefined") {
-        WebFont.load(bundle.options.theme.fonts)
+      if(typeof options.theme.fonts !== "undefined") {
+        WebFont.load(options.theme.fonts)
       }
 
       // Main style
-      if(typeof bundle.options.theme.css !== "undefined") {
-        (div as any).style = Object.keys(bundle.options.theme.css).reduce((result, key) => {
+      if(typeof options.theme.css !== "undefined") {
+        (div as any).style = Object.keys(options.theme.css).reduce((result, key) => {
           if(result.length !== 0) result += " "
-          return `${result}${key}: ${(bundle.options.theme.css as any)[key]};`
+          return `${result}${key}: ${(options.theme.css as any)[key]};`
         }, "")
       }
 
@@ -57,34 +57,22 @@ export const Renderer = (bundle: KiwiBundleReact, routes: KeysObject<KiwiBundleR
     // React DOM Render
     render(<ReactRouter history={Router.history}>
       <Switch>
-        {(() => Object.keys(routes).map((route, index) => {
+        {Object.keys(routes).map(route => {
           if(typeof routes[route] === "string") {
-            return <ReactRedirect exact key={`route-${index}`} to={routes[route] as string}/>
+            if(options.routes[route].indexOf(":") !== -1) {
+              console.error(`The route "${options.routes[route]}" need to do not contain parameters to be redirected to "${routes[route]}"`)
+              return null
+            }
+            return <ReactRedirect exact key={route} from={options.routes[route]} to={routes[route] as string}/>
           }
-          return <ReactRoute exact
-            key={`route-${index}`}
-            path={route}
-            render={(props) => {
-              /*if(this.options.routeAuthentifier
-                && !this.options.routeAuthentifier.currentUserHasAccessToRoute(route))
-              {
-                return <ReactRedirect exact key={`route${index}`} to={{
-                  pathname: this.options.routeAuthentifier!.unauthRedirectPathForRoute(route),
-                  state: { unauthRedirect: true },
-                }}/>
-              }*/
-              const RoutePage = routes[route]
-              return <RoutePage {...props}/>
-            }}
-          />
-        }))()}
-        <ReactRedirect from="*" to="/"/>
+          return <ReactRoute exact key={route} path={options.routes[route]} component={routes[route] as PageConstructor}/>
+        })}
+        {Object.values(options.routes).indexOf("/") !== -1 && <ReactRedirect from="*" to="/"/>}
       </Switch>
     </ReactRouter>, div, () => {
       logger.logSuccess("Renderer", STARTED ? "Restarted" : "Started")
       STARTED = true
     })
-
   }
 
   // Development mode
