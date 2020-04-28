@@ -11,7 +11,7 @@ export interface KiwiBundleReactTheme<Data extends KiwiBundleReactTheme<Data> = 
   sizes?: KeysObject<number, Data["sizes"]>
   colors?: KeysObject<string, Data["colors"]>
   fonts?: WebFontConfig
-  css?: { [rule in keyof CSSProperties]?: string | number }
+  css?: { [rule: string]: string | number }
 }
 
 export interface KiwiBundleReactOptions<Data extends KiwiBundleReactOptions<Data> = { routes: KeysObject<string>, theme: KiwiBundleReactTheme }> {
