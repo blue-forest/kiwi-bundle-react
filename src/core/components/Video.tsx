@@ -5,12 +5,15 @@ import { ComponentProps, Component } from "./Component"
 interface VideoProps extends ComponentProps {
   sources: string[]|LanguagesObject_IncludeAll<string[]>
   id: string
+  muted?: boolean
+  autoPlay?: boolean
+  loop?: boolean
 }
 
 export class Video extends Component<VideoProps> {
 
   render() {
-    const { sources, id } = this.props
+    const { sources, id, muted, autoPlay, loop } = this.props
 
     let finalSources: string[] = []
     if(!Array.isArray(sources)) {
@@ -24,7 +27,7 @@ export class Video extends Component<VideoProps> {
       finalSources = sources
     }
 
-    return <video key={id} style={this.state.style} muted autoPlay loop>
+    return <video key={id} style={this.state.style} muted={muted} autoPlay={autoPlay} loop={loop}>
       {finalSources.map((source, index) => {
         const split = source.split(".")
         const format = split[split.length - 1]
