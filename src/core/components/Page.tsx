@@ -2,7 +2,7 @@ import * as React from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { logger } from "../client/logger"
 
-export class Page<Params = {}> extends React.PureComponent<RouteComponentProps> {
+export class Page<Params = {}, State = {}> extends React.PureComponent<RouteComponentProps, State> {
   params: Params
   constructor(props: any) {
     super(props)

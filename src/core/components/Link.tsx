@@ -3,12 +3,12 @@ import { XOR } from "dropin-recipes"
 import { ComponentProps, Component } from "./Component"
 import { Router } from "../router"
 
-type LinkProps = ComponentProps & XOR<{
+type LinkProps = ComponentProps & XOR<{ onClick: () => void }, XOR<{
   path: string
   target?: string
 }, {
   route: string
-}>
+}>>
 
 export class Link extends Component<LinkProps> {
   href: string = ""
@@ -23,9 +23,14 @@ export class Link extends Component<LinkProps> {
   }
 
   onClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    if(typeof this.props.route !== "undefined") {
+    if(typeof this.props.target === "undefined") {
       event.preventDefault()
+    }
+    if(typeof this.props.route !== "undefined") {
       Router.history.push(this.props.route)
+    }
+    if(typeof this.props.onClick !== "undefined") {
+      this.props.onClick()
     }
   }
 

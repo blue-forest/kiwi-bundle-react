@@ -6,7 +6,7 @@ import { render } from "react-dom"
 import { Router } from "../router"
 import { Text, Link, PageConstructor } from "../components"
 import { logger } from "./logger"
-import { KiwiBundleReactOptions, KiwiBundleReact, KiwiBundleReactRender } from "../bundle"
+import { KiwiBundleReactOptions } from "../bundle"
 import { Architect } from "./Architect"
 
 interface KiwiBundleModule extends NodeModule {
@@ -21,7 +21,7 @@ export const onDevEnv = (callback: () => void) => {
 
 let STARTED = false
 
-export const Renderer = (options: KiwiBundleReactOptions, routes: KeysObject<KiwiBundleReactRender>): void => {
+export const Renderer = (options: KiwiBundleReactOptions, routes: KeysObject<PageConstructor | string>): void => {
   // i18n
   i18nSettings.setCurrentLanguageFromString(navigator.language.slice(0, 2))
   i18nSettings.setMarkdownCompiler<React.ReactElement>({
