@@ -5,12 +5,13 @@ import { ComponentProps, Component } from "./Component"
 interface ImageProps extends ComponentProps {
   source: string|LanguagesObject_IncludeAll<string>
   alt?: string|i18nSchema
+  onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
 
 export class Image extends Component<ImageProps> {
 
   render() {
-    const { source, alt } = this.props
+    const { source, alt, onClick } = this.props
     return <img
       src={(() => {
         if(typeof source === "string") {
@@ -25,6 +26,7 @@ export class Image extends Component<ImageProps> {
         return ""
       })()}
       alt={typeof alt === "string" ? alt : i18n(alt as i18nSchema)}
+      onClick={onClick?.bind(this)}
       style={this.state.style}
     />
   }

@@ -102,7 +102,10 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
         return component.render({
           state: this.state,
           values: component.values || {},
-          setState: this.setState.bind(this),
+          setState: (state: any) => {
+            console.log(this.state.style)
+            this.setState(state)
+          },
           options,
           props: this.props,
         })

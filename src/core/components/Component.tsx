@@ -34,6 +34,9 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
   }
 
   componentDidUpdate() {
+    if(this.architectId !== -1) {
+      this.state.style = Architect.getStyle(this.architectId)
+    }
     logger.logView(this, "Updated")
   }
 
