@@ -27,7 +27,7 @@ interface KiwiBundleReactComponentContext<Options extends KiwiBundleReactOptions
   setState: (state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => void)) => void
 }
 
-interface KiwiBundleReactComponent<Props, State, Values, Options extends KiwiBundleReactOptions> {
+interface KiwiBundleReactComponent<Props extends ComponentProps, State, Values, Options extends KiwiBundleReactOptions> {
   state?: State
   values?: Values
   functions?: { [key: string]: (context: KiwiBundleReactComponentContext<Options>) => any }
