@@ -1,7 +1,7 @@
 import * as React from "react"
 import { XOR } from "dropin-recipes"
 import { ComponentProps, Component } from "./Component"
-import { Router } from "../router"
+import { Router } from "../client/router"
 
 type LinkProps = ComponentProps & XOR<{ onClick: () => void }, XOR<{
   path: string

@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history"
-import { regexParameter } from "./utils"
+import { regexParameter } from "../utils"
 
 export class Router {
   static history = createBrowserHistory()
