@@ -7,18 +7,35 @@ export interface ComponentProps {
   style?: StyleSheet
 }
 
-export class Component<Props extends ComponentProps = ComponentProps, State = {}> extends React.PureComponent<Props, State> {
-  architectId = -1
+export interface ComponentState {
+  $: {
+    architect: number
+    style: React.CSSProperties
+  }
+}
+
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
+  state = {
+    $: {
+      architect: -1,
+      style: {},
+    }
+  } as State
+
+  static getDerivedStateFromProps(props: ComponentProps, state: ComponentState) {
+    state.$.style = Architect.updateStyle(state.$.architect, props.style)
+    return null
+  }
 
   constructor(props: Props) {
     super(props)
     if(typeof props.style !== "undefined") {
-      this.architectId = Architect.bind(props.style, style => {
-        // this.setState({ style })
+      this.state.$.architect = Architect.bind(style => {
+        let previous = this.state.$
+        previous.style = style
+        this.setState({ $: previous })
       })
-      if(this.architectId !== -1) {
-        // this.state.style = Architect.getStyle(this.architectId)
-      }
+      this.state.$.style = Architect.updateStyle(this.state.$.architect, props.style)
     }
   }
 
@@ -27,16 +44,12 @@ export class Component<Props extends ComponentProps = ComponentProps, State = {}
   }
 
   componentDidUpdate() {
-    if(this.architectId !== -1) {
-      // this.state.style = Architect.getStyle(this.architectId)
-    }
+    console.log(this.props.style)
     logger.logView(this, "Updated")
   }
 
   componentWillUnmount() {
-    if(this.architectId !== -1) {
-      Architect.unbind(this.architectId)
-    }
+    Architect.unbind(this.state.$.architect)
     logger.logView(this, "Unmounted")
   }
 }

@@ -6,7 +6,7 @@ interface FormProps extends ComponentProps {}
 export class Form extends Component<FormProps> {
 
   render() {
-    return <form style={this.state.style} children={this.props.children}/>
+    return <form style={this.state.$.style} children={this.props.children}/>
   }
 
 }

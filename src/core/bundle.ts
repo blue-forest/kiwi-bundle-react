@@ -1,13 +1,11 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
-import { Page as PageBase, Component as ComponentBase, ComponentProps, PageConstructor, Component, PageProps, Page } from "./components"
 import { Config as WebFontConfig } from "webfontloader"
+import { ComponentProps, PageConstructor, Component, PageProps, Page, ComponentState } from "./components"
 import { Router } from "./client/router"
 import { StyleSheetData } from "./styles"
 import { Renderer } from "./client/Renderer"
 import { Values } from "./values/Values"
-import { Architect } from "./client/Architect"
-import { logger } from "./client/logger"
 
 export interface KiwiBundleReactTheme<Data extends KiwiBundleReactTheme<Data> = any> {
   sizes?: KeysObject<number, Data["sizes"]>
@@ -31,17 +29,17 @@ interface KiwiBundleReactContextComponentObject<Props, State, Values, Options ex
   colors: Options["theme"]["colors"]
 }
 
-interface KiwiBundleReactContextComponent<Props = ComponentProps, State = KeysObject<any>, Values = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> {
+interface KiwiBundleReactContextComponent<Props = ComponentProps, State = ComponentState, Values = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> {
   props?: Props
-  state?: State
+  state?: Omit<State, "$">
   values?: Values
   functions?: { [key: string]: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>) => any }
-  init?(context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>): void
-  onDidMount?(context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>): void
-  render(context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>): React.ReactNode
+  init?: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>) => void
+  onDidMount?: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>) => void
+  render: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Options>) => React.ReactNode
 }
 
-interface KiwiBundleReactContextPageObject<Params = KeysObject<any>, State = KeysObject<any>, Values = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> extends KiwiBundleReactContextComponent<PageProps<Params>, State, Values, Options> {
+interface KiwiBundleReactContextPageObject<Params = KeysObject<any>, State = KeysObject<any>, Values = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> extends KiwiBundleReactContextComponentObject<PageProps<Params>, State, Values, Options> {
   params: Params
 }
 
@@ -49,9 +47,9 @@ interface KiwiBundleReactContextPage<Params = KeysObject<any>, State = KeysObjec
   state?: State
   values?: Values
   functions?: { [key: string]: (context: KiwiBundleReactContextPageObject<Params, State, Values, Options>) => any }
-  init?(context: KiwiBundleReactContextPageObject<Params, State, Values, Options>): void
-  onDidMount?(context: KiwiBundleReactContextPageObject<Params, State, Values, Options>): void
-  render(context: KiwiBundleReactContextPageObject<Params, State, Values, Options>): React.ReactNode
+  init?: (context: KiwiBundleReactContextPageObject<Params, State, Values, Options>) => void
+  onDidMount?: (context: KiwiBundleReactContextPageObject<Params, State, Values, Options>) => void
+  render: (context: KiwiBundleReactContextPageObject<Params, State, Values, Options>) => React.ReactNode
 }
 
 export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = KiwiBundleReactOptions> {
@@ -70,12 +68,12 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
     return style(this.options.theme)
   }
 
-  Component<Props extends ComponentProps = ComponentProps, State = KeysObject<any>, Values = KeysObject<any>>(component: KiwiBundleReactContextComponent<Props, State, Values, Options>) {
+  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState, Values = KeysObject<any>>(component: KiwiBundleReactContextComponent<Props, State, Values, Options>) {
     const getContext = (instance: Component<Props, State>): KiwiBundleReactContextComponentObject<Props, State, Values, Options> => ({
       props: instance.props,
       state: instance.state,
       setState: instance.setState.bind(instance),
-      values: component.values || {},
+      values: component.values || {} as Values,
       routes: this.options.routes,
       sizes: this.options.theme.sizes,
       colors: this.options.theme.colors,
@@ -83,30 +81,33 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
     return class extends Component<Props, State> {
       constructor(props: any) {
         super(props)
+        if(typeof component.state !== "undefined") this.state = Object.assign(this.state, component.state)
         if(typeof component.init !== "undefined") component.init(getContext(this))
       }
       componentDidMount() {
         super.componentDidMount()
         if(typeof component.onDidMount !== "undefined") component.onDidMount(getContext(this))
       }
-      render() {
+      render(): React.ReactNode {
         return component.render(getContext(this))
       }
     }
   }
 
-  Layout<Props extends ComponentProps = ComponentProps, State = KeysObject<any>, Values = KeysObject<any>>(layout: KiwiBundleReactContextComponent<Props, State, Values, Options>) {
+  Layout<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState, Values = KeysObject<any>>(layout: KiwiBundleReactContextComponent<Props, State, Values, Options>) {
     return this.Component<Props, State, Values>(layout)
   }
 
-  Page<Params = KeysObject<any>, State = KeysObject<any>, Values = KeysObject<any>>(page: KiwiBundleReactContextPage<Params, State, Values, Options>) {
-    const getContext = (instance: Page<Params, State>): KiwiBundleReactContextComponentObject<PageProps<Params>, State, Values, Options> => ({
-      state: instance.state,
+  Page<Params = KeysObject<any>, State extends ComponentState = ComponentState, Values = KeysObject<any>>(page: KiwiBundleReactContextPage<Params, State, Values, Options>) {
+    const getContext = (instance: Page<Params, State>): KiwiBundleReactContextPageObject<Params, State, Values, Options> => ({
+      props: instance.props,
+      state: Object.assign(instance.state, page.state),
       setState: instance.setState.bind(instance),
-      values: page.values || {},
+      values: Object.assign({}, page.values),
       routes: this.options.routes,
       sizes: this.options.theme.sizes,
       colors: this.options.theme.colors,
+      params: instance.getParams(),
     })
     return class extends Page<Params, State> {
       constructor(props: any) {
@@ -117,7 +118,7 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
         super.componentDidMount()
         if(typeof page.onDidMount !== "undefined") page.onDidMount(getContext(this))
       }
-      render() {
+      render(): React.ReactNode {
         return page.render(getContext(this))
       }
     }

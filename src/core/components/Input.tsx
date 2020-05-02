@@ -11,7 +11,7 @@ export class Input extends Component<InputProps> {
 
   render() {
     const { placeholder, placeholderColor } = this.props
-    const className = "architect" + this.architectId
+    const className = "architect" + this.state.$.architect
     let style = "*:focus { outline: none; }"
     if(typeof placeholderColor !== "undefined") {
       style += ` .${className}::placeholder { color: ${placeholderColor}; }`
@@ -21,7 +21,7 @@ export class Input extends Component<InputProps> {
       <input
         className={className}
         placeholder={typeof placeholder === "string" ? placeholder : i18n(placeholder as i18nSchema)}
-        style={this.state.style}
+        style={this.state.$.style}
         children={this.props.children}
       />
     </div>

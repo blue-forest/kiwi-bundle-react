@@ -5,6 +5,6 @@ interface ListElementProps extends ComponentProps {}
 
 export class ListElement extends Component<ListElementProps> {
   render() {
-    return <li style={this.state.style} children={this.props.children}/>
+    return <li style={this.state.$.style} children={this.props.children}/>
   }
 }

@@ -10,7 +10,7 @@ interface GridProps extends ComponentProps {
 export class Grid extends Component<GridProps> {
 
   render() {
-    return <ul style={this.state.style}>
+    return <ul style={this.state.$.style}>
       {this.props.children}
     </ul>
   }

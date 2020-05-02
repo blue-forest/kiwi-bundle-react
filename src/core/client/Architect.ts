@@ -65,9 +65,9 @@ export class Architect {
     logger.logSuccess("Architect", "Init")
   }
 
-  static bind(style: StyleSheet, update: ArchitectUpdate): number {
+  static bind(update: ArchitectUpdate): number {
     if(typeof this.theme !== "undefined") {
-      this.bindings[this.nextId] = { style, update }
+      this.bindings[this.nextId] = { style: {}, update }
       return this.nextId++
       /*if(Array.isArray(style)) {
         style.forEach(currentStyle => {
@@ -91,12 +91,20 @@ export class Architect {
     return -1
   }
 
-  static getStyle(id: number): React.CSSProperties {
-    return this.convertStyle(this.bindings[id].style)
+  static updateStyle(id: number, style?: StyleSheet): React.CSSProperties {
+    if(id !== -1) {
+      if(typeof style !== "undefined") {
+        this.bindings[id].style = style
+      }
+      return this.convertStyle(this.bindings[id].style)
+    }
+    return {}
   }
 
   static unbind(id: number) {
-    delete this.bindings[id]
+    if(id !== -1) {
+      delete this.bindings[id]
+    }
   }
 
 }

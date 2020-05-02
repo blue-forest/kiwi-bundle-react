@@ -11,7 +11,7 @@ export class Button extends Component<ButtonProps> {
   render() {
     const { children } = this.props
     return <button
-      style={this.state.style}
+      style={this.state.$.style}
       children={typeof children === "string" ? children : i18n(children as i18nSchema)}
     />
   }

@@ -7,6 +7,6 @@ interface ContainerProps extends ComponentProps {
 
 export class Container extends Component<ContainerProps> {
   render() {
-    return <div onClick={this.props.onClick?.bind(this)} style={this.state.style} children={this.props.children}/>
+    return <div onClick={this.props.onClick?.bind(this)} style={this.state.$.style} children={this.props.children}/>
   }
 }

@@ -41,7 +41,7 @@ export class Link extends Component<LinkProps> {
       onClick={this.onClick.bind(this)}
       children={this.props.children}
       target={target}
-      style={this.state.style}
+      style={this.state.$.style}
     />
   }
 

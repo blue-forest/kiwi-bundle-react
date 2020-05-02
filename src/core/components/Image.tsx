@@ -27,7 +27,7 @@ export class Image extends Component<ImageProps> {
       })()}
       alt={typeof alt === "string" ? alt : i18n(alt as i18nSchema)}
       onClick={onClick?.bind(this)}
-      style={this.state.style}
+      style={this.state.$.style}
     />
   }
 
