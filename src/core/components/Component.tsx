@@ -15,12 +15,6 @@ export interface ComponentState {
 }
 
 export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
-  state = {
-    $: {
-      architect: -1,
-      style: {},
-    }
-  } as State
 
   static getDerivedStateFromProps(props: ComponentProps, state: ComponentState) {
     state.$.style = Architect.updateStyle(state.$.architect, props.style)
@@ -29,6 +23,11 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
 
   constructor(props: Props) {
     super(props)
+    if(typeof this.state === "undefined") {
+      this.state = { $: { architect: -1, style: {} } } as State
+    } else if(typeof this.state.$ === "undefined") {
+      (this.state as State).$ = { architect: -1, style: {} } as State["$"]
+    }
     if(typeof props.style !== "undefined") {
       this.state.$.architect = Architect.bind(style => {
         let previous = this.state.$
@@ -44,7 +43,6 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
   }
 
   componentDidUpdate() {
-    console.log(this.props.style)
     logger.logView(this, "Updated")
   }
 
