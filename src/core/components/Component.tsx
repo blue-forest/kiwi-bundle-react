@@ -30,9 +30,8 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
     }
     if(typeof props.style !== "undefined") {
       this.state.$.architect = Architect.bind(style => {
-        let previous = this.state.$
-        previous.style = style
-        this.setState({ $: previous })
+        this.setState({ $: Object.assign(this.state.$, { style }) })
+        this.forceUpdate()
       })
       this.state.$.style = Architect.updateStyle(this.state.$.architect, props.style)
     }
