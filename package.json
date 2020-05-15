@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -49,7 +49,6 @@
     "file-loader": "6.0.0",
     "html-webpack-plugin": "4.2.0",
     "image-webpack-loader": "6.0.0",
-    "json-loader": "0.5.7",
     "mobx": "5.15.4",
     "mobx-react": "6.2.2",
     "node-sass": "4.13.1",
