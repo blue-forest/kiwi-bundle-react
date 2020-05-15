@@ -52,8 +52,8 @@ export const configRules = new WebpackConfig([
     test: /\.(woff|woff2)$/,
     use: { loader: "url-loader", options: { name: "static/fonts/[hash].[ext]", limit: 5000, mimetype: "application/font-woff" } },
   },
-  {
-    test: /.json$/,
-    loader: "json-loader",
-  }
+  // {
+  //   test: /.json$/,
+  //   loader: "json-loader",
+  // }
 ])

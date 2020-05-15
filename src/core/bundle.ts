@@ -1,6 +1,7 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
 import { Config as WebFontConfig } from "webfontloader"
+import { observer } from "mobx-react"
 import { ComponentProps, PageConstructor, Component, PageProps, Page, ComponentState } from "./components"
 import { Router } from "./client/router"
 import { StyleSheetData } from "./styles"
@@ -82,7 +83,7 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
       colors: this.options.theme.colors,
       router: this.router,
     })
-    return class extends Component<Props, State> {
+    return observer(class extends Component<Props, State> {
       constructor(props: any) {
         super(props)
         if(typeof component.state !== "undefined") this.state = Object.assign(this.state, component.state)
@@ -95,7 +96,7 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
       render(): React.ReactNode {
         return component.render(getContext(this))
       }
-    }
+    })
   }
 
   Layout<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState, Values = KeysObject<any>, Functions = KeysObject<any>>(layout: KiwiBundleReactContextComponent<Props, State, Values, Functions, Options>) {
@@ -115,7 +116,7 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
       params: instance.getParams(),
       router: this.router,
     })
-    return class extends Page<Params, State> {
+    return observer(class extends Page<Params, State> {
       constructor(props: any) {
         super(props)
         if(typeof page.init !== "undefined") page.init(getContext(this))
@@ -127,7 +128,7 @@ export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = K
       render(): React.ReactNode {
         return page.render(getContext(this))
       }
-    }
+    })
   }
 
   Render<Routes extends KeysObject<PageConstructor | string, Options["routes"]>>(routes: Routes): void {
