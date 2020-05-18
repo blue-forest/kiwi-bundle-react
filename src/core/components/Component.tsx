@@ -14,7 +14,7 @@ export interface ComponentState {
   }
 }
 
-export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: ComponentProps, state: ComponentState) {
     state.$.style = Architect.updateStyle(state.$.architect, props.style)
@@ -38,11 +38,11 @@ export class Component<Props extends ComponentProps = ComponentProps, State exte
   }
 
   componentDidMount() {
-    logger.logView(this, "Mounted")
+    // logger.logView(this, "Mounted")
   }
 
   componentDidUpdate() {
-    logger.logView(this, "Updated")
+    // logger.logView(this, "Updated")
   }
 
   componentWillUnmount() {
