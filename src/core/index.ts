@@ -1,6 +1,6 @@
 export * from "./client"
 export * from "./components"
-export * from "./router"
+export * from "./client/router"
 export * from "./storage"
 export * from "./styles"
 export * from "./values"

@@ -8,39 +8,45 @@ export interface ComponentProps {
 }
 
 export interface ComponentState {
-  style: React.CSSProperties
+  $: {
+    architect: number
+    style: React.CSSProperties
+  }
 }
 
-export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.PureComponent<Props, State> {
-  architectId = -1
-  state = {
-    style: {},
-  } as State
+export class Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState> extends React.Component<Props, State> {
+
+  static getDerivedStateFromProps(props: ComponentProps, state: ComponentState) {
+    state.$.style = Architect.updateStyle(state.$.architect, props.style)
+    return null
+  }
 
   constructor(props: Props) {
     super(props)
+    if(typeof this.state === "undefined") {
+      this.state = { $: { architect: -1, style: {} } } as State
+    } else if(typeof this.state.$ === "undefined") {
+      (this.state as State).$ = { architect: -1, style: {} } as State["$"]
+    }
     if(typeof props.style !== "undefined") {
-      this.architectId = Architect.bind(props.style, style => {
-        this.setState({ style })
+      this.state.$.architect = Architect.bind(style => {
+        this.setState({ $: Object.assign(this.state.$, { style }) })
+        this.forceUpdate()
       })
-      if(this.architectId !== -1) {
-        this.state.style = Architect.getStyle(this.architectId)
-      }
+      this.state.$.style = Architect.updateStyle(this.state.$.architect, props.style)
     }
   }
 
   componentDidMount() {
-    logger.logView(this, "Mounted  ")
+    // logger.logView(this, "Mounted")
   }
 
   componentDidUpdate() {
-    logger.logView(this, "Updated")
+    // logger.logView(this, "Updated")
   }
 
   componentWillUnmount() {
-    if(this.architectId !== -1) {
-      Architect.unbind(this.architectId)
-    }
+    Architect.unbind(this.state.$.architect)
     logger.logView(this, "Unmounted")
   }
 }

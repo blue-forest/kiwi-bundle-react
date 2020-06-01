@@ -11,6 +11,6 @@ type StyleSheetMediaQuery = {
 
 export type StyleSheet = CSSProperties | StyleSheetMediaQuery[]
 
-export type StyleSheetData<Data> = KeysObject<Data, StyleSheet | ((...params: any[]) => StyleSheet)>
+export type StyleSheetData<Data = any> = KeysObject<StyleSheet | ((...params: any[]) => StyleSheet), Data>
 
 export const StyleSheet = <Data extends StyleSheetData<Data>>(data: Data): Data => data

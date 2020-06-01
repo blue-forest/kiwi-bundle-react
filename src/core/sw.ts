@@ -93,4 +93,4 @@ class ServiceWorkerClient {
 
 }
 
-export const serviceWorkerClient = new ServiceWorkerClient()
+// export const serviceWorkerClient = new ServiceWorkerClient() // TODO : disabled

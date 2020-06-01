@@ -1,21 +1,16 @@
-import * as React from "react"
 import { RouteComponentProps } from "react-router-dom"
-import { logger } from "../client/logger"
+import { Component, ComponentProps, ComponentState } from "./Component"
 
-export class Page<Params = {}> extends React.PureComponent<RouteComponentProps> {
-  params: Params
-  constructor(props: any) {
-    super(props)
-    this.params = props.match.params
+export type PageProps<Params = {}> = ComponentProps & RouteComponentProps<Params>
+
+export class Page<Params = {}, State extends ComponentState = ComponentState> extends Component<PageProps<Params>, State> {
+  getParams(): Params {
+    return this.props.match.params
   }
 
   componentDidMount() {
+    super.componentDidMount()
     // document.title = `${initialTitle} -`
-    logger.logView(this, "Mounted")
-  }
-
-  componentDidUpdate() {
-    logger.logView(this, "Updated")
   }
 }
 

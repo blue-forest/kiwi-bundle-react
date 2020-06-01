@@ -1,81 +1,63 @@
 import * as React from "react"
 import { KeysObject } from "dropin-recipes"
-import { Page as PageBase, Component as ComponentBase, ComponentProps, ComponentState, PageConstructor } from "./components"
-import { Router } from "./router/Router"
-import { Route } from "./router/Route"
+import { Config as WebFontConfig } from "webfontloader"
+import { observer } from "mobx-react"
+import { ComponentProps, PageConstructor, Component, PageProps, Page, ComponentState } from "./components"
+import { Router } from "./client/router"
 import { StyleSheetData } from "./styles"
 import { Renderer } from "./client/Renderer"
 import { Values } from "./values/Values"
-import { Config as WebFontConfig } from "webfontloader"
 
-export interface KiwiBundleTheme<Data extends KiwiBundleTheme<Data> = any> {
-  sizes: KeysObject<Data["sizes"], number>
-  colors?: KeysObject<Data["colors"], string>
+export interface KiwiBundleReactTheme<Data extends KiwiBundleReactTheme<Data> = any> {
+  sizes?: KeysObject<number, Data["sizes"]>
+  colors?: KeysObject<string, Data["colors"]>
   fonts?: WebFontConfig
-  css?: { [rule: string]: string }
+  css?: { [rule: string]: string | number }
 }
 
-interface KiwiBundleOptions<Data extends KiwiBundleOptions<Data>> {
-  routes: KeysObject<Data["routes"], string>
-  theme: KiwiBundleTheme<Data["theme"]>
+export interface KiwiBundleReactOptions<Data extends KiwiBundleReactOptions<Data> = { routes: KeysObject<string>, theme: KiwiBundleReactTheme }> {
+  routes: KeysObject<string, Data["routes"]>
+  theme: KiwiBundleReactTheme<Data["theme"]>
 }
 
-interface KiwiBundlePageFunctionsContext {
-  state: KiwiBundlePageState,
-  values: KiwiBundlePageValues,
-  props: {
-    [key: string]: any
-  },
-  params: {
-    [key: string]: any
-  },
-  setState: (state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => void)) => void
+interface KiwiBundleReactContextComponentObject<Props, State, Values, Functions, Options extends KiwiBundleReactOptions> {
+  props: Props
+  state: State
+  setState: (state: {} | ((prevState: Readonly<State>, props: Readonly<Props>) => void)) => void
+  values: Values
+  functions: Functions
+  routes: Options["routes"]
+  sizes: Options["theme"]["sizes"]
+  colors: Options["theme"]["colors"]
+  router: Router
 }
 
-interface KiwiBundlePageValues {
-  [key: string]: any
+interface KiwiBundleReactContextComponent<Props = ComponentProps, State = ComponentState, Values = KeysObject<any>, Functions = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> {
+  props?: Props
+  state?: Omit<State, "$">
+  values?: Values
+  functions?: Functions
+  init?: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Functions, Options>) => void
+  onDidMount?: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Functions, Options>) => void
+  render: (context: KiwiBundleReactContextComponentObject<Props, State, Values, Functions, Options>) => React.ReactNode
 }
 
-interface KiwiBundlePageState {
-  [key: string]: any
+interface KiwiBundleReactContextPageObject<Params = KeysObject<any>, State = KeysObject<any>, Values = KeysObject<any>, Functions = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> extends KiwiBundleReactContextComponentObject<PageProps<Params>, State, Values, Functions, Options> {
+  params: Params
 }
 
-export enum KiwiBundlePageAuthLevels {
-  USER = "user",
-  ANONYMOUS = "anonymous"
+interface KiwiBundleReactContextPage<Params = KeysObject<any>, State = KeysObject<any>, Values = KeysObject<any>, Functions = KeysObject<any>, Options extends KiwiBundleReactOptions = KiwiBundleReactOptions> {
+  state?: State
+  values?: Values
+  functions?: { [key: string]: (context: KiwiBundleReactContextPageObject<Params, State, Values, Functions, Options>) => any }
+  init?: (context: KiwiBundleReactContextPageObject<Params, State, Values, Functions, Options>) => void
+  onDidMount?: (context: KiwiBundleReactContextPageObject<Params, State, Values, Functions, Options>) => void
+  render: (context: KiwiBundleReactContextPageObject<Params, State, Values, Functions, Options>) => React.ReactNode
 }
 
-interface KiwiBundlePage<Params, Theme> {
-  values: KiwiBundlePageValues
-
-  functions: {
-    [key: string]: (context: KiwiBundlePageFunctionsContext) => any
-  }
-
-  init?(context: KiwiBundlePageFunctionsContext): void
-
-  onDidMount?(context: KiwiBundlePageFunctionsContext): void
-
-  render(context: KiwiBundlePageFunctionsContext & { theme: Theme }): React.ReactNode
-
-  authLevels?: KiwiBundlePageAuthLevels[]
-}
-
-interface KiwiBundleComponent<Props, Theme> {
-  values: {
-    [key: string]: any
-  }
-
-  state: {
-    [key: string]: any
-  }
-  
-  render(context: { props: Props, theme: Theme } & { style?: React.CSSProperties }): React.ReactNode
-}
-
-export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
+export class KiwiBundleReact<Options extends KiwiBundleReactOptions<Options> = KiwiBundleReactOptions> {
   private options: Options
-  private router?: Router
+  private router = new Router()
 
   constructor(options: Options) {
     this.options = options
@@ -89,70 +71,67 @@ export class KiwiBundle<Options extends KiwiBundleOptions<Options>> {
     return style(this.options.theme)
   }
 
-  Page<Params = {}>(page: KiwiBundlePage<Params, Options["theme"]>) {
-    const theme = this.options.theme
-    return class Page extends PageBase<Params> {
+  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState, Values = KeysObject<any>, Functions = KeysObject<any>>(component: KiwiBundleReactContextComponent<Props, State, Values, Functions, Options>) {
+    const getContext = (instance: Component<Props, State>): KiwiBundleReactContextComponentObject<Props, State, Values, Functions, Options> => ({
+      props: instance.props,
+      state: instance.state,
+      setState: instance.setState.bind(instance),
+      values: component.values || {} as Values,
+      functions: Object.assign({}, component.functions),
+      routes: this.options.routes,
+      sizes: this.options.theme.sizes,
+      colors: this.options.theme.colors,
+      router: this.router,
+    })
+    return observer(class extends Component<Props, State> {
       constructor(props: any) {
         super(props)
-
-        if (typeof page.init !== "undefined") {
-          page.init(this.getContext())
-        }
+        if(typeof component.state !== "undefined") this.state = Object.assign(this.state, component.state)
+        if(typeof component.init !== "undefined") component.init(getContext(this))
       }
-
       componentDidMount() {
         super.componentDidMount()
-
-        if (typeof page.onDidMount !== "undefined") {
-          page.onDidMount(this.getContext())
-        }
+        if(typeof component.onDidMount !== "undefined") component.onDidMount(getContext(this))
       }
-
-      getContext(): KiwiBundlePageFunctionsContext {
-        return {
-          state: this.state,
-          values: page.values,
-          setState: this.setState.bind(this),
-          props: this.props,
-          params: this.params,
-        }
+      render(): React.ReactNode {
+        return component.render(getContext(this))
       }
-
-      render() {
-        return page.render(Object.assign(this.getContext(), {
-          params: this.params,
-          theme
-        }))
-      }
-    }
+    })
   }
 
-  Component<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState>(component: KiwiBundleComponent<Props, Options["theme"]>) {
-    const theme = this.options.theme
-    return class Component extends ComponentBase<Props, State> {
-      render() {
-        return component.render({ props: this.props, theme, style: this.state.style })
+  Layout<Props extends ComponentProps = ComponentProps, State extends ComponentState = ComponentState, Values = KeysObject<any>, Functions = KeysObject<any>>(layout: KiwiBundleReactContextComponent<Props, State, Values, Functions, Options>) {
+    return this.Component<Props, State, Values, Functions>(layout)
+  }
+
+  Page<Params = KeysObject<any>, State extends ComponentState = ComponentState, Values = KeysObject<any>, Functions = KeysObject<any>>(page: KiwiBundleReactContextPage<Params, State, Values, Functions, Options>) {
+    const getContext = (instance: Page<Params, State>): KiwiBundleReactContextPageObject<Params, State, Values, Functions, Options> => ({
+      props: instance.props,
+      state: Object.assign(instance.state, page.state),
+      setState: instance.setState.bind(instance),
+      values: Object.assign({}, page.values),
+      functions: {} as any, // Object.assign({}, page.functions), // TODO
+      routes: this.options.routes,
+      sizes: this.options.theme.sizes,
+      colors: this.options.theme.colors,
+      params: instance.getParams(),
+      router: this.router,
+    })
+    return observer(class extends Page<Params, State> {
+      constructor(props: any) {
+        super(props)
+        if(typeof page.init !== "undefined") page.init(getContext(this))
       }
-    }
-  }
-
-  Layout<Props extends ComponentProps = {}, State extends ComponentState = any>(layout: KiwiBundleComponent<Props, Options["theme"]>) {
-    const theme = this.options.theme
-    return class Layout extends ComponentBase<Props, State> {
-      render() {
-        return layout.render({ props: this.props, theme, style: this.state.style })
+      componentDidMount() {
+        super.componentDidMount()
+        if(typeof page.onDidMount !== "undefined") page.onDidMount(getContext(this))
       }
-    }
+      render(): React.ReactNode {
+        return page.render(getContext(this))
+      }
+    })
   }
 
-  Router<Routes extends KeysObject<Options["routes"], PageConstructor>>(routes: Routes): Router {
-    return new Router(Object.keys(routes).map(route => {
-      return new Route((this.options.routes as any)[route], (routes as any)[route])
-    }))
-  }
-
-  Client(router: Router): void {
-    this.router = router
-    Renderer(this.router, this.options.theme)
+  Render<Routes extends KeysObject<PageConstructor | string, Options["routes"]>>(routes: Routes): void {
+    Renderer(this.options, routes)
   }
 }

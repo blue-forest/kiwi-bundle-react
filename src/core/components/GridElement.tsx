@@ -9,8 +9,8 @@ export class GridElement extends Component<GridElementProps> {
 
   render() {
     const { width } = this.props
-    const style = Object.assign(this.state.style, { width })
-    return <li style={this.state.style}>
+    const style = Object.assign(this.state.$.style, { width })
+    return <li style={style}>
       {this.props.children}
     </li>
   }
