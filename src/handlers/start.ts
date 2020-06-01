@@ -8,7 +8,7 @@ import { KiwiBundleStartHandler } from "../.bundles/kiwi-bundle/handlers"
 
 export const main: KiwiBundleStartHandler = ({ path, outDir, options, handlers }) => {
   const webpackConfig = generateWebpackConfig(path, outDir, options, handlers, Environment.DEVELOPMENT)
-  const server = new WebpackDevServer(Webpack(webpackConfig), webpackConfig.devServer)
+  const server = new WebpackDevServer(Webpack(webpackConfig) as any, webpackConfig.devServer)
   webpackConsoleLog("Webpack launched for a watched development build...")
   server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
     webpackConsoleLog(
