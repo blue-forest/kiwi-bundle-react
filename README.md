@@ -36,8 +36,8 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.1.1",
-    "kiwi-bundle-react": "1.1.0"
+    "kiwi-bundle": "3.1.3",
+    "kiwi-bundle-react": "1.1.3"
   }
 }
 ```
