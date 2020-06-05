@@ -63,15 +63,15 @@
 
 **./src/bundle.ts** (example)
 ```typescript
-import { KiwiBundle } from "kiwi-bundle-react"
-export const Example = new KiwiBundle({
+import { KiwiBundleReact } from "kiwi-bundle-react"
+export const Example = new KiwiBundleReact({
   routes: {
     HOME: "/",
   },
 })
 ```
 
-**./src/pages/Home.ts** (example)
+**./src/pages/Home.tsx** (example, note to the extension)
 ```typescript
 import * as React from "react"
 import * as Kiwi from "kiwi-bundle-react"
