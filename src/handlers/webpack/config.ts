@@ -119,5 +119,21 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
 
   }
 
+  // KiwiBundleOptions override
+  if(typeof options.webpack !== "undefined") {
+    merge(config, options.webpack)
+  }
+
   return config
+}
+
+const merge = (to: any, from: any) => {
+  for(let n in from) {
+    if(typeof to[n] !== "object") {
+      to[n] = from[n]
+    } else if(typeof from[n] === "object") {
+      to[n] = merge(to[n], from[n])
+    }
+  }
+  return to
 }
