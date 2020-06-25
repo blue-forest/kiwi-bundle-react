@@ -1,7 +1,7 @@
 import { Environment } from "dropin-recipes"
 import WebpackDevServer from "webpack-dev-server"
 import Webpack from "webpack"
-import chalk from "chalk"
+import { chalk } from "kiwi-bundle"
 import { generateWebpackConfig } from "./webpack/config"
 import { webpackConsoleLog } from "./utils"
 import { KiwiBundleStartHandler } from "../.bundles/kiwi-bundle/handlers"
