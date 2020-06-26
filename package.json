@@ -9,7 +9,7 @@
     "start": "kiwi start",
     "test": "kiwi test",
     "build": "kiwi build",
-    "preinstall": "kiwi preinstall"
+    "postinstall": "kiwi postinstall"
   },
   "bundles": {
     "kiwi-bundle": {
