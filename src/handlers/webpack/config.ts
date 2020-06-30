@@ -38,7 +38,9 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
+        pathLib.join(rootPath, "node_modules", ".pnpm"),
         pathLib.join(bundlePath, "node_modules"),
+        pathLib.join(bundlePath, "node_modules", ".pnpm"),
       ],
       /*alias: {
         "kiwi-bundle": bundlePath,
@@ -49,7 +51,9 @@ export const generateWebpackConfig = (rootPath: string, outputDir: string, optio
       extensions: [ ".ts", ".tsx", ".js" ],
       modules: [
         pathLib.join(rootPath, "node_modules"),
+        pathLib.join(rootPath, "node_modules", ".pnpm"),
         pathLib.join(bundlePath, "node_modules"),
+        pathLib.join(bundlePath, "node_modules", ".pnpm"),
       ],
     },
 

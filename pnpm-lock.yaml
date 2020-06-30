@@ -21,7 +21,7 @@ dependencies:
   babel-plugin-object-to-json-parse: 0.2.0
   chalk: 4.1.0
   css-loader: 3.6.0_webpack@4.43.0
-  dropin-recipes: 'link:../../../../../../../../../../usr/local/pnpm-global/pnpm-global/node_modules/dropin-recipes'
+  dropin-recipes: 'link:../../../../../../../../../../usr/local/pnpm-global/node_modules/dropin-recipes'
   etag: 1.8.1
   file-loader: 6.0.0_webpack@4.43.0
   html-webpack-plugin: 4.3.0_webpack@4.43.0
@@ -51,7 +51,7 @@ dependencies:
   worker-loader: 2.0.0_webpack@4.43.0
   yamljs: 0.3.0
 devDependencies:
-  kiwi-bundle: 'link:../../../../../../../../../../usr/local/pnpm-global/pnpm-global/node_modules/kiwi-bundle'
+  kiwi-bundle: 'link:../../../../../../../../../../usr/local/pnpm-global/node_modules/kiwi-bundle'
 lockfileVersion: 5.1
 packages:
   /@babel/cli/7.10.3_@babel+core@7.10.3:
