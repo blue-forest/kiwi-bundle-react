@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -9,7 +9,7 @@
     "start": "kiwi start",
     "test": "kiwi test",
     "build": "kiwi build",
-    "postinstall": "kiwi postinstall"
+    "postinstall": "echo kiwi postinstall"
   },
   "bundles": {
     "kiwi-bundle": {
@@ -45,6 +45,7 @@
     "babel-plugin-object-to-json-parse": "0.2.0",
     "chalk": "4.1.0",
     "css-loader": "3.6.0",
+    "csstype": "^3.0.2",
     "dropin-recipes": "1.8.2",
     "etag": "1.8.1",
     "file-loader": "6.0.0",
@@ -56,7 +57,6 @@
     "path": "0.12.7",
     "react": "16.13.1",
     "react-addons-test-utils": "15.6.2",
-    "react-dom": "16.13.1",
     "react-router-dom": "5.2.0",
     "sass-loader": "8.0.2",
     "source-map-loader": "1.0.0",
