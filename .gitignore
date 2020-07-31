@@ -3,5 +3,5 @@
 lib/
 node_modules/
 *.log
-./pnpm-lock.yaml
+pnpm-lock.yaml
 # [/\] kiwi-bundle
