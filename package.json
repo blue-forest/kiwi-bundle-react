@@ -9,7 +9,7 @@
     "start": "kiwi start",
     "test": "kiwi test",
     "build": "kiwi build",
-    "postinstall": "echo kiwi postinstall"
+    "postinstall": "kiwi postinstall"
   },
   "bundles": {
     "kiwi-bundle": {
