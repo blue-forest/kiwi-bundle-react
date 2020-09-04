@@ -1,0 +1,23 @@
+{
+  "name": "kiwi-bundle-sandbox",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "kiwi start",
+    "build": "kiwi build"
+  },
+  "bundles": {
+    "kiwi-bundle": {
+      "options": {
+        "app": {
+          "id": "kbs",
+          "name": "Kiwi Bundle Sandbox",
+          "author": "Blue Forest"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "kiwi-bundle": "3.2.0",
+    "kiwi-bundle-react": "2.0.0"
+  }
+}
