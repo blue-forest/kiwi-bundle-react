@@ -1,4 +1,4 @@
-import { WebpackConfig } from "../../handlers/webpack/core"
+import { WebpackConfig } from "../../.old/webpack/core"
 import { NameField_ByLanguage } from "dropin-recipes"
 
 export interface KiwiBundleOptions {

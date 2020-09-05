@@ -23,6 +23,7 @@
     "kiwi-bundle": "3.2.0"
   },
   "dependencies": {
+    "@types/react-dev-utils": "^9.0.4",
     "dropin-recipes": "1.8.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
