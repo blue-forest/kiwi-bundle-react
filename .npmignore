@@ -1,4 +1,6 @@
 
 # [\/] kiwi-bundle
-!lib/
+*
+!dist/
+!package.json
 # [/\] kiwi-bundle

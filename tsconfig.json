@@ -3,34 +3,19 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "lib",
+    "outDir": "dist",
     "paths": { "*": [ "./typings/*", "./.models/types/*" ] },
-    "jsx": "react",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "allowJs": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "noImplicitThis": true,
-    "strictPropertyInitialization": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "types": [
+      "react"
+    ]
   },
-  "include": [ "src" ],
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "src/**/*.test.ts",

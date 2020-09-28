@@ -1,0 +1,24 @@
+{
+  "name": "kiwi-bundle-react-demo",
+  "version": "2.0.0",
+  "scripts": {
+    "init": "react-native init --template theblueforest/kiwi-bundle-react --title 'Kiwi Bundle React Demo' kbdr",
+    "start": "kiwi start",
+    "build": "kiwi build"
+  },
+  "bundles": {
+    "kiwi-bundle": {
+      "options": {
+        "app": {
+          "id": "kbrd",
+          "name": "Kiwi Bundle React Demo",
+          "author": "Blue Forest"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "kiwi-bundle": "3.2.0",
+    "kiwi-bundle-react": "2.0.0"
+  }
+}
