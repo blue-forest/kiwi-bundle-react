@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "scripts": {
     "init": "react-native init --template theblueforest/kiwi-bundle-react --title 'Kiwi Bundle React Demo' kbrd",
-    "init:local": "react-native init --skip-install --template 'file://home/nazim/DROPin/blueforest/recipes/kiwi/react/v1/repositories/kiwi-bundle-react' --title 'Kiwi Bundle React Demo' kbrd",
+    "init:local": "react-native init --skip-install --template file://home/nazim/DROPin/blueforest/recipes/kiwi/react/v1/repositories/kiwi-bundle-react --title 'Kiwi Bundle React Demo' kbrd",
     "start": "kiwi start",
     "build": "kiwi build"
   },

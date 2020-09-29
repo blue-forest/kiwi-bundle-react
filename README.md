@@ -1,119 +1,75 @@
 
 ![Kiwi Bundle React](./assets/cover.png)
 
+
 ## Features
-- Webpack & Babel, for a perfect build
-- React & MobX, for your component views
-- built-in router and logger, simplified to the limit
-- hot reloading, to develop and view your changes in real time
+- out-of-the box configurations for [TypeScript](https://github.com/microsoft/TypeScript), [React](https://github.com/facebook/react), [Babel](https://github.com/babel/babel), [ESLint](https://github.com/eslint/eslint), [Prettier](https://github.com/prettier/prettier) and [Flow](https://github.com/facebook/flow)
+- integration of [react-native-web](https://github.com/necolas/react-native-web) for building **web**, **Android** and **iOS** apps with the same code
+- **instant start-up** and **hot reloading** to see your components changes in real time
+- complete toolbox with built-in **router**, **logger**, and **states management** simplified to the limit
 
 
-## Getting Started
-**./package.json** (required)
+## Demo
+https://kiwi-bundle-react.demo.blueforest.cc
+
+[Self-documented source code here](./demo)
+
+
+## Getting started
+
+### Step 1
+Create a **./package.json** file :
 ```json
 {
   "name": "example",
   "version": "1.0.0",
   "scripts": {
     "start": "kiwi start",
-    "test": "kiwi test",
-    "build": "kiwi build"
+    "build": "kiwi build",
+    "clear": "kiwi clear"
   },
   "bundles": {
     "kiwi-bundle": {
       "options": {
         "app": {
-          "name": "Example"
-        },
-        "dev": {
-          "webHost": "0.0.0.0",
-          "webPort": 8080
+          "id": "example",
+          "name": "Example App",
+          "author": "You"
         }
-      },
-      "handlers": {
-        "client": "./client"
       }
     }
   },
-  "devDependencies": {
-    "kiwi-bundle": "3.1.3",
-    "kiwi-bundle-react": "1.1.3"
+  "dependencies": {
+    "kiwi-bundle": "3.2.0",
+    "kiwi-bundle-react": "2.0.0"
   }
 }
 ```
 
-**./tsconfig.json** (required)
-```json
-{
-  "extends": "./node_modules/kiwi-bundle/.models/ts/react.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist"
-  },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx"
-  ]
-}
-```
+### Step 2
+Install dependencies with `npm install` or `yarn install`
 
-**./src/bundle.ts** (example)
-```typescript
-import { KiwiBundleReact } from "kiwi-bundle-react"
-export const Example = new KiwiBundleReact({
-  routes: {
-    HOME: "/",
-  },
-})
-```
+### Step 3
 
-**./src/pages/Home.tsx** (example, note to the extension)
-```typescript
-import * as React from "react"
-import * as Kiwi from "kiwi-bundle-react"
-import { Example } from "../bundle"
-interface Params {}
-export const HomePage = Example.Page<Params>({
-  render: () => <Kiwi.Text>Hello :)</Kiwi.Text>
-})
-```
+#### Web
 
-**./src/client.ts** (example)
-```typescript
-import { Example } from "./bundle"
-import { HomePage } from "./pages/Home"
-Example.Render({
-  HOME: HomePage,
-})
-```
+##### Start
+Run `npm run start web` or `yarn start web`
 
-**./.gitignore** (recommended)
-```
-dist/
-node_modules/
-```
+##### Build
+Run `npm run build web` or `yarn build web`
 
-**./tslint.json** (optional)
-```json
-{
-  "extends": "./node_modules/kiwi-bundle/.models/tslint/bf.json"
-}
-```
+#### Android
 
-**.babelrc** (optional)
-```json
-{
-  "extends": "./node_modules/kiwi-bundle-react/.models/babel/react.json"
-}
-```
+##### Start
+1. Run `npm run start metro` or `yarn start metro`
+2. Run `npm run start android` or `yarn start android`
 
-**.stylelintrc** (optional)
-```json
-{
-  "extends": "./node_modules/kiwi-bundle-react/.models/stylelint/bf.json"
-}
-```
+##### Build
+Run `npm run build android` or `yarn build android`
+
+#### iOS
+Run `npm run start ios` or `yarn start ios`
+
+#### Clear
+Run `npm run clear` or `yarn clear`
