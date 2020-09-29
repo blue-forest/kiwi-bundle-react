@@ -9,13 +9,21 @@
 - complete toolbox with built-in **router**, **logger**, and **states management** simplified to the limit
 
 
-# Demo
-https://kiwi-bundle-react.demo.blueforest.cc
-
-[Self-documented source code here](./demo)
-
-
 # Getting started
+
+## Requirements
+NodeJS needs to be installed : https://nodejs.org/en/download/
+
+For Android builds, [Java](https://openjdk.java.net) and [Android Studio](https://developer.android.com/studio/index.html) are required
+
+Far iOS builds, you need to have Xcode installed on your Mac
+
+Optionally, in replacement of `npm`, you can install `yarn` by running `npm install -g yarn`
+
+If you want Prettier as a code formatter, you will need to install it : https://prettier.io/docs/en/install.html
+
+Finally, if you do not have a text editor yet, give VSCode a try : https://code.visualstudio.com
+
 
 ## Install
 Create a **./package.json** file :
@@ -25,28 +33,38 @@ Create a **./package.json** file :
   "version": "1.0.0",
   "scripts": {
     "start": "kiwi start",
+    "test": "kiwi test",
     "build": "kiwi build",
-    "clear": "kiwi clear"
+    "clean": "kiwi clean",
+    "postinstall": "kiwi postinstall"
   },
   "bundles": {
     "kiwi-bundle": {
       "options": {
         "app": {
           "id": "example",
-          "name": "Example App",
-          "author": "You"
+          "name": "Example App"
         }
       }
     }
   },
-  "dependencies": {
+  "devDependencies": {
     "kiwi-bundle": "3.2.0",
-    "kiwi-bundle-react": "2.0.0"
+    "kiwi-bundle-react": "2.0.1"
   }
 }
 ```
 
 Then run `npm install` or `yarn install`
+
+
+## Init
+Before launching your application you will need to create some initial files in your `./src` directory
+
+In the [demo directory](./demo) we have written an overview of how to use the different capabilities of the Kiwi Bundle React through simple examples that speak for themselves
+
+You can find an online version of the result right here : https://kiwi-bundle-react.demo.blueforest.cc
+
 
 ## Commands
 
@@ -63,7 +81,9 @@ To start :
 To build, run `npm run build android` or `yarn build android`
 
 ### iOS
-Run `npm run start ios` or `yarn start ios`
+Before the first start, you will need to run `pod install` in `./ios` to install CocoaPods dependencies
 
-### Clear
-Run `npm run clear` or `yarn clear`
+Then run `npm run start ios` or `yarn start ios`
+
+### Clean
+Run `npm run clean` or `yarn clean`
