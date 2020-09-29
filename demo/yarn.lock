@@ -8499,6 +8499,27 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
+kiwi-bundle-react@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/kiwi-bundle-react/-/kiwi-bundle-react-2.0.1.tgz#35f5896c878156f8a5381db5cee841b5e8c27e44"
+  integrity sha512-y6Nvjl2h50Ht3+qPA8iPb7+LgMEHmGXDjrC5SsM9JRh51yAHfX+DiQULOAicnxNuQMFSDU1+AD1/GUFp01KBtQ==
+  dependencies:
+    "@babel/core" "7.10.4"
+    "@babel/runtime" "7.10.4"
+    "@react-native-community/eslint-config" "2.0.0"
+    "@types/react" "16.9.41"
+    "@types/react-native" "0.62.17"
+    "@types/react-test-renderer" "16.9.2"
+    babel-jest "25.1.0"
+    kiwi-bundle "3.2.0"
+    metro-react-native-babel-preset "0.60.0"
+    react "16.13.1"
+    react-dom "16.13.1"
+    react-native "0.63.2"
+    react-native-web "0.13.9"
+    react-scripts "3.4.3"
+    react-test-renderer "16.13.1"
+
 kiwi-bundle@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/kiwi-bundle/-/kiwi-bundle-3.2.0.tgz#6f2bc697173b2ba06cac734e6ff850b7a653ea1d"

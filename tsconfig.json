@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "rootDir": "src",
     "outDir": "dist",
-    "paths": { "*": [ "./typings/*", "./.models/types/*" ] },
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,

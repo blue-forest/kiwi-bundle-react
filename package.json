@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -15,19 +15,22 @@
       "handlers": {
         "start": "./handlers/start.main",
         "build": "./handlers/build.main"
-      }
+      },
+      "sync": [
+        "./template"
+      ]
     }
   },
   "dependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/runtime": "^7.10.4",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "@types/react": "^16.9.41",
-    "@types/react-native": "^0.62.17",
-    "@types/react-test-renderer": "^16.9.2",
-    "babel-jest": "^25.1.0",
+    "@babel/core": "7.10.4",
+    "@babel/runtime": "7.10.4",
+    "@react-native-community/eslint-config": "2.0.0",
+    "@types/react": "16.9.41",
+    "@types/react-native": "0.62.17",
+    "@types/react-test-renderer": "16.9.2",
+    "babel-jest": "25.1.0",
     "kiwi-bundle": "3.2.0",
-    "metro-react-native-babel-preset": "^0.60.0",
+    "metro-react-native-babel-preset": "0.60.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "0.63.2",

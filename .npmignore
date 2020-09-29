@@ -1,7 +1,9 @@
 
 # [\/] kiwi-bundle
 *
-!dist/
-!template/
+!dist/*
+!template/*
 !package.json
+!README.md
+!template.config.js
 # [/\] kiwi-bundle
