@@ -2,12 +2,19 @@ $: dropin.recipes/Automations/Deployment
 
 services:
   kiwi-bundle-react:
-    runtime: { name: nodejs }
+    context: .
+
+    runtime: { name: node }
+
     dependencies:
-      kiwi-bundle: blueforest:kiwi/core:kiwi-bundle:v1
-      dropin-recipes: blueforest:dropin/recipes:dropin-recipes-js:v1
+      kiwi-bundle: blueforest:kiwi/core:v1:kiwi-bundle
+      dropin-client: blueforest:dropin/client:v1:dropin-client-js
+
     tasks:
-      - name: Start developement web server
+      start:
+        name: Watch and build
         command: start
-      - name: Build production files
+
+      build:
+        name: Build production files
         command: build
