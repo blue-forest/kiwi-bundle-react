@@ -17,7 +17,7 @@ https://kiwi-bundle-react.demo.blueforest.cc
 
 ## Getting started
 
-### Step 1
+### Install
 Create a **./package.json** file :
 ```json
 {
@@ -46,10 +46,9 @@ Create a **./package.json** file :
 }
 ```
 
-### Step 2
-Install dependencies with `npm install` or `yarn install`
+Then run `npm install` or `yarn install`
 
-### Step 3
+### Commands
 
 #### Web
 To start, run `npm run start web` or `yarn start web`
