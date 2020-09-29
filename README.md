@@ -52,21 +52,16 @@ Install dependencies with `npm install` or `yarn install`
 ### Step 3
 
 #### Web
+To start, run `npm run start web` or `yarn start web`
 
-##### Start
-Run `npm run start web` or `yarn start web`
-
-##### Build
-Run `npm run build web` or `yarn build web`
+To build, run `npm run build web` or `yarn build web`
 
 #### Android
-
-##### Start
+To start :
 1. Run `npm run start metro` or `yarn start metro`
 2. Run `npm run start android` or `yarn start android`
 
-##### Build
-Run `npm run build android` or `yarn build android`
+To build, run `npm run build android` or `yarn build android`
 
 #### iOS
 Run `npm run start ios` or `yarn start ios`
