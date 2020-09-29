@@ -61,7 +61,7 @@ Then run `npm install` or `yarn install`
 ## Init
 Before launching your application you will need to create some initial files in your `./src` directory
 
-In the [demo directory](./demo) we have written an overview of how to use the different capabilities of the Kiwi Bundle React through simple examples that speak for themselves
+In the [demo directory](./demo) we have written an overview of how to use the main Kiwi Bundle React capabilities through simple examples
 
 You can find an online version of the result right here : https://kiwi-bundle-react.demo.blueforest.cc
 

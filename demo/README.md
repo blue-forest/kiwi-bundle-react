@@ -1,6 +1,10 @@
 
 # Kiwi Bundle React Demo
 
+At Blue Forest, we are convinced that the best way to explain abstract concepts is to illustrate them with concrete examples. In other words : don't tell, show !
+
+For this purpose, we suggest the following guideline :
+
 
 ## [./src/bundle.ts](./src/bundle.ts)
 You will find in this file the `KiwiBundleReact` initialization, this is where you will be able to define all the general properties of your application
