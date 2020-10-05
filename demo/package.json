@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "scripts": {
     "start": "kiwi start",
+    "test": "kiwi test",
     "build": "kiwi build",
-    "init": "react-native init --skip-install --template=file:///home/nazim/DROPin/blueforest/recipes/kiwi/react/v1/repositories/kiwi-bundle-react --title='Kiwi Bundle React Demo' --directory=template kbrd"
+    "clean": "kiwi clean",
+    "postinstall": "kiwi postinstall"
   },
   "bundles": {
     "kiwi-bundle": {
       "options": {
         "app": {
           "id": "kbrd",
-          "name": "Kiwi Bundle React Demo",
-          "author": "Blue Forest"
+          "name": "Kiwi Bundle React Demo"
         }
       }
     }
