@@ -20,7 +20,8 @@
   },
   "devDependencies": {
     "kiwi-bundle": "3.2.0",
-    "kiwi-bundle-react": "2.0.1"
+    "kiwi-bundle-react": "2.0.1",
+    "react-native": "*"
   },
   "browserslist": {
     "production": [

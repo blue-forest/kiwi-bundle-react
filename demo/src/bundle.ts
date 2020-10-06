@@ -2,6 +2,17 @@ import { Bundle } from "kiwi-bundle-react"
 
 export const KBRD = Bundle({
   id: "kbrd",
+  routes: {
+    HOME: {
+      path: "/",
+    },
+    COMPONENTS: {
+      path: "/components",
+    },
+    PARAMS: {
+      path: "/params/{first}/{second}",
+    },
+  },
   theme: {
     dark: {
       colors: {
@@ -12,11 +23,6 @@ export const KBRD = Bundle({
         medium: 15,
         big: 20,
       }
-    },
-  },
-  routes: {
-    HOME: {
-      path: "/"
     },
   },
 })

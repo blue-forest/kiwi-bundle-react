@@ -27,7 +27,7 @@ type KiwiBundleReactPageOptions<Props, States> = {
 type KiwiBundleReactPage<Props = any> = React.ComponentType<Props>
 
 export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options) => {
-  const hack = React
+  const react = React
 
   const Component = <
     Props extends { [name: string]: any } = any,
@@ -39,7 +39,7 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
       const render: any = { state: { get: {}, set: {} } }
       if (typeof page.states !== "undefined") {
         Object.keys(page.states).forEach(name => {
-          const state = hack.useState((page.states as any)[name])
+          const state = react.useState((page.states as any)[name])
           render.state.get[name] = state[0]
           render.state.set[name] = state[1]
         })

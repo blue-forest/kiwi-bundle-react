@@ -7,6 +7,7 @@ export interface KiwiBundleHandlerParams {
   handlers: {
     client: string
   }
+  args: string[]
 }
 
 export type KiwiBundleHandler = (params: KiwiBundleHandlerParams) => void

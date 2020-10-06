@@ -6,8 +6,9 @@ export const main: KiwiBundleHandler = ({ path }) => {
     "./node_modules/.bin/react-scripts",
     [ "build" ],
     {
-      shell: true,
+      // shell: true,
       stdio: "inherit",
+      uid: 1000,
       cwd: path,
       env: {
         SKIP_PREFLIGHT_CHECK: "true",
