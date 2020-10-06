@@ -1,4 +1,4 @@
-import { React, Kiwi } from "../vendors/kiwi-bundle-react"
+import { React, Kiwi } from "kiwi-bundle-react"
 import { HomePageStyle } from "./Home.style"
 import { KBRD } from "../bundle"
 import { ButtonLayout } from "../layouts/Button"

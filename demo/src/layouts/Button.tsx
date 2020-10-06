@@ -1,10 +1,10 @@
-import { React, Kiwi } from "../vendors/kiwi-bundle-react"
+import { React, ReactNative, Kiwi } from "kiwi-bundle-react"
 import { HomePageStyle } from "../pages/Home.style"
 
 type ButtonLayoutProps = {
   title: string
   onPress: () => void
-  containerStyle?: Kiwi.StyleProp<Kiwi.ViewStyle>
+  containerStyle?: ReactNative.StyleProp<ReactNative.ViewStyle>
 }
 
 export const ButtonLayout = (props: ButtonLayoutProps) => {

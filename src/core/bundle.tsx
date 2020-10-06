@@ -1,35 +1,31 @@
-import { React, Kiwi } from "../kiwi-bundle-react"
+import React from "react"
+import * as ReactNative from "react-native"
 import { KeysObject } from "dropin-client"
 
 type KiwiBundleReactOptions = {
   routes: {
-    [name: string]: {
-      path: string
-    }
-  }
+    [name: string]: { path: string };
+  };
 }
 
 type KiwiBundleReactPageOptionsRender<Props, States> = {
-  props: Props
+  props: Props;
   state: {
-    get: { [name in keyof States]: States[keyof States] }
-    set: { [name in keyof States]: (v: States[keyof States]) => void }
-  }
+    get: { [name in keyof States]: States[keyof States] };
+    set: { [name in keyof States]: (v: States[keyof States]) => void };
+  };
 }
 
 type KiwiBundleReactPageOptions<Props, States> = {
-  states?: States
+  states?: States;
   render: (
     render: KiwiBundleReactPageOptionsRender<Props, States>,
-  ) => JSX.Element
+  ) => JSX.Element;
 }
 
 type KiwiBundleReactPage<Props = any> = React.ComponentType<Props>
 
-export const KiwiBundleReact = <Options extends KiwiBundleReactOptions>(
-  _: Options,
-) => {
-  console.log("BUNDLE INIT")
+export const Bundle = <Options extends KiwiBundleReactOptions>(_: Options) => {
   const hack = React
   const Component = <
     Props extends { [name: string]: any } = any,
@@ -37,8 +33,7 @@ export const KiwiBundleReact = <Options extends KiwiBundleReactOptions>(
   >(
     page: KiwiBundleReactPageOptions<Props, States>,
   ): KiwiBundleReactPage<Props> => {
-    return props => {
-      console.log(props)
+    return () => {
       const render: any = { state: { get: {}, set: {} } }
       if (typeof page.states !== "undefined") {
         Object.keys(page.states).forEach(name => {
@@ -57,17 +52,17 @@ export const KiwiBundleReact = <Options extends KiwiBundleReactOptions>(
     Render: <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
       routes: Routes,
     ): void => {
-      Kiwi.AppRegistry.registerComponent("kbrd", () => () => {
+      ReactNative.AppRegistry.registerComponent("kbrd", () => () => {
         return (
-          <Kiwi.View>
+          <ReactNative.View>
             {Object.values(routes).map((Page, index) => {
               return <Page key={index} test="OK" />
             })}
-          </Kiwi.View>
+          </ReactNative.View>
         )
       })
-      if (Kiwi.Platform.OS === "web") {
-        Kiwi.AppRegistry.runApplication("kbrd", {
+      if (ReactNative.Platform.OS === "web") {
+        ReactNative.AppRegistry.runApplication("kbrd", {
           rootTag: document.getElementById("root"),
         })
       }

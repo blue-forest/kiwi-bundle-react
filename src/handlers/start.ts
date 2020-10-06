@@ -1,7 +1,7 @@
 import { KiwiBundleHandler } from "../.bundles/kiwi-bundle/handler"
 import { spawn } from "child_process"
 
-export const main: KiwiBundleHandler = ({ path, outDir, options, handlers }) => {
+export const main: KiwiBundleHandler = ({ path }) => {
   spawn(
     "./node_modules/.bin/react-scripts",
     [ "start" ],

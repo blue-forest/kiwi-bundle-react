@@ -1,6 +1,6 @@
-import { KiwiBundleReact } from "./vendors/kiwi-bundle-react/bundle"
+import { Bundle } from "kiwi-bundle-react"
 
-export const KBRD = KiwiBundleReact({
+export const KBRD = Bundle({
   theme: {
     dark: {
       colors: {

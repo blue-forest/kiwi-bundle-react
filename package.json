@@ -4,7 +4,7 @@
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
-  "main": "./dist/main.js",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "kiwi start",
     "test": "kiwi test",

@@ -1,3 +1,3 @@
 module.exports = {
-  ...require("./node_modules/kiwi-bundle/configs/babel/react.json"),
+  ...require("./node_modules/kiwi-bundle/configs/babel/react.js"),
 }
