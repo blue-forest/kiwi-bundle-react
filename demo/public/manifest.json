@@ -1,0 +1,6 @@
+{
+  "short_name": "kbrd",
+  "name": "Kiwi Bundle React Demo",
+  "start_url": ".",
+  "display": "standalone"
+}

@@ -21,6 +21,9 @@
       ]
     }
   },
+  "devDependencies": {
+    "kiwi-bundle": "3.2.0"
+  },
   "dependencies": {
     "@babel/core": "7.10.4",
     "@babel/runtime": "7.10.4",
@@ -29,7 +32,6 @@
     "@types/react-native": "0.62.17",
     "@types/react-test-renderer": "16.9.2",
     "babel-jest": "25.1.0",
-    "kiwi-bundle": "3.2.0",
     "metro-react-native-babel-preset": "0.60.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
