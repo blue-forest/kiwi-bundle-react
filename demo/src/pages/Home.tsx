@@ -1,7 +1,7 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { HomePageStyle } from "./Home.style"
 import { KBRD } from "../bundle"
-import { ButtonLayout } from "../layouts/Button"
+import { ButtonLayout } from "../components/Button"
+import { HomePageStyle } from "./Home.style"
 
 type Props = {
   selected?: boolean

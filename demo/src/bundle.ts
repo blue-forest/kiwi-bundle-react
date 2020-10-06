@@ -1,6 +1,7 @@
 import { Bundle } from "kiwi-bundle-react"
 
 export const KBRD = Bundle({
+  id: "kbrd",
   theme: {
     dark: {
       colors: {

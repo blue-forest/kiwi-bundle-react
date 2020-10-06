@@ -8,7 +8,6 @@ type ButtonLayoutProps = {
 }
 
 export const ButtonLayout = (props: ButtonLayoutProps) => {
-  console.log("ButtonLayout render")
   return (
     <Kiwi.View style={[HomePageStyle.button, props.containerStyle]}>
       <Kiwi.Button title={props.title} onPress={props.onPress} />

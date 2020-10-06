@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native"
+import { KBRD } from "../bundle"
 
-export const HomePageStyle = StyleSheet.create({
+export const HomePageStyle = KBRD.StyleSheet({
   container: { flexDirection: "row" },
   textContainer: {
     backgroundColor: "grey",

@@ -3,6 +3,7 @@ import * as ReactNative from "react-native"
 import { KeysObject } from "dropin-client"
 
 type KiwiBundleReactOptions = {
+  id: string
   routes: {
     [name: string]: { path: string };
   };
@@ -25,8 +26,9 @@ type KiwiBundleReactPageOptions<Props, States> = {
 
 type KiwiBundleReactPage<Props = any> = React.ComponentType<Props>
 
-export const Bundle = <Options extends KiwiBundleReactOptions>(_: Options) => {
+export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options) => {
   const hack = React
+
   const Component = <
     Props extends { [name: string]: any } = any,
     States extends { [name: string]: any } = any
@@ -45,27 +47,33 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(_: Options) => {
       return page.render(render)
     }
   }
+
+  const Render = <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
+    routes: Routes,
+  ): void => {
+    ReactNative.AppRegistry.registerComponent(options.id, () => () => {
+      return (
+        <ReactNative.View>
+          {Object.values(routes).map((Page, index) => {
+            return <Page key={index} test="OK" />
+          })}
+        </ReactNative.View>
+      )
+    })
+    if (ReactNative.Platform.OS === "web") {
+      ReactNative.AppRegistry.runApplication(options.id, {
+        rootTag: document.getElementById("root"),
+      })
+    }
+  }
+
+  const StyleSheet = ReactNative.StyleSheet.create
+
   return {
     Component,
     Layout: Component,
     Page: Component,
-    Render: <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
-      routes: Routes,
-    ): void => {
-      ReactNative.AppRegistry.registerComponent("kbrd", () => () => {
-        return (
-          <ReactNative.View>
-            {Object.values(routes).map((Page, index) => {
-              return <Page key={index} test="OK" />
-            })}
-          </ReactNative.View>
-        )
-      })
-      if (ReactNative.Platform.OS === "web") {
-        ReactNative.AppRegistry.runApplication("kbrd", {
-          rootTag: document.getElementById("root"),
-        })
-      }
-    },
+    Render,
+    StyleSheet,
   }
 }
