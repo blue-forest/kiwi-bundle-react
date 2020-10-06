@@ -6,10 +6,13 @@ export const main: KiwiBundleHandler = ({ path, outDir, options, handlers }) => 
     "./node_modules/.bin/react-scripts",
     [ "start" ],
     {
-      stdio: [ process.stdin, process.stdout, process.stderr ],
+      // stdio: [ process.stdin, process.stdout, process.stderr ],
+      shell: true,
+      stdio: "inherit",
       cwd: path,
       env: {
         SKIP_PREFLIGHT_CHECK: "true",
+        FORCE_COLOR: "true",
       },
     }
   )
