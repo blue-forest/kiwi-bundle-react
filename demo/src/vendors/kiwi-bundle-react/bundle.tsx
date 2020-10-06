@@ -1,4 +1,5 @@
 import { React, Kiwi } from "../kiwi-bundle-react"
+import { KeysObject } from "dropin-client"
 
 type KiwiBundleReactOptions = {
   routes: {
@@ -53,7 +54,7 @@ export const KiwiBundleReact = <Options extends KiwiBundleReactOptions>(
     Component,
     Layout: Component,
     Page: Component,
-    Render: <Routes extends any[]>( //extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
+    Render: <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
       routes: Routes,
     ): void => {
       Kiwi.AppRegistry.registerComponent("kbrd", () => () => {
