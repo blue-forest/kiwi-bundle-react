@@ -8,7 +8,7 @@ target 'kbrd' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'kbrTests' do
+  target 'kbrdTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'kbrd' do
   end
 end
 
-target 'kbr-tvOS' do
-  # Pods for kbr-tvOS
+target 'kbrd-tvOS' do
+  # Pods for kbrd-tvOS
 
-  target 'kbr-tvOSTests' do
+  target 'kbrd-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

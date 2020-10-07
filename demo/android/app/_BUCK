@@ -40,7 +40,7 @@ android_build_config(
 
 android_resource(
     name = "res",
-    package = "com.kbr",
+    package = "com.kbrd",
     res = "src/main/res",
 )
 

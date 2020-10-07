@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
                BuildableName = "kbrd-tvOS.app"
-               BlueprintName = "kbr-tvOS"
-               ReferencedContainer = "container:kbr.xcodeproj">
+               BlueprintName = "kbrd-tvOS"
+               ReferencedContainer = "container:kbrd.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "kbr-tvOSTests.xctest"
-               BlueprintName = "kbr-tvOSTests"
-               ReferencedContainer = "container:kbr.xcodeproj">
+               BuildableName = "kbrd-tvOSTests.xctest"
+               BlueprintName = "kbrd-tvOSTests"
+               ReferencedContainer = "container:kbrd.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "kbr-tvOS.app"
-            BlueprintName = "kbr-tvOS"
-            ReferencedContainer = "container:kbr.xcodeproj">
+            BuildableName = "kbrd-tvOS.app"
+            BlueprintName = "kbrd-tvOS"
+            ReferencedContainer = "container:kbrd.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "kbr-tvOS.app"
-            BlueprintName = "kbr-tvOS"
-            ReferencedContainer = "container:kbr.xcodeproj">
+            BuildableName = "kbrd-tvOS.app"
+            BlueprintName = "kbrd-tvOS"
+            ReferencedContainer = "container:kbrd.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

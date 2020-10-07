@@ -11,7 +11,7 @@
 
 @end
 
-@implementation kbrTests
+@implementation kbrdTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
