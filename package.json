@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -39,5 +39,9 @@
     "react-native-web": "0.13.9",
     "react-scripts": "3.4.3",
     "react-test-renderer": "16.13.1"
-  }
+  },
+  "files": [
+    "/dist",
+    "/template"
+  ]
 }
