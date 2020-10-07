@@ -18,7 +18,7 @@ export const main: KiwiBundleHandler = ({ path, args }) => {
   } else {
     switch(args[0]) {
       case "web": run(path, "react-scripts", [ "start" ]); break
-      case "metro": run(path, "react-native", [ "start" ]); break
+      case "metro": run(path, "react-native", [ "start --reset-cache" ]); break
       case "android": run(path, "react-native", [ "run-android" ]); break
       case "ios": run(path, "react-native", [ "run-ios" ]); break
       default:

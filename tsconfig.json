@@ -11,7 +11,7 @@
     "removeComments": true,
     "declaration": true,
     "sourceMap": false,
-    "declarationMap": false,
+    "declarationMap": true,
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
