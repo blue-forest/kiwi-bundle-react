@@ -6,7 +6,7 @@
 - out-of-the box configurations for [TypeScript](https://github.com/microsoft/TypeScript), [React](https://github.com/facebook/react), [Babel](https://github.com/babel/babel), [ESLint](https://github.com/eslint/eslint), [Prettier](https://github.com/prettier/prettier) and [Flow](https://github.com/facebook/flow)
 - integration of [react-native-web](https://github.com/necolas/react-native-web) for building **web**, **Android** and **iOS** apps with the same code
 - **instant start-up** and **hot reloading** to see your components changes in real time
-- complete toolbox with built-in **router**, **logger**, and **states management** simplified to the limit
+- complete toolbox with built-in **router**, **logger**, and **states & styles management** simplified to the limit
 
 
 # Getting started
@@ -16,7 +16,7 @@ NodeJS needs to be installed : https://nodejs.org/en/download/
 
 For Android builds, [Java](https://openjdk.java.net) and [Android Studio](https://developer.android.com/studio/index.html) are required
 
-Far iOS builds, you need to have Xcode installed on your Mac
+For iOS builds, you need to have Xcode installed on your Mac
 
 Optionally, in replacement of `npm`, you can install `yarn` by running `npm install -g yarn`
 
@@ -81,21 +81,24 @@ You can find an online version of the result right here : https://kiwi-bundle-re
 ## Commands
 
 ### Web
-To start, run `npm run start web` or `yarn start web`
+To start a local server, run `npm run start web` or `yarn start web`
 
-To build, run `npm run build web` or `yarn build web`
+To build static files, run `npm run build web` or `yarn build web`
 
 ### Android
-To start :
+To start development environment :
 1. Run `npm run start metro` or `yarn start metro`
 2. Run `npm run start android` or `yarn start android`
 
-To build, run `npm run build android` or `yarn build android`
+To build production files, run `npm run build android` or `yarn build android`
 
 ### iOS
-Before the first start, you will need to run `pod install` in `./ios` to install CocoaPods dependencies
+Before your first start, you will need to run `pod install` in `./ios` to install CocoaPods dependencies
 
 Then run `npm run start ios` or `yarn start ios`
+
+### Test
+To start Jest and test your `.test.ts` files, run `npm run test` or `yarn test`
 
 ### Clean
 Run `npm run clean` or `yarn clean`
