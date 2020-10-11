@@ -19,27 +19,31 @@ These Components should be as small as possible and avoid dependencies since the
 
 
 ## [./src/components/Button.style.ts](./src/components/Button.style.ts)
-This file contains StyleSheets intended to be used by a component
+This file contains style rules intended to be used by a Component
 
 
-## [./src/components/Button.web.tsx](./src/components/Button.web.tsx)
-This file will only be used for web platform
+## [./src/components/Button.style.web.ts](./src/components/Button.style.web.ts)
+This file will only be used for web platforms
 
-In this example, the file `./src/components/Button.style.tsx` will be applied on Android and iOS
+If this file and `./src/components/Button.style.ts` simultaneously exists, the second one will be applied to Android and iOS
 
-This feature applies to any TypeScript file located in the `./src` directory
+This feature works on any TypeScript file ending by `.web.ts` or `.web.tsx`
 
 
-## [./src/components/Button.android.tsx](./src/components/Button.android.tsx)
+## [./src/components/Button.style.android.ts](./src/components/Button.android.ts)
 Works like web platform but for Android
 
 
-## [./src/components/Button.ios.tsx](./src/components/Button.ios.tsx)
+## [./src/components/Button.style.ios.ts](./src/components/Button.style.ios.ts)
 Works like web platform but for iOS
 
 
-## [./src/layouts/Bar.tsx](./src/layouts/Bar.tsx)
-A Layout is a grouping of several Components, it is the intermediate level of your Kiwi Bundle React components
+## [./src/components/Button.style.native.ts](./src/components/Button.style.native.ts)
+Works like web platform but for both Android and iOS
+
+
+## [./src/layouts/Header.tsx](./src/layouts/Header.tsx)
+A Layout is a grouping of several Components : it is the intermediate level of your Kiwi Bundle React components
 
 
 ## [./src/stores/Counter.ts](./src/stores/Counter.ts)
@@ -49,7 +53,7 @@ Stores are a simple way to enable communication between multiple Components and 
 ## [./src/i18n/Home.ts](./src/i18n/Home.ts)
 i18n is an easy way to define words and phrases translated into multiple languages
 
-The `Kiwi.Text` Component will automatically take care of translating everything automatically
+The `Kiwi.Text` Component will take care of translating everything automatically
 
 
 ## [./src/pages/Home.tsx](./src/pages/Home.tsx)
@@ -57,7 +61,7 @@ This file is an example of a Page, it can group Layouts and Components inside
 
 
 ## [./src/index.ts](./src/index.ts)
-Once a Page created, we will need to add it for rendering in this file
+Once a Page is created, you will need to add it for rendering in this file
 
 
 ## [./index.js](./index.js)
