@@ -13,7 +13,7 @@ type States = {
 
 export const HomePage = KBRD.Page<Props, States>({
   states: {
-    count: 10,
+    count: 5,
   },
   render: ({ state }) => (
     <Kiwi.View>

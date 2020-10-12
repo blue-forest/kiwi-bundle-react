@@ -1,5 +1,8 @@
+import "react-native-gesture-handler"
 import React from "react"
 import * as ReactNative from "react-native"
+import { createStackNavigator } from "@react-navigation/stack"
+import { NavigationContainer } from "@react-navigation/native"
 import { KeysObject } from "dropin-client"
 
 type KiwiBundleReactOptions = {
@@ -48,16 +51,20 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
     }
   }
 
+  const Stack = createStackNavigator()
+
   const Render = <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
     routes: Routes,
   ): void => {
     ReactNative.AppRegistry.registerComponent(options.id, () => () => {
       return (
-        <ReactNative.View>
-          {Object.values(routes).map((Page, index) => {
-            return <Page key={index} test="OK" />
+        <NavigationContainer>
+          <Stack.Navigator>
+          {Object.values(routes).map((page) => {
+            <Stack.Screen name="Home" component={page} />
           })}
-        </ReactNative.View>
+          </Stack.Navigator>
+        </NavigationContainer>
       )
     })
     if (ReactNative.Platform.OS === "web") {
@@ -66,6 +73,13 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
       })
     }
   }
+
+  /*const StyleSheet = <T extends ReactNative.StyleSheet.NamedStyles<T> | ReactNative.StyleSheet.NamedStyles<any>>(...styles: (T | ReactNative.StyleSheet.NamedStyles<T>)[]): T => {
+    return styles.reduce<T>((all, current) => {
+      console.log(current)
+      return all
+    }, {} as T)
+  }*/
 
   const StyleSheet = ReactNative.StyleSheet.create
 

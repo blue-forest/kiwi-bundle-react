@@ -8,7 +8,8 @@
   "scripts": {
     "start": "kiwi start",
     "test": "kiwi test",
-    "build": "kiwi build"
+    "build": "kiwi build",
+    "link-demo": "export DIR=$PWD/demo/node_modules/kiwi-bundle-react/dist && rm -rf $DIR && ln -s $PWD/dist $DIR"
   },
   "bundles": {
     "kiwi-bundle": {
@@ -26,8 +27,12 @@
   },
   "dependencies": {
     "@babel/core": "7.10.4",
+    "@babel/plugin-transform-flow-strip-types": "^7.10.4",
     "@babel/runtime": "7.10.4",
     "@react-native-community/eslint-config": "2.0.0",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.7.6",
+    "@react-navigation/stack": "^5.9.3",
     "@types/react": "16.9.41",
     "@types/react-native": "0.62.17",
     "@types/react-test-renderer": "16.9.2",
@@ -36,6 +41,10 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "0.63.2",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-safe-area-context": "^3.1.8",
+    "react-native-screens": "^2.11.0",
     "react-native-web": "0.13.9",
     "react-scripts": "3.4.3",
     "react-test-renderer": "16.13.1"
