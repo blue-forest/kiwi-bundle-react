@@ -1,6 +1,6 @@
 import { KBRD } from "../bundle"
 
-export const HomePageStyle = KBRD.StyleSheet({
+export const HomePageStyle = KBRD.StyleSheet.create({
   container: {
     flexDirection: "row",
   },

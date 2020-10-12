@@ -74,20 +74,28 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
     }
   }
 
-  /*const StyleSheet = <T extends ReactNative.StyleSheet.NamedStyles<T> | ReactNative.StyleSheet.NamedStyles<any>>(...styles: (T | ReactNative.StyleSheet.NamedStyles<T>)[]): T => {
-    return styles.reduce<T>((all, current) => {
-      console.log(current)
-      return all
-    }, {} as T)
-  }*/
-
-  const StyleSheet = ReactNative.StyleSheet.create
+  type Style<T> = ReactNative.StyleProp<T> | ReactNative.StyleProp<T>[]
+  const StyleSheetExtends = <A, B>(style1: Style<A>, style2: Style<B>): A & B => {
+    if(!style2) return style1 as any
+    if(!style1) return style2 as any
+    if(typeof style1 === "object" && typeof style2 === "object") {
+      return Object.keys(style2).reduce((all: any, key) => {
+        const current = (style2 as any)[key]
+        all[key] = typeof all[key] !== "undefined" ? Object.assign(all[key], current) : current
+        return all
+      }, style1)
+    }
+    return {} as any
+  }
 
   return {
     Component,
     Layout: Component,
     Page: Component,
     Render,
-    StyleSheet,
+    StyleSheet: {
+      create: ReactNative.StyleSheet.create,
+      extends: StyleSheetExtends,
+    },
   }
 }
