@@ -9,7 +9,7 @@
     "start": "kiwi start",
     "test": "kiwi test",
     "build": "kiwi build",
-    "link-demo": "export DIR=$PWD/demo/node_modules/kiwi-bundle-react/dist && rm -rf $DIR && ln -s $PWD/dist $DIR"
+    "link-demo": "lsyncd -nodaemon -direct $PWD/dist $PWD/demo/node_modules/kiwi-bundle-react/dist"
   },
   "bundles": {
     "kiwi-bundle": {

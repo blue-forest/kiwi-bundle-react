@@ -1,4 +1,4 @@
-import "./imports"
+import "react-native-gesture-handler"
 import React from "react"
 import * as ReactNative from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
@@ -56,6 +56,7 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
   const Render = <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
     routes: Routes,
   ): void => {
+    console.log(options.id)
     ReactNative.AppRegistry.registerComponent(options.id, () => () => {
       return (
         <NavigationContainer>
@@ -63,7 +64,7 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
           {Object.values(routes).map((page) => {
             <Stack.Screen name="Home" component={page} />
           })}
-          </Stack.Navigator>
+        </Stack.Navigator>
         </NavigationContainer>
       )
     })
