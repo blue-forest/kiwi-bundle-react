@@ -19,8 +19,8 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.2.6",
-    "kiwi-bundle-react": "2.0.4"
+    "kiwi-bundle": "3.2.9",
+    "kiwi-bundle-react": "2.0.5"
   },
   "browserslist": {
     "production": [

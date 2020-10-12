@@ -1,4 +1,4 @@
-import "react-native-gesture-handler"
+import "./imports"
 import React from "react"
 import * as ReactNative from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
@@ -9,7 +9,7 @@ type KiwiBundleReactOptions = {
   id: string
   routes: {
     [name: string]: { path: string };
-  };
+  }
 }
 
 type KiwiBundleReactPageOptionsRender<Props, States> = {

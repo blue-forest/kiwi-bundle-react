@@ -50,7 +50,7 @@ Create a **./package.json** file :
   },
   "devDependencies": {
     "kiwi-bundle": "3.2.0",
-    "kiwi-bundle-react": "2.0.1"
+    "kiwi-bundle-react": "2.0.5"
   },
   "browserslist": {
     "production": [
