@@ -12,12 +12,13 @@ type States = {
 }
 
 export const HomePage = KBRD.Page<Props, States>({
+  style: HomePageStyle,
   states: {
     count: 5,
   },
-  render: ({ state }: any) => (
+  render: ({ state, style }) => (
     <Kiwi.View>
-      <Kiwi.View style={HomePageStyle.textContainer}>
+      <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={HomePageStyle.text}>{state.get.count}</Kiwi.Text>
       </Kiwi.View>
       <Kiwi.View style={HomePageStyle.container}>

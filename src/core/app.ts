@@ -1,58 +1,64 @@
 import { KeysObject } from "dropin-client"
 import { React, ReactNative } from "../vendors"
-import { Navigation } from "./navigation"
+import { NavigationOptions, Navigation } from "./navigation"
 
 type AppOptions = {
   key: string
-  routes: {
-    [name: string]: { path: string };
+  navigation: NavigationOptions
+}
+
+type StyleSheet = any
+
+type PropsType = { [name: string]: any }
+
+type StatesType = { [name: string]: any }
+
+type AppComponentOptionsRender<Props extends any, States extends any, Style> = {
+  props: Props
+  style: Style
+  state: {
+    get: { [name in keyof States]: States[keyof States] }
+    set: { [name in keyof States]: (v: States[keyof States]) => void }
   }
 }
 
-type ComponentOptionsRender<Props, States> = {
-  props: Props;
-  state: {
-    get: { [name in keyof States]: States[keyof States] };
-    set: { [name in keyof States]: (v: States[keyof States]) => void };
-  };
+type AppComponentOptions<Props, States> = {
+  style?: StyleSheet
+  states?: States
+  render: <Style>(render: AppComponentOptionsRender<Props, States, Style>) => JSX.Element
 }
 
-type ComponentOptions<Props, States> = {
-  states?: States;
-  render: (
-    render: ComponentOptionsRender<Props, States>,
-  ) => JSX.Element;
-}
+export type AppComponent<Props = any> = React.ComponentType<Props>
 
-type KiwiBundleReactPage<Props = any> = React.ComponentType<Props>
+export type AppRoutes = KeysObject<AppComponent, NavigationOptions["routes"]>
 
 export const App = <Options extends AppOptions>(options: Options) => {
   const react = React
 
-  const Component = <
-    Props extends { [name: string]: any } = any,
-    States extends { [name: string]: any } = any
-  >(
-    page: ComponentOptions<Props, States>,
-  ): KiwiBundleReactPage<Props> => {
-    return () => {
-      const render: any = { state: { get: {}, set: {} } }
-      if (typeof page.states !== "undefined") {
-        Object.keys(page.states).forEach(name => {
-          const state = react.useState((page.states as any)[name])
-          render.state.get[name] = state[0]
-          render.state.set[name] = state[1]
+  const Component = <Props extends PropsType = any, States extends StatesType = any>(
+    component: AppComponentOptions<Props, States>
+  ) => {
+    return (props: Props) => {
+      const renderOptions: AppComponentOptionsRender<Props, any, typeof component["style"]> = {
+        props,
+        style: component.style || {},
+        state: { get: {}, set: {} },
+      }
+      if (typeof component.states !== "undefined") {
+        Object.keys(component.states).forEach(name => {
+          const state = react.useState((component.states as any)[name])
+          renderOptions.state.get[name] = state[0]
+          renderOptions.state.set[name] = state[1]
         })
       }
-      return page.render(render)
+      return component.render<typeof component["style"]>(renderOptions)
     }
   }
 
-  const Render = <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
-    routes: Routes,
+  const Render = <Routes extends AppRoutes>(
+    pages: Routes,
   ): void => {
-    console.log(routes)
-    ReactNative.AppRegistry.registerComponent(options.key, () => Navigation)
+    ReactNative.AppRegistry.registerComponent(options.key, Navigation(options.navigation, pages))
     if (ReactNative.Platform.OS === "web") {
       ReactNative.AppRegistry.runApplication(options.key, {
         rootTag: document.getElementById("root"),

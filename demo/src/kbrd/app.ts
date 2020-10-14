@@ -2,15 +2,21 @@ import { App } from "kiwi-bundle-react"
 
 export const KBRD = App({
   key: "kbrd",
-  routes: {
-    HOME: {
-      path: "/",
-    },
-    COMPONENTS: {
-      path: "/components",
-    },
-    PARAMS: {
-      path: "/params/{first}/{second}",
+  navigation: {
+    prefixes: [
+      "https://dropin.cloud",
+      "dropin://",
+    ],
+    routes: {
+      HOME: {
+        path: "/",
+      },
+      COMPONENTS: {
+        path: "/components",
+      },
+      PARAMS: {
+        path: "/params/{first}/{second}",
+      },
     },
   },
   theme: {
