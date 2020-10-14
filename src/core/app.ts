@@ -1,18 +1,15 @@
-import "react-native-gesture-handler"
-import React from "react"
-import * as ReactNative from "react-native"
-import { createStackNavigator } from "@react-navigation/stack"
-import { NavigationContainer } from "@react-navigation/native"
 import { KeysObject } from "dropin-client"
+import { React, ReactNative } from "../vendors"
+import { Navigation } from "./navigation"
 
-type KiwiBundleReactOptions = {
-  id: string
+type AppOptions = {
+  key: string
   routes: {
     [name: string]: { path: string };
   }
 }
 
-type KiwiBundleReactPageOptionsRender<Props, States> = {
+type ComponentOptionsRender<Props, States> = {
   props: Props;
   state: {
     get: { [name in keyof States]: States[keyof States] };
@@ -20,23 +17,23 @@ type KiwiBundleReactPageOptionsRender<Props, States> = {
   };
 }
 
-type KiwiBundleReactPageOptions<Props, States> = {
+type ComponentOptions<Props, States> = {
   states?: States;
   render: (
-    render: KiwiBundleReactPageOptionsRender<Props, States>,
+    render: ComponentOptionsRender<Props, States>,
   ) => JSX.Element;
 }
 
 type KiwiBundleReactPage<Props = any> = React.ComponentType<Props>
 
-export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options) => {
+export const App = <Options extends AppOptions>(options: Options) => {
   const react = React
 
   const Component = <
     Props extends { [name: string]: any } = any,
     States extends { [name: string]: any } = any
   >(
-    page: KiwiBundleReactPageOptions<Props, States>,
+    page: ComponentOptions<Props, States>,
   ): KiwiBundleReactPage<Props> => {
     return () => {
       const render: any = { state: { get: {}, set: {} } }
@@ -51,25 +48,13 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
     }
   }
 
-  const Stack = createStackNavigator()
-
   const Render = <Routes extends KeysObject<KiwiBundleReactPage, Options["routes"]>>(
     routes: Routes,
   ): void => {
-    console.log(options.id)
-    ReactNative.AppRegistry.registerComponent(options.id, () => () => {
-      return (
-        <NavigationContainer>
-          <Stack.Navigator>
-          {Object.values(routes).map((page) => {
-            <Stack.Screen name="Home" component={page} />
-          })}
-        </Stack.Navigator>
-        </NavigationContainer>
-      )
-    })
+    console.log(routes)
+    ReactNative.AppRegistry.registerComponent(options.key, () => Navigation)
     if (ReactNative.Platform.OS === "web") {
-      ReactNative.AppRegistry.runApplication(options.id, {
+      ReactNative.AppRegistry.runApplication(options.key, {
         rootTag: document.getElementById("root"),
       })
     }
@@ -79,13 +64,13 @@ export const Bundle = <Options extends KiwiBundleReactOptions>(options: Options)
   const StyleSheetExtends = <A, B>(style1: Style<A>, style2: Style<B>): A & B => {
     if(!style2) return style1 as any
     if(!style1) return style2 as any
-    if(typeof style1 === "object" && typeof style2 === "object") {
+    /*if(typeof style1 === "object" && typeof style2 === "object") {
       return Object.keys(style2).reduce((all: any, key) => {
         const current = (style2 as any)[key]
         all[key] = typeof all[key] !== "undefined" ? Object.assign(all[key], current) : current
         return all
       }, style1)
-    }
+    }*/
     return {} as any
   }
 

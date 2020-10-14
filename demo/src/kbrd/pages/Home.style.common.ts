@@ -1,4 +1,4 @@
-import { KBRD } from "../bundle"
+import { KBRD } from "../app"
 
 export const HomePageStyle = KBRD.StyleSheet.create({
   container: {

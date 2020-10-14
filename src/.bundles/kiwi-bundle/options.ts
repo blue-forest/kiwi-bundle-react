@@ -1,7 +1,7 @@
 
 export interface KiwiBundleOptions {
   app: {
-    id: string
+    key: string
     name: string
   }
 }

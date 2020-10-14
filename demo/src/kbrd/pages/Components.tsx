@@ -1,5 +1,5 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../bundle"
+import { KBRD } from "../app"
 
 export const ComponentsPage = KBRD.Page({
   render: () => (

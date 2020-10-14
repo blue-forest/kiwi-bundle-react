@@ -12,7 +12,7 @@
     "kiwi-bundle": {
       "options": {
         "app": {
-          "id": "kbrd",
+          "key": "kbrd",
           "name": "Kiwi Bundle React Demo"
         }
       }
