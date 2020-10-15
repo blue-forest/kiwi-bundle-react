@@ -42,7 +42,7 @@ Create a **./package.json** file :
     "kiwi-bundle": {
       "options": {
         "app": {
-          "id": "example",
+          "key": "example",
           "name": "Example App"
         }
       }

@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -23,29 +23,29 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.2.0"
+    "kiwi-bundle": "3.2.9"
   },
   "dependencies": {
-    "@babel/core": "7.10.4",
+    "@babel/core": "7.11.6",
     "@babel/plugin-transform-flow-strip-types": "^7.10.4",
-    "@babel/runtime": "7.10.4",
+    "@babel/runtime": "7.11.2",
     "@react-native-community/eslint-config": "2.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
-    "@types/react": "16.9.41",
-    "@types/react-native": "0.62.17",
-    "@types/react-test-renderer": "16.9.2",
-    "babel-jest": "25.1.0",
-    "metro-react-native-babel-preset": "0.60.0",
+    "@types/react": "16.9.52",
+    "@types/react-native": "0.63.25",
+    "@types/react-test-renderer": "16.9.3",
+    "babel-jest": "26.5.2",
+    "metro-react-native-babel-preset": "0.63.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "0.63.3",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.11.0",
-    "react-native-web": "0.13.9",
+    "react-native-web": "0.14.1",
     "react-scripts": "3.4.3",
     "react-test-renderer": "16.13.1"
   },

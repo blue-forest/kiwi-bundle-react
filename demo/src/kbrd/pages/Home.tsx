@@ -1,5 +1,5 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../bundle"
+import { KBRD } from "../app"
 import { ButtonLayout } from "../components/Button"
 import { HomePageStyle } from "./Home.style"
 
@@ -15,7 +15,7 @@ export const HomePage = KBRD.Page<Props, States>({
   states: {
     count: 5,
   },
-  render: ({ state }) => (
+  render: ({ state }: any) => (
     <Kiwi.View>
       <Kiwi.View style={HomePageStyle.textContainer}>
         <Kiwi.Text style={HomePageStyle.text}>{state.get.count}</Kiwi.Text>

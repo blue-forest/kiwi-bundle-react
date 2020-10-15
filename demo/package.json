@@ -12,7 +12,7 @@
     "kiwi-bundle": {
       "options": {
         "app": {
-          "id": "kbrd",
+          "key": "kbrd",
           "name": "Kiwi Bundle React Demo"
         }
       }
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "kiwi-bundle": "3.2.9",
-    "kiwi-bundle-react": "2.0.5"
+    "kiwi-bundle-react": "2.0.6"
   },
   "browserslist": {
     "production": [

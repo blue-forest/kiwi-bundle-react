@@ -1,7 +1,7 @@
-import { Bundle } from "kiwi-bundle-react"
+import { App } from "kiwi-bundle-react"
 
-export const KBRD = Bundle({
-  id: "kbrd",
+export const KBRD = App({
+  key: "kbrd",
   routes: {
     HOME: {
       path: "/",
