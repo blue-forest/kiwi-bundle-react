@@ -1,7 +1,8 @@
 import { spawn } from "child_process"
+import { join as pathJoin } from "path"
 
 export const run = (path: string, bin: string, args: string[]) => spawn(
-  `${path}/node_modules/.bin/${bin}`,
+  pathJoin(path, "node_modules/.bin", bin),
   args,
   {
     // stdio: [ process.stdin, process.stdout, process.stderr ],
