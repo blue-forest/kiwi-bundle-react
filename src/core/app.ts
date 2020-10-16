@@ -7,13 +7,13 @@ type AppOptions = {
   navigation: NavigationOptions
 }
 
-type StyleSheet = any
+type StyleSheet = string
 
-type PropsType = { [name: string]: any }
+/*type PropsType = { [name: string]: any }
 
-type StatesType = { [name: string]: any }
+type StatesType = { [name: string]: any }*/
 
-type AppComponentOptionsRender<Props extends any, States extends any, Style> = {
+type AppComponentOptionsRender<Props extends any, States extends any, Style extends any> = {
   props: Props
   style: Style
   state: {
@@ -22,10 +22,9 @@ type AppComponentOptionsRender<Props extends any, States extends any, Style> = {
   }
 }
 
-type AppComponentOptions<Props, States> = {
+type AppComponentOptions<States extends any> = {
   style?: StyleSheet
   states?: States
-  render: <Style>(render: AppComponentOptionsRender<Props, States, Style>) => JSX.Element
 }
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
@@ -35,13 +34,14 @@ export type AppRoutes = KeysObject<AppComponent, NavigationOptions["routes"]>
 export const App = <Options extends AppOptions>(options: Options) => {
   const react = React
 
-  const Component = <Props extends PropsType = any, States extends StatesType = any>(
-    component: AppComponentOptions<Props, States>
+  const Component = <Props extends {} = any, States extends {} = any, Options extends AppComponentOptions<States> = any>(
+    component: Options,
+    render: (options: AppComponentOptionsRender<Props, States, Options["style"]>) => JSX.Element,
   ) => {
     return (props: Props) => {
-      const renderOptions: AppComponentOptionsRender<Props, any, typeof component["style"]> = {
+      const renderOptions: AppComponentOptionsRender<Props, any, Options["style"]> = {
         props,
-        style: component.style || {},
+        style: component.style || {} as Options["style"],
         state: { get: {}, set: {} },
       }
       if (typeof component.states !== "undefined") {
@@ -51,7 +51,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
           renderOptions.state.set[name] = state[1]
         })
       }
-      return component.render<typeof component["style"]>(renderOptions)
+      return render(renderOptions)
     }
   }
 
