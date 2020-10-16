@@ -7,13 +7,15 @@ type AppOptions = {
   navigation: NavigationOptions
 }
 
-type StyleSheet = string
+type AppComponentConfig = {
+  style?: ReactNative.StyleSheet.NamedStyles<any>
+}
 
-/*type PropsType = { [name: string]: any }
+type States = { [name: string]: any }
 
-type StatesType = { [name: string]: any }*/
+type Props = { [name: string]: any }
 
-type AppComponentOptionsRender<Props extends any, States extends any, Style extends any> = {
+type AppComponentContext<Props, States, Style> = {
   props: Props
   style: Style
   state: {
@@ -22,10 +24,7 @@ type AppComponentOptionsRender<Props extends any, States extends any, Style exte
   }
 }
 
-type AppComponentOptions<States extends any> = {
-  style?: StyleSheet
-  states?: States
-}
+type AppComponentRender<Props, States, Style> = (context: AppComponentContext<Props, States, Style>) => JSX.Element
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
@@ -34,24 +33,25 @@ export type AppRoutes = KeysObject<AppComponent, NavigationOptions["routes"]>
 export const App = <Options extends AppOptions>(options: Options) => {
   const react = React
 
-  const Component = <Props extends {} = any, States extends {} = any, Options extends AppComponentOptions<States> = any>(
-    component: Options,
-    render: (options: AppComponentOptionsRender<Props, States, Options["style"]>) => JSX.Element,
-  ) => {
-    return (props: Props) => {
-      const renderOptions: AppComponentOptionsRender<Props, any, Options["style"]> = {
-        props,
-        style: component.style || {} as Options["style"],
-        state: { get: {}, set: {} },
+  const Component = <Config extends AppComponentConfig>(config?: Config) => {
+    return <S extends States>(states?: S) => {
+      return <P extends Props>(render: AppComponentRender<P, S, Config["style"]>) => {
+        return (props: P) => {
+          const context: AppComponentContext<P, any, Config["style"]> = {
+            props,
+            style: config?.style || {},
+            state: { get: {}, set: {} },
+          }
+          if (typeof states !== "undefined") {
+            Object.keys(states).forEach(name => {
+              const state = react.useState((states as any)[name])
+              context.state.get[name] = state[0]
+              context.state.set[name] = state[1]
+            })
+          }
+          return render(context)
+        }
       }
-      if (typeof component.states !== "undefined") {
-        Object.keys(component.states).forEach(name => {
-          const state = react.useState((component.states as any)[name])
-          renderOptions.state.get[name] = state[0]
-          renderOptions.state.set[name] = state[1]
-        })
-      }
-      return render(renderOptions)
     }
   }
 
@@ -86,7 +86,9 @@ export const App = <Options extends AppOptions>(options: Options) => {
     Page: Component,
     Render,
     StyleSheet: {
-      create: ReactNative.StyleSheet.create,
+      create: <T extends ReactNative.StyleSheet.NamedStyles<T> | ReactNative.StyleSheet.NamedStyles<any>>(styles: T | ReactNative.StyleSheet.NamedStyles<T>): T => {
+        return ReactNative.StyleSheet.create<T>(styles)
+      },
       extends: StyleSheetExtends,
     },
   }
