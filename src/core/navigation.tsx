@@ -1,24 +1,33 @@
 import "./imports"
 import { createStackNavigator } from "@react-navigation/stack"
-import { NavigationContainer } from "@react-navigation/native"
+import { LinkingOptions, NavigationContainer } from "@react-navigation/native"
+import { AppRoutes } from "./app"
 import { React, ReactNative } from "../vendors"
-import * as Kiwi from "../kiwi"
 
-export const Navigation = () => {
+export type NavigationOptions = {
+  prefixes: string[]
+  routes: { [name: string]: { path: string } }
+}
+
+export const Navigation = (options: NavigationOptions, pages: AppRoutes): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-      {/*Object.values(routes).map((page) => {
-        <Stack.Screen name="Home" component={page} />
-      })*/}
-      <Stack.Screen name="Home" children={() => <ReactNative.View>
-        <Kiwi.Text
-          onPress={() => { console.log("TEST 1") }}
-          onLongPress={() => { console.log("TEST 2") }}
-        >Test</Kiwi.Text>
-      </ReactNative.View>} />
-    </Stack.Navigator>
-    </NavigationContainer>
-  )
+  const linking: LinkingOptions = {
+    prefixes: options.prefixes,
+    config: {
+      screens: options.routes,
+    },
+  }
+  return () => {
+    return () => {
+      return (
+        <NavigationContainer linking={linking}>
+          <Stack.Navigator>
+          {Object.keys(pages).map(page => {
+            return <Stack.Screen key={page} name={page} component={pages[page]} />
+          })}
+        </Stack.Navigator>
+        </NavigationContainer>
+      )
+    }
+  }
 }

@@ -3,21 +3,21 @@ import { KBRD } from "../app"
 import { ButtonLayout } from "../components/Button"
 import { HomePageStyle } from "./Home.style"
 
-type Props = {
+type HomePageProps = {
   selected?: boolean
 }
 
-type States = {
+type HomePageStates = {
   count: number
 }
 
-export const HomePage = KBRD.Page<Props, States>({
-  states: {
-    count: 5,
-  },
-  render: ({ state }: any) => (
+export const HomePage = KBRD.Page({
+  style: HomePageStyle,
+})<HomePageStates>({
+  count: 5,
+})<HomePageProps>(({ state, style }) => (
     <Kiwi.View>
-      <Kiwi.View style={HomePageStyle.textContainer}>
+      <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={HomePageStyle.text}>{state.get.count}</Kiwi.Text>
       </Kiwi.View>
       <Kiwi.View style={HomePageStyle.container}>
@@ -37,5 +37,4 @@ export const HomePage = KBRD.Page<Props, States>({
         />
       </Kiwi.View>
     </Kiwi.View>
-  ),
-})
+))
