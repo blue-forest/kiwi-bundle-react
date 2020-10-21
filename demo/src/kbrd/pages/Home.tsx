@@ -10,5 +10,6 @@ export const HomePage = KBRD.Page({
 })(({ navigation }) => (
   <Kiwi.View>
     <ButtonComponent title="Components" onPress={() => { navigation.navigate("COMPONENTS") }}/>
+    <ButtonComponent title="Parameters" onPress={() => { navigation.navigate("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
   </Kiwi.View>
 ))

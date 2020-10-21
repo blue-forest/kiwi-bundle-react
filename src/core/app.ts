@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { KeysObject } from "dropin-client"
-import { useNavigation } from "@react-navigation/native"
+import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
 import { AppOptions } from "./options"
@@ -17,7 +17,7 @@ type AppComponentContext<Options extends AppOptions, Config extends AppComponent
   props: Props
   style: Config["style"]
   navigation: {
-    navigate: (route: keyof Options["navigation"]["routes"]) => void
+    navigate: (route: keyof Options["navigation"]["routes"], params?: { [key: string]: string }) => void
   }
   state: {
     get: { [name in keyof States]: States[keyof States] }
@@ -43,14 +43,15 @@ export const App = <Options extends AppOptions>(options: Options) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
         return (props: any) => {
-          const navigation = type === FactoryType.PAGE ? props.navigation : useNavigation()
+          console.log(props)
+          const navigation: NavigationProp<any> = type === FactoryType.PAGE ? props.navigation : useNavigation()
           const context: AppComponentContext<Options, Config, any, P> = {
             props : type === FactoryType.PAGE ? props.route.params : props,
             style: config?.style || {},
             state: { get: {}, set: {} },
             navigation: {
-              navigate: (route: keyof Options["navigation"]["routes"]) => {
-                navigation.navigate(route.toString())
+              navigate: (route, params) => {
+                navigation.navigate(route as string, params)
               },
             },
           }

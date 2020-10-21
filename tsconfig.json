@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "removeComments": true,
     "declaration": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "declarationMap": true,
     "allowJs": true,
     "skipLibCheck": true,
