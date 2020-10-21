@@ -8,6 +8,7 @@ import { AppOptions } from "./options"
 export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
+    enabled: true,
     prefixes: options.navigation.prefixes,
     config: {
       screens: Object.keys(options.navigation.routes).reduce<PathConfigMap>((screens, route) => {

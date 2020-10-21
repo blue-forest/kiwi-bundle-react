@@ -43,10 +43,9 @@ export const App = <Options extends AppOptions>(options: Options) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
         return (props: any) => {
-          console.log(props)
           const navigation: NavigationProp<any> = type === FactoryType.PAGE ? props.navigation : useNavigation()
           const context: AppComponentContext<Options, Config, any, P> = {
-            props : type === FactoryType.PAGE ? props.route.params : props,
+            props: type === FactoryType.PAGE ? props.route.params : props,
             style: config?.style || {},
             state: { get: {}, set: {} },
             navigation: {
@@ -81,10 +80,10 @@ export const App = <Options extends AppOptions>(options: Options) => {
 
   const StyleSheet = <S1 extends StyleSheet<S1>, S2 extends StyleSheet<S2>>(style1: S1, style2?: S2) => {
     const style: StyleSheet = style1
-    if(typeof style2 !== "undefined") {
+    if (typeof style2 !== "undefined") {
       Object.keys(style2).forEach(key => {
         const value = (style2 as StyleSheet)[key]
-        if(typeof style[key] === "undefined") {
+        if (typeof style[key] === "undefined") {
           style[key] = value
         } else {
           style[key] = Object.assign(style[key], value)

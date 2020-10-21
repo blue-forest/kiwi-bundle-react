@@ -13,7 +13,7 @@ export const ComponentsPage = KBRD.Page({
   count: 0,
 })(({ state, style }) => (
   <Kiwi.View>
-        <Kiwi.View style={style.textContainer}>
+    <Kiwi.View style={style.textContainer}>
       <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>
     </Kiwi.View>
     <Kiwi.View style={style.container}>
