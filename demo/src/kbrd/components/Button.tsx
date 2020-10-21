@@ -1,16 +1,20 @@
-import { React, ReactNative, Kiwi } from "kiwi-bundle-react"
-import { HomePageStyle } from "../pages/Home.style"
+import { React, Kiwi } from "kiwi-bundle-react"
+import { KBRD } from "../app"
+import { ButtonComponentStyle } from "./Button.style"
 
-type ButtonLayoutProps = {
+type Props = {
   title: string
   onPress: () => void
-  containerStyle?: ReactNative.StyleProp<ReactNative.ViewStyle>
+  containerStyle?: any
 }
 
-export const ButtonLayout = (props: ButtonLayoutProps) => {
-  return (
-    <Kiwi.View style={[HomePageStyle.button, props.containerStyle]}>
-      <Kiwi.Button title={props.title} onPress={props.onPress} />
-    </Kiwi.View>
-  )
-}
+export const ButtonComponent = KBRD.Component({
+  style: ButtonComponentStyle,
+})({
+  count: 0,
+})<Props>(({ props, style }) => (
+  <Kiwi.View style={[style.container, props.containerStyle]}>
+    {console.log(style)}
+    <Kiwi.Button title={props.title} onPress={props.onPress} />
+  </Kiwi.View>
+))

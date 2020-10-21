@@ -1,5 +1,5 @@
-import { KeysObject } from "dropin-client"
 import { React, ReactNative } from "../vendors"
+import { KeysObject } from "dropin-client"
 import { NavigationOptions, Navigation } from "./navigation"
 
 type AppOptions = {
@@ -14,6 +14,24 @@ type AppComponentConfig = {
 type States = { [name: string]: any }
 
 type Props = { [name: string]: any }
+
+export type StyleSheetViewStyle = ReactNative.ViewStyle
+
+export type StyleSheetTextStyle = ReactNative.TextStyle
+
+export type StyleSheetImageStyle = ReactNative.ImageStyle
+
+export type StyleSheetStyle = StyleSheetViewStyle | StyleSheetTextStyle | StyleSheetImageStyle
+
+type StyleSheetMediaQuery = {
+  min?: number
+  max?: number
+  style: StyleSheetStyle
+}
+
+export type StyleSheet<Style = any> = {
+  [Name in keyof Style]: StyleSheetStyle | StyleSheetMediaQuery[]
+}
 
 type AppComponentContext<Props, States, Style> = {
   props: Props
@@ -31,8 +49,6 @@ export type AppComponent<Props = any> = React.ComponentType<Props>
 export type AppRoutes = KeysObject<AppComponent, NavigationOptions["routes"]>
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  const react = React
-
   const Component = <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<P, S, Config["style"]>) => {
@@ -44,7 +60,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
           }
           if (typeof states !== "undefined") {
             Object.keys(states).forEach(name => {
-              const state = react.useState((states as any)[name])
+              const state = React.useState((states as any)[name])
               context.state.get[name] = state[0]
               context.state.set[name] = state[1]
             })
@@ -66,30 +82,13 @@ export const App = <Options extends AppOptions>(options: Options) => {
     }
   }
 
-  type Style<T> = ReactNative.StyleProp<T> | ReactNative.StyleProp<T>[]
-  const StyleSheetExtends = <A, B>(style1: Style<A>, style2: Style<B>): A & B => {
-    if(!style2) return style1 as any
-    if(!style1) return style2 as any
-    /*if(typeof style1 === "object" && typeof style2 === "object") {
-      return Object.keys(style2).reduce((all: any, key) => {
-        const current = (style2 as any)[key]
-        all[key] = typeof all[key] !== "undefined" ? Object.assign(all[key], current) : current
-        return all
-      }, style1)
-    }*/
-    return {} as any
-  }
+  const StyleSheet = <Style extends StyleSheet<Style> = StyleSheet>(style: Style): Style => style
 
   return {
     Component,
     Layout: Component,
     Page: Component,
     Render,
-    StyleSheet: {
-      create: <T extends ReactNative.StyleSheet.NamedStyles<T> | ReactNative.StyleSheet.NamedStyles<any>>(styles: T | ReactNative.StyleSheet.NamedStyles<T>): T => {
-        return ReactNative.StyleSheet.create<T>(styles)
-      },
-      extends: StyleSheetExtends,
-    },
+    StyleSheet,
   }
 }

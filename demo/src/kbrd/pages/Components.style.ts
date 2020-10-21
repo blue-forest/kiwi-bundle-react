@@ -1,12 +1,13 @@
 import { KBRD } from "../app"
-import { HomePageStyle as all } from "./Home.style.all"
 
-export const HomePageStyle = KBRD.StyleSheet({
-  ...all,
+export const ComponentsPageStyle = KBRD.StyleSheet({
   textContainer: {
     backgroundColor: "green",
   },
   text: {
     color: "white",
+  },
+  container: {
+    flexDirection: "row",
   },
 } as const)

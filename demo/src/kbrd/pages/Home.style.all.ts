@@ -1,6 +1,6 @@
 import { KBRD } from "../app"
 
-export const HomePageStyle = KBRD.StyleSheet.create({
+export const HomePageStyle = KBRD.StyleSheet({
   container: {
     flexDirection: "row",
   },
@@ -19,4 +19,4 @@ export const HomePageStyle = KBRD.StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
-})
+} as const)
