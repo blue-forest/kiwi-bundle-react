@@ -20,13 +20,12 @@ export const KBRD = App({
         title: "Composants",
       },
       PARAMS: {
-        path: "/params/{first}/{second}",
+        path: "/params/:first/:second",
         title: "Paramètres",
       },
     },
     prefixes: [
-      "https://dropin.cloud",
-      "dropin://",
+      "http://localhost:3000",
     ],
   },
   themes: {

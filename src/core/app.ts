@@ -32,15 +32,20 @@ export type AppComponent<Props = any> = React.ComponentType<Props>
 
 export type AppRoutes = KeysObject<AppComponent, AppOptions["navigation"]["routes"]>
 
+enum FactoryType {
+  COMPONENT,
+  LAYOUT,
+  PAGE,
+}
+
 export const App = <Options extends AppOptions>(options: Options) => {
-  const Component = <Config extends AppComponentConfig>(config?: Config) => {
+  const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
-        return (props: P) => {
-          const navigation = useNavigation()
-          console.log(navigation)
+        return (props: any) => {
+          const navigation = type === FactoryType.PAGE ? props.navigation : useNavigation()
           const context: AppComponentContext<Options, Config, any, P> = {
-            props,
+            props : type === FactoryType.PAGE ? props.route.params : props,
             style: config?.style || {},
             state: { get: {}, set: {} },
             navigation: {
@@ -89,9 +94,9 @@ export const App = <Options extends AppOptions>(options: Options) => {
   }
 
   return {
-    Component,
-    Layout: Component,
-    Page: Component,
+    Component: factory(FactoryType.COMPONENT),
+    Layout: factory(FactoryType.LAYOUT),
+    Page: factory(FactoryType.PAGE),
     Render,
     StyleSheet,
   }

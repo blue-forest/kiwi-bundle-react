@@ -1,7 +1,7 @@
 import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
-import { LinkingOptions, NavigationContainer } from "@react-navigation/native"
+import { LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navigation/native"
 import { AppRoutes } from "./app"
 import { AppOptions } from "./options"
 
@@ -10,7 +10,13 @@ export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.C
   const linking: LinkingOptions = {
     prefixes: options.navigation.prefixes,
     config: {
-      screens: options.navigation.routes,
+      screens: Object.keys(options.navigation.routes).reduce<PathConfigMap>((screens, route) => {
+        screens[route] = {
+          exact: true,
+          path: options.navigation.routes[route].path,
+        }
+        return screens
+      }, {}),
     },
   }
   return () => {
