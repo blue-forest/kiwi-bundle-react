@@ -1,20 +1,16 @@
 import "./imports"
+import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native"
 import { AppRoutes } from "./app"
-import { React, ReactNative } from "../vendors"
+import { AppOptions } from "./options"
 
-export type NavigationOptions = {
-  prefixes: string[]
-  routes: { [name: string]: { path: string } }
-}
-
-export const Navigation = (options: NavigationOptions, pages: AppRoutes): ReactNative.ComponentProvider => {
+export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
-    prefixes: options.prefixes,
+    prefixes: options.navigation.prefixes,
     config: {
-      screens: options.routes,
+      screens: options.navigation.routes,
     },
   }
   return () => {
@@ -23,7 +19,21 @@ export const Navigation = (options: NavigationOptions, pages: AppRoutes): ReactN
         <NavigationContainer linking={linking}>
           <Stack.Navigator>
           {Object.keys(pages).map(page => {
-            return <Stack.Screen key={page} name={page} component={pages[page]} />
+            const route = options.navigation.routes[page]
+            let title = ""
+            if(typeof options.navigation.title !== "undefined") {
+              if(typeof options.navigation.title === "string") {
+                title = options.navigation.title
+              } else {
+                title = options.navigation.title(route.title)
+              }
+            }
+            return <Stack.Screen
+              key={page}
+              name={page}
+              component={pages[page]}
+              options={{ title, headerTitle: route.title }}
+            />
           })}
         </Stack.Navigator>
         </NavigationContainer>

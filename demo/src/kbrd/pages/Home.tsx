@@ -7,8 +7,8 @@ export const HomePage = KBRD.Page({
   style: HomePageStyle,
 })({
   count: 5,
-})(() => (
+})(({ navigation }) => (
   <Kiwi.View>
-    <ButtonComponent title="Test" onPress={() => { console.log("key") }}/>
+    <ButtonComponent title="Components" onPress={() => { navigation.navigate("COMPONENTS") }}/>
   </Kiwi.View>
 ))

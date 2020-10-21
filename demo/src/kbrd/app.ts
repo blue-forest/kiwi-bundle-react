@@ -3,26 +3,36 @@ import { App } from "kiwi-bundle-react"
 export const KBRD = App({
   key: "kbrd",
   navigation: {
+    title: page => {
+      let title = "Kiwi Bundle React Demo"
+      if(typeof page !== "undefined") {
+        title += " - " + page
+      }
+      return title
+    },
+    routes: {
+      HOME: {
+        path: "/",
+        title: "Accueil",
+      },
+      COMPONENTS: {
+        path: "/components",
+        title: "Composants",
+      },
+      PARAMS: {
+        path: "/params/{first}/{second}",
+        title: "Paramètres",
+      },
+    },
     prefixes: [
       "https://dropin.cloud",
       "dropin://",
     ],
-    routes: {
-      HOME: {
-        path: "/",
-      },
-      COMPONENTS: {
-        path: "/components",
-      },
-      PARAMS: {
-        path: "/params/{first}/{second}",
-      },
-    },
   },
-  theme: {
+  themes: {
     dark: {
       colors: {
-        blue: "#ffffff",
+        blue: "#0244c6",
       },
       sizes: {
         small: 10,

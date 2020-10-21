@@ -14,7 +14,9 @@ export const ButtonComponent = KBRD.Component({
   count: 0,
 })<Props>(({ props, style }) => (
   <Kiwi.View style={[style.container, props.containerStyle]}>
-    {console.log(style)}
-    <Kiwi.Button title={props.title} onPress={props.onPress} />
+    <Kiwi.Button
+      title={props.title}
+      onPress={props.onPress}
+    />
   </Kiwi.View>
 ))

@@ -21,6 +21,7 @@ These Components should be as small as possible and avoid dependencies since the
 ## [./src/kbrd/components/Button.style.ts](./src/kbrd/components/Button.style.ts)
 This file contains style rules intended to be used by a Component
 
+You can see usage of `as const` : it is not a requirement but it will allow you to get a better visibility of your StyleSheet values from other TypeScript files
 
 ## [./src/kbrd/components/Button.style.web.ts](./src/kbrd/components/Button.style.web.ts)
 This file will only be used for web platforms

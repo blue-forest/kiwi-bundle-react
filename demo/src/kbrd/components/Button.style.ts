@@ -1,10 +1,14 @@
 import { KBRD } from "../app"
 
 export const ButtonComponentStyle = KBRD.StyleSheet({
-  test: {
-    bottom: 2
-  },
   container: {
     backgroundColor: "green",
   },
+  button: {
+    color: "black",
+  }
+} as const, {
+  container: {
+    height: 200,
+  }
 } as const)

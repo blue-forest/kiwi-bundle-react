@@ -1,62 +1,53 @@
 import { React, ReactNative } from "../vendors"
 import { KeysObject } from "dropin-client"
-import { NavigationOptions, Navigation } from "./navigation"
-
-type AppOptions = {
-  key: string
-  navigation: NavigationOptions
-}
-
-type AppComponentConfig = {
-  style?: ReactNative.StyleSheet.NamedStyles<any>
-}
+import { useNavigation } from "@react-navigation/native"
+import { Navigation } from "./navigation"
+import { StyleSheet } from "./styles"
+import { AppOptions } from "./options"
 
 type States = { [name: string]: any }
 
 type Props = { [name: string]: any }
 
-export type StyleSheetViewStyle = ReactNative.ViewStyle
-
-export type StyleSheetTextStyle = ReactNative.TextStyle
-
-export type StyleSheetImageStyle = ReactNative.ImageStyle
-
-export type StyleSheetStyle = StyleSheetViewStyle | StyleSheetTextStyle | StyleSheetImageStyle
-
-type StyleSheetMediaQuery = {
-  min?: number
-  max?: number
-  style: StyleSheetStyle
+type AppComponentConfig = {
+  style?: StyleSheet
 }
 
-export type StyleSheet<Style = any> = {
-  [Name in keyof Style]: StyleSheetStyle | StyleSheetMediaQuery[]
-}
-
-type AppComponentContext<Props, States, Style> = {
+type AppComponentContext<Options extends AppOptions, Config extends AppComponentConfig, States, Props> = {
   props: Props
-  style: Style
+  style: Config["style"]
+  navigation: {
+    navigate: (route: keyof Options["navigation"]["routes"]) => void
+  }
   state: {
     get: { [name in keyof States]: States[keyof States] }
     set: { [name in keyof States]: (v: States[keyof States]) => void }
   }
 }
 
-type AppComponentRender<Props, States, Style> = (context: AppComponentContext<Props, States, Style>) => JSX.Element
+type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
+  = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
-export type AppRoutes = KeysObject<AppComponent, NavigationOptions["routes"]>
+export type AppRoutes = KeysObject<AppComponent, AppOptions["navigation"]["routes"]>
 
 export const App = <Options extends AppOptions>(options: Options) => {
   const Component = <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
-      return <P extends Props>(render: AppComponentRender<P, S, Config["style"]>) => {
+      return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
         return (props: P) => {
-          const context: AppComponentContext<P, any, Config["style"]> = {
+          const navigation = useNavigation()
+          console.log(navigation)
+          const context: AppComponentContext<Options, Config, any, P> = {
             props,
             style: config?.style || {},
             state: { get: {}, set: {} },
+            navigation: {
+              navigate: (route: keyof Options["navigation"]["routes"]) => {
+                navigation.navigate(route.toString())
+              },
+            },
           }
           if (typeof states !== "undefined") {
             Object.keys(states).forEach(name => {
@@ -74,7 +65,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
   const Render = <Routes extends AppRoutes>(
     pages: Routes,
   ): void => {
-    ReactNative.AppRegistry.registerComponent(options.key, Navigation(options.navigation, pages))
+    ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, pages))
     if (ReactNative.Platform.OS === "web") {
       ReactNative.AppRegistry.runApplication(options.key, {
         rootTag: document.getElementById("root"),
@@ -82,7 +73,20 @@ export const App = <Options extends AppOptions>(options: Options) => {
     }
   }
 
-  const StyleSheet = <Style extends StyleSheet<Style> = StyleSheet>(style: Style): Style => style
+  const StyleSheet = <S1 extends StyleSheet<S1>, S2 extends StyleSheet<S2>>(style1: S1, style2?: S2) => {
+    const style: StyleSheet = style1
+    if(typeof style2 !== "undefined") {
+      Object.keys(style2).forEach(key => {
+        const value = (style2 as StyleSheet)[key]
+        if(typeof style[key] === "undefined") {
+          style[key] = value
+        } else {
+          style[key] = Object.assign(style[key], value)
+        }
+      })
+    }
+    return style as S1 & S2
+  }
 
   return {
     Component,

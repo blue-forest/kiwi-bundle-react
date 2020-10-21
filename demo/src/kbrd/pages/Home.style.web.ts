@@ -1,8 +1,7 @@
 import { KBRD } from "../app"
-import { HomePageStyle as all } from "./Home.style.all"
+import { HomePageStyle as common } from "./Home.style.common"
 
-export const HomePageStyle = KBRD.StyleSheet({
-  ...all,
+export const HomePageStyle = KBRD.StyleSheet(common, {
   textContainer: {
     backgroundColor: "green",
   },
