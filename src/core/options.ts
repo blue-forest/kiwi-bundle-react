@@ -2,7 +2,6 @@
 export type AppOptions = {
   key: string
   navigation: {
-    title?: string | ((page?: string) => string)
     routes: {
       [name: string]: {
         path: string
@@ -10,5 +9,8 @@ export type AppOptions = {
       }
     }
     prefixes: string[]
+  }
+  web?: {
+    title?: string | ((page?: string) => string)
   }
 }

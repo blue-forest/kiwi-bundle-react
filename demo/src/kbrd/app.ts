@@ -2,15 +2,6 @@ import { App } from "kiwi-bundle-react"
 
 export const KBRD = App({
   key: "kbrd",
-  meta: {
-    title: page => {
-      let title = "Kiwi Bundle React Demo"
-      if (typeof page !== "undefined") {
-        title += " - " + page
-      }
-      return title
-    },
-  },
   navigation: {
     routes: {
       HOME: {
@@ -40,6 +31,15 @@ export const KBRD = App({
         medium: 15,
         big: 20,
       }
+    },
+  },
+  web: {
+    title: page => {
+      let title = "Kiwi Bundle React Demo"
+      if (typeof page !== "undefined") {
+        title += " - " + page
+      }
+      return title
     },
   },
 })
