@@ -23,20 +23,22 @@ export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.C
 
   return () => {
     return () => {
+      const scheme = ReactNative.useColorScheme()
+      console.log(scheme)
       return (
         <NavigationContainer linking={linking}>
           <Stack.Navigator screenOptions={{
-            headerShown: !options.header?.hide,
-            headerStyle: options.header?.style,
+            headerShown: !options.appearance.header?.hide,
+            headerStyle: options.appearance.header?.style,
           }}>
           {Object.keys(pages).map(page => {
             const route = options.navigation.routes[page]
             let title = ""
-            if(typeof options.web?.title !== "undefined") {
-              if(typeof options.web.title === "string") {
-                title = options.web.title
+            if(typeof options.platforms?.web?.title !== "undefined") {
+              if(typeof options.platforms?.web.title === "string") {
+                title = options.platforms?.web.title
               } else {
-                title = options.web.title(route.title)
+                title = options.platforms?.web.title(route.title)
               }
             }
             return <Stack.Screen

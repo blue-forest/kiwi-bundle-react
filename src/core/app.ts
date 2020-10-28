@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { KeysObject } from "dropin-client"
-import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { NavigationProp, Theme, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
 import { AppOptions } from "./options"
@@ -13,7 +13,7 @@ type AppComponentConfig = {
   style?: StyleSheet
 }
 
-type AppComponentContext<Options extends AppOptions, Config extends AppComponentConfig, States, Props> = {
+type AppComponentContext<Options extends AppOptions<Options["appearance"]["colors"]>, Config extends AppComponentConfig, States, Props> = {
   props: Props
   style: Config["style"]
   navigation: {
@@ -23,14 +23,15 @@ type AppComponentContext<Options extends AppOptions, Config extends AppComponent
     get: { [name in keyof States]: States[keyof States] }
     set: { [name in keyof States]: (v: States[keyof States]) => void }
   }
+  colors: Theme["colors"]
 }
 
-type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
+type AppComponentRender<Options extends AppOptions<Options["appearance"]["colors"]>, Config extends AppComponentConfig, States, Props>
   = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
-export type AppRoutes = KeysObject<AppComponent, AppOptions["navigation"]["routes"]>
+export type AppRoutes<Routes = {}> = KeysObject<AppComponent, Routes>
 
 enum FactoryType {
   COMPONENT,
@@ -38,12 +39,13 @@ enum FactoryType {
   PAGE,
 }
 
-export const App = <Options extends AppOptions>(options: Options) => {
+export const App = <Options extends AppOptions<Options["appearance"]["colors"]>>(options: Options) => {
   const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
         return (props: any) => {
           const navigation: NavigationProp<any> = type === FactoryType.PAGE ? props.navigation : useNavigation()
+          const { colors } = useTheme()
           const context: AppComponentContext<Options, Config, any, P> = {
             props: type === FactoryType.PAGE ? props.route.params : props,
             style: config?.style || {},
@@ -53,6 +55,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
                 navigation.navigate(route as string, params)
               },
             },
+            colors,
           }
           if (typeof states !== "undefined") {
             Object.keys(states).forEach(name => {
@@ -67,7 +70,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
     }
   }
 
-  const Render = <Routes extends AppRoutes>(
+  const Render = <Routes extends AppRoutes<Options["navigation"]["routes"]>>(
     pages: Routes,
   ): void => {
     ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, pages))
