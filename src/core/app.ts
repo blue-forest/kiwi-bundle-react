@@ -12,7 +12,7 @@ type AppComponentConfig = {
   style?: StyleSheet
 }
 
-type AppComponentContext<Options extends AppOptions<Options["appearance"]["colors"]>, Config extends AppComponentConfig, States, Props> = {
+type AppComponentContext<Options extends AppOptions<Options>, Config extends AppComponentConfig, States, Props> = {
   props: Props
   style: Config["style"]
   navigation: {
@@ -25,7 +25,7 @@ type AppComponentContext<Options extends AppOptions<Options["appearance"]["color
   colors: Theme["colors"]
 }
 
-type AppComponentRender<Options extends AppOptions<Options["appearance"]["colors"]>, Config extends AppComponentConfig, States, Props>
+type AppComponentRender<Options extends AppOptions<Options>, Config extends AppComponentConfig, States, Props>
   = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
@@ -38,7 +38,7 @@ enum FactoryType {
   PAGE,
 }
 
-export const App = <Options extends AppOptions<Options["appearance"]["colors"]>>(options: Options) => {
+export const App = <Options extends AppOptions<Options>>(options: Options) => {
   const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {

@@ -3,7 +3,7 @@ import { ReactNative } from "../vendors"
 
 type ThemeColor<Colors> = string | ((colors: Colors) => string)
 
-export type AppOptions<Colors = { [name: string]: string }> = {
+export type AppOptions<Options extends AppOptions<Options>> = {
   key: string
   navigation: {
     routes: {
@@ -20,11 +20,13 @@ export type AppOptions<Colors = { [name: string]: string }> = {
       style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
     }
     sizes: { [name: string]: number | string }
-    colors: Colors
+    colors: { [name: string]: string }
     themes: {
       [name: string]: {
         colors: {
-          [color in keyof Theme["colors"]]: ThemeColor<Colors> | { dark: ThemeColor<Colors>, light: ThemeColor<Colors> }
+          [color in keyof Theme["colors"]]:
+          ThemeColor<keyof Options["appearance"]["sizes"]>
+          | { dark: ThemeColor<keyof Options["appearance"]["sizes"]>, light: ThemeColor<keyof Options["appearance"]["sizes"]> }
         }
       }
     }

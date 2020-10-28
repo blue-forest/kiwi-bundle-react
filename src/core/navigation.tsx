@@ -6,7 +6,7 @@ import { AppRoutes } from "./app"
 import { AppOptions } from "./options"
 
 export const Navigation = <
-  Options extends AppOptions,
+  Options extends AppOptions<Options>,
   Routes extends AppRoutes<Options["navigation"]["routes"]>
 >(options: Options, pages: Routes): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
