@@ -34,11 +34,11 @@ export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.C
           {Object.keys(pages).map(page => {
             const route = options.navigation.routes[page]
             let title = ""
-            if(typeof options.navigation.title !== "undefined") {
-              if(typeof options.navigation.title === "string") {
-                title = options.navigation.title
+            if(typeof options.web?.title !== "undefined") {
+              if(typeof options.web.title === "string") {
+                title = options.web.title
               } else {
-                title = options.navigation.title(route.title)
+                title = options.web.title(route.title)
               }
             }
             return <Stack.Screen
