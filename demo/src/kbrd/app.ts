@@ -21,6 +21,12 @@ export const KBRD = App({
       "http://localhost:3000",
     ],
   },
+  header: {
+    hide: false,
+    style: {
+      backgroundColor: "grey",
+    },
+  },
   themes: {
     dark: {
       colors: {

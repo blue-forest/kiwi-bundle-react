@@ -1,3 +1,4 @@
+import { ReactNative } from "../vendors"
 
 export type AppOptions = {
   key: string
@@ -10,9 +11,13 @@ export type AppOptions = {
     }
     prefixes: string[]
   }
+  header?: {
+    hide?: boolean
+    style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
+  }
+  themes?: any // TODO
+  fonts?: any // TODO
   web?: {
     title?: string | ((page?: string) => string)
   }
-  theme?: any // TODO
-  fonts?: any // TODO
 }
