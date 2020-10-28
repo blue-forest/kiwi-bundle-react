@@ -20,11 +20,17 @@ export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.C
       }, {}),
     },
   }
+
+  // todo current theme
+  const headerShown = options.theme.dark?.header?.display != "none"
+
   return () => {
     return () => {
       return (
         <NavigationContainer linking={linking}>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{
+            headerShown: headerShown,
+          }}>
           {Object.keys(pages).map(page => {
             const route = options.navigation.routes[page]
             let title = ""

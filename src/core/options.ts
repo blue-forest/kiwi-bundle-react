@@ -11,4 +11,6 @@ export type AppOptions = {
     }
     prefixes: string[]
   }
+  theme?: any // TODO
+  fonts?: any // TODO
 }
