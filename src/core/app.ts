@@ -1,5 +1,4 @@
 import { React, ReactNative } from "../vendors"
-import { KeysObject } from "dropin-client"
 import { NavigationProp, Theme, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
@@ -31,7 +30,7 @@ type AppComponentRender<Options extends AppOptions<Options["appearance"]["colors
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
-export type AppRoutes<Routes = {}> = KeysObject<AppComponent, Routes>
+export type AppRoutes<Routes = AppOptions["navigation"]["routes"]> = { [name in keyof Routes]: AppComponent }
 
 enum FactoryType {
   COMPONENT,
@@ -73,7 +72,7 @@ export const App = <Options extends AppOptions<Options["appearance"]["colors"]>>
   const Render = <Routes extends AppRoutes<Options["navigation"]["routes"]>>(
     pages: Routes,
   ): void => {
-    ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, pages))
+    ReactNative.AppRegistry.registerComponent(options.key, Navigation<Options, Routes>(options, pages))
     if (ReactNative.Platform.OS === "web") {
       ReactNative.AppRegistry.runApplication(options.key, {
         rootTag: document.getElementById("root"),

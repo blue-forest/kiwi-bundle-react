@@ -3,7 +3,7 @@ import { ReactNative } from "../vendors"
 
 type ThemeColor<Colors> = string | ((colors: Colors) => string)
 
-export type AppOptions<Colors extends { [name in keyof Colors]: string } = { [name: string]: string }> = {
+export type AppOptions<Colors = { [name: string]: string }> = {
   key: string
   navigation: {
     routes: {

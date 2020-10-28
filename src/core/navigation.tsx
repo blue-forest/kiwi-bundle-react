@@ -5,7 +5,10 @@ import { LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navig
 import { AppRoutes } from "./app"
 import { AppOptions } from "./options"
 
-export const Navigation = (options: AppOptions, pages: AppRoutes): ReactNative.ComponentProvider => {
+export const Navigation = <
+  Options extends AppOptions,
+  Routes extends AppRoutes<Options["navigation"]["routes"]>
+>(options: Options, pages: Routes): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
     enabled: true,
