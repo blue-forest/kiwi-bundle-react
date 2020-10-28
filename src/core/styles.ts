@@ -15,5 +15,5 @@ type StyleSheetMediaQuery = {
 }
 
 export type StyleSheet<Style = any> = {
-  [Name in keyof Style]: StyleSheetStyle | StyleSheetMediaQuery[]
+  [name in keyof Style]: StyleSheetStyle | StyleSheetMediaQuery[]
 }

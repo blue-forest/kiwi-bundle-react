@@ -90,7 +90,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
         }
       })
     }
-    return style as S1 & S2
+    return ReactNative.StyleSheet.create(style as S1 & S2)
   }
 
   return {
