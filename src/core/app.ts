@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { Navigation, NavigationCustom } from "./navigation"
+import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
 import { AppLinks, AppOptions, AppTheme } from "./options"
 
@@ -30,8 +30,6 @@ type AppComponentRender<Options extends AppOptions, Config extends AppComponentC
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
-export type AppRoutes<Routes = AppOptions["navigation"]["routes"]> = { [name in keyof Routes]: AppComponent }
-
 enum FactoryType {
   COMPONENT,
   LAYOUT,
@@ -39,7 +37,7 @@ enum FactoryType {
 }
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  return (links: AppLinks<Options["appearance"]["colors"]>) => {
+  return (links: AppLinks<Options>) => {
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
       return <S extends States>(states?: S) => {
         return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
@@ -70,19 +68,6 @@ export const App = <Options extends AppOptions>(options: Options) => {
       }
     }
 
-    const Render = <Routes extends AppRoutes<Options["navigation"]["routes"]>>(
-      pages: Routes,
-      custom?: NavigationCustom,
-    ): void => {
-      console.log(links)
-      ReactNative.AppRegistry.registerComponent(options.key, Navigation<Options, Routes>(options, pages, custom))
-      if (ReactNative.Platform.OS === "web") {
-        ReactNative.AppRegistry.runApplication(options.key, {
-          rootTag: document.getElementById("root"),
-        })
-      }
-    }
-
     const StyleSheet = <S1 extends StyleSheet<S1>, S2 extends StyleSheet<S2>>(style1: S1, style2?: S2) => {
       const style: StyleSheet = style1
       if (typeof style2 !== "undefined") {
@@ -109,6 +94,15 @@ export const App = <Options extends AppOptions>(options: Options) => {
       return ""
     }
 
+    Navigation<Options>(options, links).then(provider => {
+      ReactNative.AppRegistry.registerComponent(options.key, provider)
+      if (ReactNative.Platform.OS === "web") {
+        ReactNative.AppRegistry.runApplication(options.key, {
+          rootTag: document.getElementById("root"),
+        })
+      }
+    })
+
     return {
       Theme,
       StyleSheet,
@@ -116,7 +110,6 @@ export const App = <Options extends AppOptions>(options: Options) => {
       Layout: factory(FactoryType.LAYOUT),
       Page: factory(FactoryType.PAGE),
       Store,
-      Render,
     }
   }
 }
