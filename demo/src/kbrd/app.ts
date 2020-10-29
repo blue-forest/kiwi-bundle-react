@@ -1,4 +1,5 @@
 import { App } from "kiwi-bundle-react"
+import { DefaultTheme } from "./themes/default"
 
 export const KBRD = App({
   key: "kbrd",
@@ -42,9 +43,9 @@ export const KBRD = App({
       default: DefaultTheme,
     },
   },
-  stores: {
+  /*stores: {
     test: TestStore,
-  },
+  },*/
   platforms: {
     web: {
       title: page => {

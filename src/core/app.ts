@@ -1,5 +1,5 @@
 import { React, ReactNative } from "../vendors"
-import { NavigationProp, Theme, useNavigation, useTheme } from "@react-navigation/native"
+import { NavigationProp, Theme as NavigationTheme, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
 import { AppOptions } from "./options"
@@ -12,7 +12,9 @@ type AppComponentConfig = {
   style?: StyleSheet
 }
 
-type AppComponentContext<Options extends AppOptions<Options>, Config extends AppComponentConfig, States, Props> = {
+type AppThemeColor<Colors> = string | ((colors: Colors) => string)
+
+type AppComponentContext<Options extends AppOptions, Config extends AppComponentConfig, States, Props> = {
   props: Props
   style: Config["style"]
   navigation: {
@@ -22,15 +24,22 @@ type AppComponentContext<Options extends AppOptions<Options>, Config extends App
     get: { [name in keyof States]: States[keyof States] }
     set: { [name in keyof States]: (v: States[keyof States]) => void }
   }
-  colors: Theme["colors"]
+  colors: Options["appearance"]["sizes"]
 }
 
-type AppComponentRender<Options extends AppOptions<Options>, Config extends AppComponentConfig, States, Props>
+type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
   = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
 export type AppComponent<Props = any> = React.ComponentType<Props>
 
 export type AppRoutes<Routes = AppOptions["navigation"]["routes"]> = { [name in keyof Routes]: AppComponent }
+
+export type AppTheme<Colors = { [name: string]: string }> = {
+  [color in keyof NavigationTheme["colors"]]: AppThemeColor<Colors> | {
+    dark: AppThemeColor<Colors>,
+    light: AppThemeColor<Colors>
+  }
+}
 
 enum FactoryType {
   COMPONENT,
@@ -38,7 +47,7 @@ enum FactoryType {
   PAGE,
 }
 
-export const App = <Options extends AppOptions<Options>>(options: Options) => {
+export const App = <Options extends AppOptions>(options: Options) => {
   const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
     return <S extends States>(states?: S) => {
       return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
@@ -95,11 +104,18 @@ export const App = <Options extends AppOptions<Options>>(options: Options) => {
     return ReactNative.StyleSheet.create(style as S1 & S2)
   }
 
+  const Theme = (theme: (context: { colors: Options["appearance"]["colors"] }) => AppTheme<Options["appearance"]["colors"]>) => {
+    return theme({
+      colors: options.appearance.colors,
+    })
+  }
+
   return {
     Component: factory(FactoryType.COMPONENT),
     Layout: factory(FactoryType.LAYOUT),
     Page: factory(FactoryType.PAGE),
     Render,
     StyleSheet,
+    Theme,
   }
 }
