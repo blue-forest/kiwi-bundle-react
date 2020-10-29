@@ -1,5 +1,5 @@
+import { Theme } from "@react-navigation/native"
 import { ReactNative } from "../vendors"
-import { AppTheme } from "./app"
 
 export type AppOptions = {
   key: string
@@ -24,7 +24,16 @@ export type AppOptions = {
   }
 }
 
-export type AppLinks<Themes, Colors> = {
-  themes: { [theme in keyof Themes]: AppTheme<Colors> }
-  stores: { [store: string]: any }
+type AppThemeColor<Colors> = string | ((colors: Colors) => string)
+
+export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
+  [color in keyof Theme["colors"]]: AppThemeColor<Colors> | {
+    dark: AppThemeColor<Colors>
+    light: AppThemeColor<Colors>
+  }
+}
+
+export type AppLinks<Colors> = {
+  themes: { [theme: string]: AppTheme<Colors> }
+  stores: { [store: string]: string }
 }

@@ -1,8 +1,8 @@
 import { React, ReactNative } from "../vendors"
-import { NavigationProp, Theme as NavigationTheme, useNavigation, useTheme } from "@react-navigation/native"
+import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
-import { AppLinks, AppOptions } from "./options"
+import { AppLinks, AppOptions, AppTheme } from "./options"
 
 type States = { [name: string]: any }
 
@@ -11,8 +11,6 @@ type Props = { [name: string]: any }
 type AppComponentConfig = {
   style?: StyleSheet
 }
-
-type AppThemeColor<Colors> = string | ((colors: Colors) => string)
 
 type AppComponentContext<Options extends AppOptions, Config extends AppComponentConfig, States, Props> = {
   props: Props
@@ -24,7 +22,7 @@ type AppComponentContext<Options extends AppOptions, Config extends AppComponent
     get: { [name in keyof States]: States[keyof States] }
     set: { [name in keyof States]: (v: States[keyof States]) => void }
   }
-  colors: Options["appearance"]["sizes"]
+  colors: Options["appearance"]["colors"]
 }
 
 type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
@@ -34,13 +32,6 @@ export type AppComponent<Props = any> = React.ComponentType<Props>
 
 export type AppRoutes<Routes = AppOptions["navigation"]["routes"]> = { [name in keyof Routes]: AppComponent }
 
-export type AppTheme<Colors = { [name: string]: string }> = {
-  [color in keyof NavigationTheme["colors"]]: AppThemeColor<Colors> | {
-    dark: AppThemeColor<Colors>,
-    light: AppThemeColor<Colors>
-  }
-}
-
 enum FactoryType {
   COMPONENT,
   LAYOUT,
@@ -48,7 +39,7 @@ enum FactoryType {
 }
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  return <Links extends AppLinks<Links, Options["appearance"]["colors"]>>(links: Links) => {
+  return (links: AppLinks<Options["appearance"]["colors"]>) => {
     console.log(links)
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
       return <S extends States>(states?: S) => {
@@ -112,14 +103,19 @@ export const App = <Options extends AppOptions>(options: Options) => {
       })
     }
 
+    const Store = (store: any) => {
+      console.log(store)
+      return ""
+    }
+
     return {
+      Theme,
+      StyleSheet,
       Component: factory(FactoryType.COMPONENT),
       Layout: factory(FactoryType.LAYOUT),
       Page: factory(FactoryType.PAGE),
+      Store,
       Render,
-      StyleSheet,
-      Theme,
     }
   }
-
 }

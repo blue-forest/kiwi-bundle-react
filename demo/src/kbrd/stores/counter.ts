@@ -1,5 +1,5 @@
-//import { KBRD } from "../app";
+import { KBRD } from "../app";
 
-export const CounterStore = "" /*KBRD.Store({
+export const CounterStore = KBRD.Store({
 
-})*/
+})
