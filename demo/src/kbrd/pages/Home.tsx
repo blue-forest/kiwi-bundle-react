@@ -1,10 +1,10 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../app"
+import { KBRD } from ".."
 import { ButtonComponent } from "../components/Button"
 import { HomePageStyle } from "./Home.style"
 import KiwiImage from "../../assets/kiwi.png"
 
-export const HomePage = KBRD.Page({
+export default KBRD.Page({
   style: HomePageStyle,
 })({
   count: 5,

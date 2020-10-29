@@ -1,4 +1,4 @@
-import { KBRD } from "../app"
+import { KBRD } from ".."
 
 export const ComponentsPageStyle = KBRD.StyleSheet({
   textContainer: {

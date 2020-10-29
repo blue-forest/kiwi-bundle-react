@@ -1,5 +1,5 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../app"
+import { KBRD } from ".."
 import { ButtonComponentStyle } from "./Button.style"
 
 type Props = {

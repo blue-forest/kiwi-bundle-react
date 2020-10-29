@@ -1,7 +1,7 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../app"
+import { KBRD } from ".."
 
-export const HeaderLeftLayout = KBRD.Component()()(() => (
+export default KBRD.Layout()()(() => (
   <Kiwi.View>
     <Kiwi.Text>RIGHT</Kiwi.Text>
   </Kiwi.View>

@@ -1,5 +1,5 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../app"
+import { KBRD } from ".."
 import { ButtonComponent } from "../components/Button"
 import { ComponentsPageStyle } from "./Components.style"
 
@@ -7,7 +7,7 @@ type HomePageStates = {
   count: number
 }
 
-export const ComponentsPage = KBRD.Page({
+export default KBRD.Page({
   style: ComponentsPageStyle,
 })<HomePageStates>({
   count: 0,

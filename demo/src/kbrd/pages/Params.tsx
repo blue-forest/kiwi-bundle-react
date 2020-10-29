@@ -1,5 +1,5 @@
 import { React, Kiwi } from "kiwi-bundle-react"
-import { KBRD } from "../app"
+import { KBRD } from ".."
 
 type Props = {
   first: string
@@ -7,7 +7,7 @@ type Props = {
   very?: string
 }
 
-export const ParamsPage = KBRD.Page()()<Props>(({ props }) => (
+export default KBRD.Page()()<Props>(({ props }) => (
   <Kiwi.View>
     <Kiwi.Text>Route ":first" parameter : {props.first}</Kiwi.Text>
     <Kiwi.Text>Route ":second" parameter : {props.second}</Kiwi.Text>
