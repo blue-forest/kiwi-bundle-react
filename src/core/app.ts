@@ -39,8 +39,7 @@ enum FactoryType {
 }
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  return (links: () => AppLinks<Options["appearance"]["colors"]>) => {
-    console.log(links)
+  return (links: AppLinks<Options["appearance"]["colors"]>) => {
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
       return <S extends States>(states?: S) => {
         return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
@@ -75,6 +74,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
       pages: Routes,
       custom?: NavigationCustom,
     ): void => {
+      console.log(links)
       ReactNative.AppRegistry.registerComponent(options.key, Navigation<Options, Routes>(options, pages, custom))
       if (ReactNative.Platform.OS === "web") {
         ReactNative.AppRegistry.runApplication(options.key, {
@@ -99,7 +99,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
     }
 
     const Theme = (theme: (context: { colors: Options["appearance"]["colors"] }) => AppTheme<Options["appearance"]["colors"]>) => {
-      return () => theme({
+      return theme({
         colors: options.appearance.colors,
       })
     }

@@ -1,6 +1,6 @@
 import { KBRD } from "../app"
 
-export const DefaultTheme = KBRD.Theme(({ colors }) => ({
+export default KBRD.Theme(({ colors }) => ({
 
   primary: {
     light: "rgb(0, 122, 255)",
