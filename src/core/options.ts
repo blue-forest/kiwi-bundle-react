@@ -16,11 +16,15 @@ export type AppOptions = {
       hide?: boolean
       style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
     }
-    themes: { [name: string]: AppTheme }
   }
   platforms?: {
     web?: {
       title?: string | ((page?: string) => string)
     }
   }
+}
+
+export type AppLinks<Themes, Colors> = {
+  themes: { [theme in keyof Themes]: AppTheme<Colors> }
+  stores: { [store: string]: any }
 }

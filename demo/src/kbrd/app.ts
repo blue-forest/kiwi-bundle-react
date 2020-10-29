@@ -1,5 +1,6 @@
 import { App } from "kiwi-bundle-react"
 import { DefaultTheme } from "./themes/default"
+import { CounterStore } from "./stores/counter"
 
 export const KBRD = App({
   key: "kbrd",
@@ -39,13 +40,7 @@ export const KBRD = App({
       black: "rgb(28, 28, 30)",
       grey: "rgb(229, 229, 231)",
     },
-    themes: {
-      default: DefaultTheme,
-    },
   },
-  /*stores: {
-    test: TestStore,
-  },*/
   platforms: {
     web: {
       title: page => {
@@ -56,5 +51,12 @@ export const KBRD = App({
         return title
       },
     },
+  },
+})({
+  themes: {
+    default: DefaultTheme,
+  },
+  stores: {
+    counter: CounterStore,
   },
 })
