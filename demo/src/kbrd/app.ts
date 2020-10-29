@@ -39,7 +39,7 @@ export const KBRD = App({
       blue: "rgb(2, 68, 198)",
       black: "rgb(28, 28, 30)",
       grey: "rgb(229, 229, 231)",
-    },
+    } as const,
   },
   platforms: {
     web: {
@@ -54,9 +54,9 @@ export const KBRD = App({
   },
 })({
   themes: {
-    default: DefaultTheme,
+    default: () => DefaultTheme,
   },
   stores: {
-    counter: CounterStore,
+    counter: () => CounterStore,
   },
 })

@@ -34,6 +34,6 @@ export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
 }
 
 export type AppLinks<Colors> = {
-  themes: { [theme: string]: AppTheme<Colors> }
-  stores: { [store: string]: string }
+  themes: () => { [theme: string]: AppTheme<Colors> }
+  stores: () => { [store: string]: string }
 }

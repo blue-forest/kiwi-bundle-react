@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { Navigation } from "./navigation"
+import { Navigation, NavigationCustom } from "./navigation"
 import { StyleSheet } from "./styles"
 import { AppLinks, AppOptions, AppTheme } from "./options"
 
@@ -39,7 +39,7 @@ enum FactoryType {
 }
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  return (links: AppLinks<Options["appearance"]["colors"]>) => {
+  return (links: () => AppLinks<Options["appearance"]["colors"]>) => {
     console.log(links)
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
       return <S extends States>(states?: S) => {
@@ -73,8 +73,9 @@ export const App = <Options extends AppOptions>(options: Options) => {
 
     const Render = <Routes extends AppRoutes<Options["navigation"]["routes"]>>(
       pages: Routes,
+      custom?: NavigationCustom,
     ): void => {
-      ReactNative.AppRegistry.registerComponent(options.key, Navigation<Options, Routes>(options, pages))
+      ReactNative.AppRegistry.registerComponent(options.key, Navigation<Options, Routes>(options, pages, custom))
       if (ReactNative.Platform.OS === "web") {
         ReactNative.AppRegistry.runApplication(options.key, {
           rootTag: document.getElementById("root"),
@@ -98,7 +99,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
     }
 
     const Theme = (theme: (context: { colors: Options["appearance"]["colors"] }) => AppTheme<Options["appearance"]["colors"]>) => {
-      return theme({
+      return () => theme({
         colors: options.appearance.colors,
       })
     }
