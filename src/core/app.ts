@@ -2,7 +2,7 @@ import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
-import { AppLinks, AppOptions, AppTheme } from "./options"
+import { AppLinks, AppLinksImports, AppOptions, AppTheme } from "./options"
 
 type States = { [name: string]: any }
 
@@ -28,7 +28,7 @@ type AppComponentContext<Options extends AppOptions, Config extends AppComponent
 type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
   = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
-export type AppComponent<Props = any> = React.ComponentType<Props>
+export type AppComponent<Props = {}> = ((props: Props) => React.ReactNode)
 
 enum FactoryType {
   COMPONENT,
@@ -37,7 +37,7 @@ enum FactoryType {
 }
 
 export const App = <Options extends AppOptions>(options: Options) => {
-  return (links: AppLinks<Options>) => {
+  return (imports: AppLinksImports<Options>) => {
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
       return <S extends States>(states?: S) => {
         return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
@@ -94,8 +94,31 @@ export const App = <Options extends AppOptions>(options: Options) => {
       return ""
     }
 
-    Navigation<Options>(options, links).then(provider => {
-      ReactNative.AppRegistry.registerComponent(options.key, provider)
+    const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> }) => {
+      return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
+        return from[key].then(current => {
+          all[key] = current.default
+          return all
+        })
+      }), Promise.resolve({}))
+    }
+
+    Promise.resolve({ pages: {} } as AppLinks<any>).then(links => {
+      return resolveImports(imports.pages).then(pages => {
+        links.pages = pages
+      }).then(() => {
+        if (typeof imports.themes === "undefined") return
+        return resolveImports(imports.themes).then(themes => { links.themes = themes })
+      }).then(() => {
+        if (typeof imports.stores === "undefined") return
+        return resolveImports(imports.stores).then(stores => { links.stores = stores })
+      }).then(() => {
+        /*if (typeof imports.custom === "undefined") return
+        return resolveImports(imports.custom).then(stores => { links.custom = stores })*/
+        // TODO
+      }).then(() => links)
+    }).then(links => {
+      ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, links))
       if (ReactNative.Platform.OS === "web") {
         ReactNative.AppRegistry.runApplication(options.key, {
           rootTag: document.getElementById("root"),

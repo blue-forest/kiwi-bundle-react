@@ -1,4 +1,5 @@
 import { Theme } from "@react-navigation/native"
+import { StackHeaderLeftButtonProps } from "@react-navigation/stack"
 import { ReactNative } from "../vendors"
 import { AppComponent } from "./app"
 
@@ -35,19 +36,25 @@ export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
 }
 
 export type AppLinks<Options extends AppOptions> = {
-  pages: {
-    [name in keyof Options["navigation"]["routes"]]: Promise<{ default: AppComponent }>
-  }
-  themes?: {
-    [theme: string]: Promise<{ default: AppTheme<Options["appearance"]["colors"]> }>
-  }
-  stores?: {
-    [store: string]: Promise<{ default: string }>
-  }
+  themes?: { [theme: string]: AppTheme<Options["appearance"]["colors"]> }
+  pages: { [name in keyof Options["navigation"]["routes"]]: AppComponent }
+  stores?: { [store: string]: string }
   custom?: {
     header?: {
-      left?: Promise<{ default: AppComponent<{}> }>
-      right?: Promise<{ default: AppComponent<{}> }>
+      left?: AppComponent<StackHeaderLeftButtonProps>
+      right?: AppComponent<StackHeaderLeftButtonProps>
+    }
+  }
+}
+
+export type AppLinksImports<Options extends AppOptions> = {
+  themes?: { [theme: string]: Promise<{ default: AppTheme<Options["appearance"]["colors"]> }> }
+  pages: { [name in keyof Options["navigation"]["routes"]]: Promise<{ default: AppComponent }> }
+  stores?: { [store: string]: Promise<{ default: string }> }
+  custom?: {
+    header?: {
+      left?: Promise<{ default: AppComponent<StackHeaderLeftButtonProps> }>
+      right?: Promise<{ default: AppComponent<StackHeaderLeftButtonProps> }>
     }
   }
 }
