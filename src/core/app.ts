@@ -1,40 +1,33 @@
-import { React, ReactNative } from "../vendors"
-import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
+import { ReactNative } from "../vendors"
 import { Navigation } from "./navigation"
-import { StyleSheet } from "./styles"
-import { AppLinks, AppLinksCustom, AppLinksImports, AppOptions, AppTheme } from "./options"
+import { AppStyleSheet } from "./styles"
+import { AppLinks, AppLinksCustom, AppLinksImports, AppTheme } from "./links"
+import { Architect, ArchitectType } from "./architect"
 
-type States = { [name: string]: any }
-
-type Props = { [name: string]: any }
-
-type AppComponentConfig = {
-  style?: StyleSheet
-}
-
-type AppComponentContext<Options extends AppOptions, Config extends AppComponentConfig, States, Props> = {
-  props: Props
-  style: Config["style"]
+export type AppConfig = {
+  key: string
   navigation: {
-    navigate: (route: keyof Options["navigation"]["routes"], params?: { [key: string]: string }) => void
+    routes: {
+      [name: string]: { path: string, title?: string }
+    }
+    prefixes: string[]
   }
-  state: {
-    get: { [name in keyof States]: States[keyof States] }
-    set: { [name in keyof States]: (v: States[keyof States]) => void }
+  appearance: {
+    sizes: { [name: string]: number | string }
+    colors: { [name: string]: string }
+    header?: {
+      hide?: boolean
+      style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
+    }
   }
-  colors: Options["appearance"]["colors"]
+  platforms?: {
+    web?: {
+      title?: string | ((page?: string) => string)
+    }
+  }
 }
-
-type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
-  = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
 export type AppComponent<Props = {}> = React.ComponentType<Props>
-
-enum FactoryType {
-  COMPONENT,
-  LAYOUT,
-  PAGE,
-}
 
 const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
   return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
@@ -47,43 +40,13 @@ const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Conte
   }), Promise.resolve({}))
 }
 
-export const App = <Options extends AppOptions>(options: Options) => {
-  return (imports: AppLinksImports<Options>) => {
-    const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
-      return <S extends States>(states?: S) => {
-        return <P extends Props>(render: AppComponentRender<Options, Config, S, P>) => {
-          return (props: any) => {
-            const navigation: NavigationProp<any> = type === FactoryType.PAGE ? props.navigation : useNavigation()
-            const { colors } = useTheme()
-            const context: AppComponentContext<Options, Config, any, P> = {
-              props: type === FactoryType.PAGE ? props.route.params : props,
-              style: config?.style || {},
-              state: { get: {}, set: {} },
-              navigation: {
-                navigate: (route, params) => {
-                  navigation.navigate(route, params)
-                },
-              },
-              colors,
-            }
-            if (typeof states !== "undefined") {
-              Object.keys(states).forEach(name => {
-                const state = React.useState(states[name])
-                context.state.get[name] = state[0]
-                context.state.set[name] = state[1]
-              })
-            }
-            return render(context)
-          }
-        }
-      }
-    }
-
-    const StyleSheet = <S1 extends StyleSheet<S1>, S2 extends StyleSheet<S2>>(style1: S1, style2?: S2) => {
-      const style: StyleSheet = style1
+export const App = <Config extends AppConfig>(options: Config) => {
+  return (imports: AppLinksImports<Config>) => {
+    const StyleSheet = <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
+      const style: AppStyleSheet = style1
       if (typeof style2 !== "undefined") {
         Object.keys(style2).forEach(key => {
-          const value = (style2 as StyleSheet)[key]
+          const value = (style2 as AppStyleSheet)[key]
           if (typeof style[key] === "undefined") {
             style[key] = value
           } else {
@@ -91,10 +54,10 @@ export const App = <Options extends AppOptions>(options: Options) => {
           }
         })
       }
-      return ReactNative.StyleSheet.create(style as S1 & S2)
+      return style as S1 & S2
     }
 
-    const Theme = (theme: (context: { colors: Options["appearance"]["colors"] }) => AppTheme<Options["appearance"]["colors"]>) => {
+    const Theme = (theme: (context: { colors: Config["appearance"]["colors"] }) => AppTheme<Config["appearance"]["colors"]>) => {
       return theme({
         colors: options.appearance.colors,
       })
@@ -141,9 +104,9 @@ export const App = <Options extends AppOptions>(options: Options) => {
     return {
       Theme,
       StyleSheet,
-      Component: factory(FactoryType.COMPONENT),
-      Layout: factory(FactoryType.LAYOUT),
-      Page: factory(FactoryType.PAGE),
+      Component: Architect<Config>(ArchitectType.COMPONENT),
+      Layout: Architect<Config>(ArchitectType.LAYOUT),
+      Page: Architect<Config>(ArchitectType.PAGE),
       Store,
       Custom,
     }

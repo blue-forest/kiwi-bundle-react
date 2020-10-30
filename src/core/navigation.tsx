@@ -1,19 +1,20 @@
 import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
-import {LinkingOptions, NavigationContainer, PathConfigMap} from "@react-navigation/native"
-import { AppLinks, AppOptions } from "./options"
+import { LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navigation/native"
+import { AppConfig } from "./app"
+import { AppLinks } from "./links"
 
-export const Navigation = <Options extends AppOptions>(options: Options, links: AppLinks<Options>): ReactNative.ComponentProvider => {
+export const Navigation = <Config extends AppConfig>(config: Config, links: AppLinks<Config>): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
     enabled: true,
-    prefixes: options.navigation.prefixes,
+    prefixes: config.navigation.prefixes,
     config: {
-      screens: Object.keys(options.navigation.routes).reduce<PathConfigMap>((screens, route) => {
+      screens: Object.keys(config.navigation.routes).reduce<PathConfigMap>((screens, route) => {
         screens[route] = {
           exact: true,
-          path: options.navigation.routes[route].path,
+          path: config.navigation.routes[route].path,
         }
         return screens
       }, {}),
@@ -42,17 +43,17 @@ export const Navigation = <Options extends AppOptions>(options: Options, links: 
               colors: DefaultTheme.colors // themeColors
             }}*/>
           <Stack.Navigator screenOptions={{
-            headerShown: !options.appearance.header?.hide,
-            headerStyle: options.appearance.header?.style,
+            headerShown: !config.appearance.header?.hide,
+            headerStyle: config.appearance.header?.style,
           }}>
           {Object.keys(links.pages).map(page => {
-            const route = options.navigation.routes[page]
+            const route = config.navigation.routes[page]
             let title = ""
-            if(typeof options.platforms?.web?.title !== "undefined") {
-              if(typeof options.platforms?.web.title === "string") {
-                title = options.platforms?.web.title
+            if(typeof config.platforms?.web?.title !== "undefined") {
+              if(typeof config.platforms?.web.title === "string") {
+                title = config.platforms?.web.title
               } else {
-                title = options.platforms?.web.title(route.title)
+                title = config.platforms?.web.title(route.title)
               }
             }
             return <Stack.Screen

@@ -1,34 +1,10 @@
 import { Theme } from "@react-navigation/native"
-import { ReactNative } from "../vendors"
-import { AppComponent } from "./app"
+import { AppComponent, AppConfig } from "./app"
 import { CustomHeaderLeft, CustomHeaderRight } from "./custom"
-
-export type AppOptions = {
-  key: string
-  navigation: {
-    routes: {
-      [name: string]: { path: string, title?: string }
-    }
-    prefixes: string[]
-  }
-  appearance: {
-    sizes: { [name: string]: number | string }
-    colors: { [name: string]: string }
-    header?: {
-      hide?: boolean
-      style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
-    }
-  }
-  platforms?: {
-    web?: {
-      title?: string | ((page?: string) => string)
-    }
-  }
-}
 
 type AppThemeColor<Colors> = string | ((colors: Colors) => string)
 
-export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
+export type AppTheme<Colors = AppConfig["appearance"]["colors"]> = {
   [color in keyof Theme["colors"]]: AppThemeColor<Colors> | {
     dark: AppThemeColor<Colors>
     light: AppThemeColor<Colors>
@@ -37,7 +13,7 @@ export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
 
 export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
 
-export type AppLinks<Options extends AppOptions> = {
+export type AppLinks<Options extends AppConfig> = {
   themes?: { [theme: string]: AppTheme<Options["appearance"]["colors"]> }
   pages: { [name in keyof Options["navigation"]["routes"]]: AppComponent }
   stores?: { [store: string]: string }
@@ -49,7 +25,7 @@ export type AppLinks<Options extends AppOptions> = {
   }
 }
 
-export type AppLinksImports<Options extends AppOptions> = {
+export type AppLinksImports<Options extends AppConfig> = {
   themes?: { [theme: string]: Promise<{ default: AppTheme<Options["appearance"]["colors"]> }> }
   pages: { [name in keyof Options["navigation"]["routes"]]: Promise<{ default: AppComponent }> }
   stores?: { [store: string]: Promise<{ default: string }> }
