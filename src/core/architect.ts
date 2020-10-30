@@ -15,7 +15,7 @@ type ArchitectProps = { [name: string]: any }
 
 type ArchitectOptions = {
   style?: AppStyleSheet
-  init?: () => void
+  init?: (context: ArchitectContext<AppConfig, ArchitectOptions, ArchitectStates, ArchitectProps>) => void
 }
 
 type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions, States, Props> = {
@@ -43,13 +43,6 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
   return <States extends ArchitectStates>(states?: States) => {
     return <Props extends ArchitectProps>(render: AppComponentRender<Config, Options, States, Props>) => {
       return (props: any) => {
-        // CONFIG
-        if (typeof options !== "undefined") {
-          // INIT
-          if (typeof options.init !== "undefined") {
-            React.useEffect(options.init, [])
-          }
-        }
         // NAVIGATION
         const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
         // THEME
@@ -74,6 +67,15 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
             context.state.set[name] = state[1]
           })
         }
+        // INIT
+        React.useEffect(() => {
+          if (typeof options !== "undefined") {
+            if (typeof options.init !== "undefined") {
+              options.init(context)
+            }
+          }
+        }, [])
+        console.log("RENDER", context.state.get)
         return render(context)
       }
     }
