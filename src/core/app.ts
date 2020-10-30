@@ -34,14 +34,14 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-export type AppContext = { scheme: "dark" | "light" }
+export type AppGlobalState = { scheme?: "dark" | "light" }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  const appContext = React.createContext<AppContext>({ scheme: "light" })
+  let globalState: (state: AppGlobalState) => void = () => { }
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT, appContext),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, appContext),
-    Page: Architect<Config, Links>(ArchitectType.PAGE, appContext),
+    Component: Architect<Config, Links>(ArchitectType.COMPONENT, state => globalState(state)),
+    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, state => globalState(state)),
+    Page: Architect<Config, Links>(ArchitectType.PAGE, state => globalState(state)),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: options.appearance.colors,
@@ -98,7 +98,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, appContext))
+        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, cb => { globalState = cb }))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(options.key, {
             rootTag: document.getElementById("root"),
