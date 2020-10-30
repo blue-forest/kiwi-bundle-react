@@ -34,9 +34,9 @@ export type AppComponentProps = { [name: string]: any }
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => ({
-  Component: Architect<Config, any>(ArchitectType.COMPONENT),
-  Layout: Architect<Config, any>(ArchitectType.LAYOUT),
-  Page: Architect<Config, any>(ArchitectType.PAGE),
+  Component: Architect<Config, Links>(ArchitectType.COMPONENT),
+  Layout: Architect<Config, Links>(ArchitectType.LAYOUT),
+  Page: Architect<Config, Links>(ArchitectType.PAGE),
   Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
     return theme({
       colors: options.appearance.colors,
@@ -69,7 +69,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
         })
       }), Promise.resolve({}))
     }
-    const linksResolve: AppLinksResolve = links()
+    const linksResolve: AppLinksResolve = links
     Promise.resolve<AppLinks<any>>({ pages: {} }).then(resolvedLinks => {
       return resolveImports(linksResolve.pages).then(pages => {
         resolvedLinks.pages = pages

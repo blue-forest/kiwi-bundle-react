@@ -2,7 +2,7 @@ import { React } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { AppComponent, AppComponentProps, AppComponentStates, AppConfig } from "./app"
 import { AppStyleSheet } from "./styles"
-import { AppLinks } from "./links"
+import { AppLinksImports } from "./links"
 
 export enum ArchitectType {
   COMPONENT,
@@ -16,7 +16,7 @@ type ArchitectOptions = {
 
 type ArchitectContext<
   Config extends AppConfig,
-  _ extends AppLinks<Config>,
+  Links extends AppLinksImports<Config>,
   Options extends ArchitectOptions,
   States extends AppComponentStates,
   Props extends AppComponentProps,
@@ -31,12 +31,12 @@ type ArchitectContext<
       set: { [name in keyof States]: (v: States[keyof States]) => void }
     }
     colors: Config["appearance"]["colors"]
-    setTheme: (theme: string) => void
+    setTheme: (theme: keyof Links["themes"]) => void
   }
 
 type AppComponentStart<
   Config extends AppConfig,
-  Links extends AppLinks<Config>,
+  Links extends AppLinksImports<Config>,
   Options extends ArchitectOptions,
   States extends AppComponentStates,
   Props extends AppComponentProps,
@@ -45,7 +45,7 @@ type AppComponentStart<
     render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
   }
 
-export const Architect = <Config extends AppConfig, Links extends AppLinks<Config>>(type: ArchitectType) => {
+export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(type: ArchitectType) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
     if (typeof options?.style !== "undefined") {

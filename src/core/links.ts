@@ -13,7 +13,7 @@ export type AppTheme<Config extends AppConfig> = {
 
 export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
 
-export type AppLinksImports<Config extends AppConfig> = () => {
+export type AppLinksImports<Config extends AppConfig> = {
   pages: { [name in keyof Config["navigation"]["routes"]]: Promise<any> }
   themes?: { [theme: string]: Promise<any> }
   stores?: { [store: string]: Promise<any> }

@@ -17,7 +17,7 @@ export default KBRD.Page({
       <ButtonComponent title="Parameters" onPress={() => { navigation.navigate("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
 
       <ButtonComponent title="set theme 'default'" onPress={() => {
-        console.log(setTheme(""))
+        console.log(setTheme("default"))
       }}/>
     </Kiwi.View>
   ),

@@ -50,7 +50,7 @@ export const KBRD = App({
       },
     },
   },
-}, () => ({
+}, {
   themes: {
     default: import("./themes/default"),
   },
@@ -68,4 +68,4 @@ export const KBRD = App({
       right: import("./custom/HeaderRight"),
     },
   },
-}))
+})
