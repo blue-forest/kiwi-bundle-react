@@ -9,9 +9,9 @@ export enum ArchitectType {
   PAGE,
 }
 
-type States = { [name: string]: any }
+type ArchitectStates = { [name: string]: any }
 
-type Props = { [name: string]: any }
+type ArchitectProps = { [name: string]: any }
 
 type ArchitectOptions = {
   style?: AppStyleSheet
@@ -40,8 +40,8 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
   if (typeof options?.style !== "undefined") {
     style = options.style
   }
-  return <S extends States>(states?: S) => {
-    return <P extends Props>(render: AppComponentRender<Config, Options, S, P>) => {
+  return <States extends ArchitectStates>(states?: States) => {
+    return <Props extends ArchitectProps>(render: AppComponentRender<Config, Options, States, Props>) => {
       return (props: any) => {
         // CONFIG
         if (typeof options !== "undefined") {
@@ -55,16 +55,16 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
         // THEME
         const { colors } = useTheme()
         // CONTEXT
-        const context: ArchitectContext<Config, Options, any, P> = {
-          props: type === ArchitectType.PAGE ? props.route.params : props,
+        const context: ArchitectContext<Config, Options, any, Props> = {
+          colors,
           style,
+          props: type === ArchitectType.PAGE ? props.route.params : props,
           state: { get: {}, set: {} },
           navigation: {
             navigate: (route, params) => {
               navigation.navigate(route, params)
             },
           },
-          colors,
         }
         // STATES
         if (typeof states !== "undefined") {
@@ -74,7 +74,6 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
             context.state.set[name] = state[1]
           })
         }
-        console.log("RENDER", context.state.get)
         return render(context)
       }
     }
