@@ -2,10 +2,14 @@ import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppConfig } from "./app"
+import { AppConfig, AppContext } from "./app"
 import { AppLinks } from "./links"
 
-export const Navigation = <Config extends AppConfig>(config: Config, links: AppLinks<Config>): ReactNative.ComponentProvider => {
+export const Navigation = <Config extends AppConfig>(
+  config: Config,
+  links: AppLinks<Config>,
+  appContext: React.Context<AppContext>,
+): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
     enabled: true,
@@ -60,26 +64,28 @@ export const Navigation = <Config extends AppConfig>(config: Config, links: AppL
       const [ theme ] = React.useState<Theme>(currentTheme)
       // RENDER
       return (
-        <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
-          <Stack.Navigator screenOptions={{
-            headerShown: !config.appearance.header?.hide,
-            headerStyle: config.appearance.header?.style,
-          }}>
-          {Object.keys(links.pages).map(page => {
-            const route = config.navigation.routes[page]
-            return <Stack.Screen
-              key={page}
-              name={page}
-              component={links.pages[page]}
-              options={{
-                headerTitle: route.title,
-                headerLeft: links.custom?.header?.left,
-                headerRight: links.custom?.header?.right,
-              }}
-            />
-          })}
-        </Stack.Navigator>
-        </NavigationContainer>
+        <appContext.Provider value={{ scheme: "dark" }}>
+          <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
+            <Stack.Navigator screenOptions={{
+              headerShown: !config.appearance.header?.hide,
+              headerStyle: config.appearance.header?.style,
+            }}>
+            {Object.keys(links.pages).map(page => {
+              const route = config.navigation.routes[page]
+              return <Stack.Screen
+                key={page}
+                name={page}
+                component={links.pages[page]}
+                options={{
+                  headerTitle: route.title,
+                  headerLeft: links.custom?.header?.left,
+                  headerRight: links.custom?.header?.right,
+                }}
+              />
+            })}
+          </Stack.Navigator>
+          </NavigationContainer>
+        </appContext.Provider>
       )
     }
   }

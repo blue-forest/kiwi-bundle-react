@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { AppComponent, AppComponentProps, AppComponentStates, AppConfig } from "./app"
+import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppContext } from "./app"
 import { AppStyleSheet } from "./styles"
 import { AppLinksImports, AppTheme } from "./links"
 
@@ -73,7 +73,10 @@ type AppComponentStart<
     render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
   }
 
-export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(type: ArchitectType) => {
+export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
+  type: ArchitectType,
+  appContext: React.Context<AppContext>,
+) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
     if (typeof options?.style !== "undefined") {
@@ -103,7 +106,7 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
                 get: () => "" as any,
               },
               scheme: {
-                set: theme => { console.log(theme) },
+                set: scheme => { appContext.Provider({ value: { scheme } }) },
                 get: () => "" as any,
               },
             }

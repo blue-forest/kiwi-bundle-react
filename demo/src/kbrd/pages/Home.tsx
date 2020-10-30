@@ -16,8 +16,9 @@ export default KBRD.Page({
       <ButtonComponent title="Components" onPress={() => { navigation.push("COMPONENTS") }}/>
       <ButtonComponent title="Parameters" onPress={() => { navigation.push("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
 
-      <ButtonComponent title="set theme 'default'" onPress={() => {
-        appearance.theme.set("default")
+      <ButtonComponent title="set dark scheme" onPress={() => {
+        //appearance.theme.set("default")
+        appearance.scheme.set("dark")
       }}/>
     </Kiwi.View>
   ),
