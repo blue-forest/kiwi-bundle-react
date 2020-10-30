@@ -13,12 +13,7 @@ type ArchitectStates = { [name: string]: any }
 
 type ArchitectProps = { [name: string]: any }
 
-type ArchitectOptions = {
-  style?: AppStyleSheet
-  init?: (context: ArchitectContext<AppConfig, ArchitectOptions, ArchitectStates, ArchitectProps>) => void
-}
-
-type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions, States, Props> = {
+type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = {
   props: Props
   style: Options["style"]
   navigation: {
@@ -31,11 +26,18 @@ type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions
   colors: Config["appearance"]["colors"]
 }
 
-type AppComponentRender<Options extends AppConfig, Config extends ArchitectOptions, States, Props> = (
-  context: ArchitectContext<Options, Config, States, Props>
+type ArchitectOptions<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = {
+  style?: AppStyleSheet
+  init?: (context: ArchitectContext<Config, Options, States, Props>) => void
+}
+
+type AppComponentRender<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = (
+  context: ArchitectContext<Config, Options, States, Props>
 ) => JSX.Element
 
-export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Options extends ArchitectOptions>(options?: Options) => {
+export const Architect = <Config extends AppConfig>(
+  type: ArchitectType
+) => <Options extends ArchitectOptions<Config, Options, States, Props>>(options?: Options) => {
   let style: Options["style"] = {}
   if (typeof options?.style !== "undefined") {
     style = options.style
@@ -67,15 +69,16 @@ export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Opt
             context.state.set[name] = state[1]
           })
         }
-        // INIT
-        React.useEffect(() => {
-          if (typeof options !== "undefined") {
-            if (typeof options.init !== "undefined") {
-              options.init(context)
-            }
+        // CONFIG
+        if (typeof options !== "undefined") {
+          // INIT
+          if (typeof options.init !== "undefined") {
+            const init = options.init
+            React.useEffect(() => {
+              init(context)
+            }, [])
           }
-        }, [])
-        console.log("RENDER", context.state.get)
+        }
         return render(context)
       }
     }

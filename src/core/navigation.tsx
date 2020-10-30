@@ -5,7 +5,10 @@ import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer
 import { AppConfig } from "./app"
 import { AppLinks } from "./links"
 
-export const Navigation = <Config extends AppConfig>(config: Config, links: AppLinks<Config>): ReactNative.ComponentProvider => {
+export const Navigation = <Config extends AppConfig>(
+  config: Config,
+  links: AppLinks<Config>,
+): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
     enabled: true,
@@ -54,6 +57,7 @@ export const Navigation = <Config extends AppConfig>(config: Config, links: AppL
             return all
           }, {}) as Theme["colors"]
         }
+        console.log(currentTheme)
       } else {
         currentTheme = DefaultTheme
       }
