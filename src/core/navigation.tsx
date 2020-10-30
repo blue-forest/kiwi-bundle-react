@@ -40,6 +40,7 @@ export const Navigation = <Config extends AppConfig>(
   }
   return () => {
     return () => {
+      console.log(links)
       // THEME
       let currentTheme: Theme
       if(typeof links.themes !== "undefined") {

@@ -50,22 +50,22 @@ export const KBRD = App({
       },
     },
   },
-}, {
+}, () => ({
   themes: {
-    default: require("./themes/default"),
+    default: import("./themes/default"),
   },
   stores: {
-    counter: require("./stores/counter"),
+    counter: import("./stores/counter"),
   },
   pages: {
-    HOME: require("./pages/Home"),
-    COMPONENTS: require("./pages/Components"),
-    PARAMS: require("./pages/Params"),
+    HOME: import("./pages/Home"),
+    COMPONENTS: import("./pages/Components"),
+    PARAMS: import("./pages/Params"),
   },
   custom: {
     header: {
-      left: require("./custom/HeaderLeft"),
-      right: require("./custom/HeaderRight"),
+      left: import("./custom/HeaderLeft"),
+      right: import("./custom/HeaderRight"),
     },
   },
-})
+}))

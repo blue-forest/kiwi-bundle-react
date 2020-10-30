@@ -1,7 +1,7 @@
 import { ReactNative } from "../vendors"
 import { Navigation } from "./navigation"
 import { AppStyleSheet } from "./styles"
-import { AppLinks, AppLinksCustom, AppTheme } from "./links"
+import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
 import { Architect, ArchitectType } from "./architect"
 
 export type AppConfig = {
@@ -44,17 +44,11 @@ const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Conte
   }), Promise.resolve({}))
 }
 
-export const App = <Config extends AppConfig, Links extends AppLinks<Config>>(options: Config, links: Links) => {
-  ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, links))
-  if (ReactNative.Platform.OS === "web") {
-    ReactNative.AppRegistry.runApplication(options.key, {
-      rootTag: document.getElementById("root"),
-    })
-  }
+export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT),
-    Page: Architect<Config, Links>(ArchitectType.PAGE),
+    Component: Architect<Config, any>(ArchitectType.COMPONENT),
+    Layout: Architect<Config, any>(ArchitectType.LAYOUT),
+    Page: Architect<Config, any>(ArchitectType.PAGE),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: options.appearance.colors,
@@ -76,5 +70,38 @@ export const App = <Config extends AppConfig, Links extends AppLinks<Config>>(op
     },
     Store: () => "",
     Custom: <Props extends AppComponentProps>(custom: AppLinksCustom<Props>): AppLinksCustom<Props> => custom,
+    Render: () => {
+      const linksImports: AppLinksResolve = links()
+      Promise.resolve<AppLinks<any>>({ pages: {} }).then(linksResolve => {
+        return resolveImports(linksImports.pages).then(pages => {
+          linksResolve.pages = pages
+        }).then(() => {
+          if (typeof linksImports.themes === "undefined") return
+          return resolveImports(linksImports.themes).then(themes => { linksResolve.themes = themes })
+        }).then(() => {
+          if (typeof linksImports.stores === "undefined") return
+          return resolveImports(linksImports.stores).then(stores => { linksResolve.stores = stores })
+        }).then(() => {
+          if (typeof linksImports.custom === "undefined") return
+          const importsCustom = linksImports.custom
+          return Promise.resolve<NonNullable<AppLinks<any>["custom"]>>({}).then(custom => {
+            if (typeof importsCustom.header === "undefined") return custom
+            return resolveImports(importsCustom.header).then(header => {
+              custom.header = header
+              return custom
+            })
+          }).then(custom => {
+            linksResolve.custom = custom
+          })
+        }).then(() => linksResolve)
+      }).then(resolvedLinks => {
+        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks))
+        if (ReactNative.Platform.OS === "web") {
+          ReactNative.AppRegistry.runApplication(options.key, {
+            rootTag: document.getElementById("root"),
+          })
+        }
+      })
+    },
   }
 }

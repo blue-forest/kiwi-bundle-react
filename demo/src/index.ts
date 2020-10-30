@@ -1,1 +1,3 @@
-import "./kbrd"
+import { KBRD } from "./kbrd"
+
+KBRD.Render()

@@ -16,7 +16,7 @@ type ArchitectOptions = {
 
 type ArchitectContext<
   Config extends AppConfig,
-  Links extends AppLinks<Config>,
+  _ extends AppLinks<Config>,
   Options extends ArchitectOptions,
   States extends AppComponentStates,
   Props extends AppComponentProps,
@@ -31,7 +31,7 @@ type ArchitectContext<
       set: { [name in keyof States]: (v: States[keyof States]) => void }
     }
     colors: Config["appearance"]["colors"]
-    setTheme: (theme: keyof Links["themes"]) => void
+    setTheme: (theme: string) => void
   }
 
 type AppComponentStart<
