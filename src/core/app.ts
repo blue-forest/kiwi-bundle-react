@@ -36,6 +36,17 @@ enum FactoryType {
   PAGE,
 }
 
+const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
+  return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
+    const item = from[key]
+    if (typeof item === "undefined") return all
+    return item.then(current => {
+      all[key] = current.default
+      return all
+    })
+  }), Promise.resolve({}))
+}
+
 export const App = <Options extends AppOptions>(options: Options) => {
   return (imports: AppLinksImports<Options>) => {
     const factory = (type: FactoryType) => <Config extends AppComponentConfig>(config?: Config) => {
@@ -94,15 +105,6 @@ export const App = <Options extends AppOptions>(options: Options) => {
       return ""
     }
 
-    const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> }) => {
-      return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
-        return from[key].then(current => {
-          all[key] = current.default
-          return all
-        })
-      }), Promise.resolve({}))
-    }
-
     Promise.resolve({ pages: {} } as AppLinks<any>).then(links => {
       return resolveImports(imports.pages).then(pages => {
         links.pages = pages
@@ -113,9 +115,17 @@ export const App = <Options extends AppOptions>(options: Options) => {
         if (typeof imports.stores === "undefined") return
         return resolveImports(imports.stores).then(stores => { links.stores = stores })
       }).then(() => {
-        /*if (typeof imports.custom === "undefined") return
-        return resolveImports(imports.custom).then(stores => { links.custom = stores })*/
-        // TODO
+        if (typeof imports.custom === "undefined") return
+        const importsCustom = imports.custom
+        return Promise.resolve<NonNullable<AppLinks<any>["custom"]>>({}).then(custom => {
+          if (typeof importsCustom.header === "undefined") return custom
+          return resolveImports(importsCustom.header).then(header => {
+            custom.header = header
+            return custom
+          })
+        }).then(custom => {
+          links.custom = custom
+        })
       }).then(() => links)
     }).then(links => {
       ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, links))

@@ -1,7 +1,7 @@
 import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
-import {DefaultTheme, LinkingOptions, NavigationContainer, PathConfigMap} from "@react-navigation/native"
+import {LinkingOptions, NavigationContainer, PathConfigMap} from "@react-navigation/native"
 import { AppLinks, AppOptions } from "./options"
 
 export const Navigation = <Options extends AppOptions>(options: Options, links: AppLinks<Options>): ReactNative.ComponentProvider => {
@@ -21,7 +21,6 @@ export const Navigation = <Options extends AppOptions>(options: Options, links: 
   }
   return () => {
     return () => {
-      const scheme = ReactNative.useColorScheme()
       // todo choose theme ?
       // const colors = links.themes?.default
       // let themeColors = DefaultTheme.colors
@@ -33,13 +32,15 @@ export const Navigation = <Options extends AppOptions>(options: Options, links: 
       //   }
       //   themeColors[i] = colors ? colors[i] : ""
       // })
+      //const [ theme, setTheme ] = useState(ReactNative.useColorScheme())
+
       return (
         <NavigationContainer
             linking={linking}
-            theme={{
+            /*theme={{
               dark: scheme === "dark",
               colors: DefaultTheme.colors // themeColors
-            }}>
+            }}*/>
           <Stack.Navigator screenOptions={{
             headerShown: !options.appearance.header?.hide,
             headerStyle: options.appearance.header?.style,

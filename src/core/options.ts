@@ -1,7 +1,7 @@
 import { Theme } from "@react-navigation/native"
-import { StackHeaderLeftButtonProps } from "@react-navigation/stack"
 import { ReactNative } from "../vendors"
 import { AppComponent } from "./app"
+import { CustomHeaderLeft, CustomHeaderRight } from "./custom"
 
 export type AppOptions = {
   key: string
@@ -41,8 +41,8 @@ export type AppLinks<Options extends AppOptions> = {
   stores?: { [store: string]: string }
   custom?: {
     header?: {
-      left?: AppComponent<StackHeaderLeftButtonProps>
-      right?: AppComponent<StackHeaderLeftButtonProps>
+      left?: CustomHeaderLeft
+      right?: CustomHeaderRight
     }
   }
 }
@@ -53,8 +53,8 @@ export type AppLinksImports<Options extends AppOptions> = {
   stores?: { [store: string]: Promise<{ default: string }> }
   custom?: {
     header?: {
-      left?: Promise<{ default: AppComponent<StackHeaderLeftButtonProps> }>
-      right?: Promise<{ default: AppComponent<StackHeaderLeftButtonProps> }>
+      left?: Promise<{ default: CustomHeaderLeft }>
+      right?: Promise<{ default: CustomHeaderRight }>
     }
   }
 }

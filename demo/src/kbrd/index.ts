@@ -64,7 +64,7 @@ export const KBRD = App({
   },
   custom: {
     header: {
-      left: import("./custom/HeaderLight"),
+      left: import("./custom/HeaderLeft"),
       right: import("./custom/HeaderRight"),
     },
   },
