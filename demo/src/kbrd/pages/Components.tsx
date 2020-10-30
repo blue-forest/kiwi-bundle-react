@@ -11,6 +11,9 @@ export default KBRD.Page({
   style: ComponentsPageStyle,
 })<HomePageStates>({
   count: 0,
+/*})({
+  values: {},
+  functions: {},*/
 })({
   init: ({ appearance }) => {
     console.log("COMPONENTS PAGE INIT", appearance.colors)
@@ -38,7 +41,7 @@ export default KBRD.Page({
       </Kiwi.View>
     </Kiwi.View>
   ),
-  functions: {
+  /*functions: {
     test: context => { console.log(context) },
-  },
+  },*/
 })
