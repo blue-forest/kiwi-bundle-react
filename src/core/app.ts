@@ -95,8 +95,7 @@ export const App = <Config extends AppConfig>(options: Config) => {
         }
         return style as S1 & S2
       },
-      Store: (store: any) => {
-        console.log(store)
+      Store: () => {
         return ""
       },
       Custom: <Props>(custom: AppLinksCustom<Props>) => custom,

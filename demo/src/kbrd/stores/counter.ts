@@ -1,5 +1,3 @@
 import { KBRD } from ".."
 
-export default KBRD.Store({
-
-})
+export default KBRD.Store()

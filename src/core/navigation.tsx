@@ -57,11 +57,10 @@ export const Navigation = <Config extends AppConfig>(
             return all
           }, {}) as Theme["colors"]
         }
-        console.log(currentTheme)
       } else {
         currentTheme = DefaultTheme
       }
-      const [ theme ] = React.useState<Theme | undefined>(currentTheme)
+      const [ theme ] = React.useState<Theme>(currentTheme)
       // RENDER
       return (
         <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>

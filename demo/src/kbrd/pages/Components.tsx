@@ -9,12 +9,12 @@ type HomePageStates = {
 
 export default KBRD.Page({
   style: ComponentsPageStyle,
-  init: () => {
-    console.log("COMPONENTS PAGE INIT")
-  },
 })<HomePageStates>({
   count: 0,
 })({
+  init: () => {
+    console.log("COMPONENTS PAGE INIT")
+  },
   render: ({ state, style }) => (
     <Kiwi.View>
       <Kiwi.View style={style.textContainer}>
