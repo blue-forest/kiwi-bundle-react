@@ -58,7 +58,7 @@ export const Navigation = <Options extends AppOptions>(options: Options, links: 
             return <Stack.Screen
               key={page}
               name={page}
-              children={links.pages[page]}
+              component={links.pages[page]}
               options={{
                 title,
                 headerTitle: route.title,

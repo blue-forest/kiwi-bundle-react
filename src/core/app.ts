@@ -28,7 +28,7 @@ type AppComponentContext<Options extends AppOptions, Config extends AppComponent
 type AppComponentRender<Options extends AppOptions, Config extends AppComponentConfig, States, Props>
   = (context: AppComponentContext<Options, Config, States, Props>) => JSX.Element
 
-export type AppComponent<Props = {}> = ((props: Props) => React.ReactNode)
+export type AppComponent<Props = {}> = React.ComponentType<Props>
 
 enum FactoryType {
   COMPONENT,
@@ -61,14 +61,14 @@ export const App = <Options extends AppOptions>(options: Options) => {
               state: { get: {}, set: {} },
               navigation: {
                 navigate: (route, params) => {
-                  navigation.navigate(route as string, params)
+                  navigation.navigate(route, params)
                 },
               },
               colors,
             }
             if (typeof states !== "undefined") {
               Object.keys(states).forEach(name => {
-                const state = React.useState((states as any)[name])
+                const state = React.useState(states[name])
                 context.state.get[name] = state[0]
                 context.state.set[name] = state[1]
               })
@@ -107,7 +107,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
 
     const Custom = <Props>(custom: AppLinksCustom<Props>) => custom
 
-    Promise.resolve({ pages: {} } as AppLinks<any>).then(links => {
+    Promise.resolve<AppLinks<any>>({ pages: {} }).then(links => {
       return resolveImports(imports.pages).then(pages => {
         links.pages = pages
       }).then(() => {
