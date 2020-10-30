@@ -9,6 +9,9 @@ type HomePageStates = {
 
 export default KBRD.Page({
   style: ComponentsPageStyle,
+  init: () => {
+    console.log("COMPONENTS PAGE INIT")
+  },
 })<HomePageStates>({
   count: 0,
 })(({ state, style }) => (

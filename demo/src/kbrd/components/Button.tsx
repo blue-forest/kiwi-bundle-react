@@ -10,9 +10,7 @@ type Props = {
 
 export const ButtonComponent = KBRD.Component({
   style: ButtonComponentStyle,
-})({
-  count: 0,
-})<Props>(({ props, style }) => (
+})()<Props>(({ props, style }) => (
   <Kiwi.View style={[style.container, props.containerStyle]}>
     <Kiwi.Button
       title={props.title}

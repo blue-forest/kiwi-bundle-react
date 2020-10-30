@@ -2,13 +2,13 @@ import { KBRD } from ".."
 
 export const HomePageStyle = KBRD.StyleSheet({
   container: {
-    flexDirection: "row",
+    backgroundColor: "red",
   },
   textContainer: {
     margin: 20,
     justifyContent: "center",
     alignItems: "center",
-    height: 100,
+    height: 10,
     marginBottom: 20,
   },
   text: {
