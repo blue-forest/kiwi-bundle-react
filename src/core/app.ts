@@ -42,35 +42,7 @@ const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Conte
 
 export const App = <Config extends AppConfig>(options: Config) => {
   return (imports: AppLinksImports<Config>) => {
-    const StyleSheet = <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
-      const style: AppStyleSheet = style1
-      if (typeof style2 !== "undefined") {
-        Object.keys(style2).forEach(key => {
-          const value = (style2 as AppStyleSheet)[key]
-          if (typeof style[key] === "undefined") {
-            style[key] = value
-          } else {
-            style[key] = Object.assign(style[key], value)
-          }
-        })
-      }
-      return style as S1 & S2
-    }
-
-    const Theme = (theme: (context: { colors: Config["appearance"]["colors"] }) => AppTheme<Config["appearance"]["colors"]>) => {
-      return theme({
-        colors: options.appearance.colors,
-      })
-    }
-
-    const Store = (store: any) => {
-      console.log(store)
-      return ""
-    }
-
-    const Custom = <Props>(custom: AppLinksCustom<Props>) => custom
-
-    Promise.resolve<AppLinks<any>>({ pages: {} }).then(links => {
+    Promise.resolve<AppLinks>({ pages: {} }).then(links => {
       return resolveImports(imports.pages).then(pages => {
         links.pages = pages
       }).then(() => {
@@ -82,7 +54,7 @@ export const App = <Config extends AppConfig>(options: Config) => {
       }).then(() => {
         if (typeof imports.custom === "undefined") return
         const importsCustom = imports.custom
-        return Promise.resolve<NonNullable<AppLinks<any>["custom"]>>({}).then(custom => {
+        return Promise.resolve<NonNullable<AppLinks["custom"]>>({}).then(custom => {
           if (typeof importsCustom.header === "undefined") return custom
           return resolveImports(importsCustom.header).then(header => {
             custom.header = header
@@ -100,15 +72,34 @@ export const App = <Config extends AppConfig>(options: Config) => {
         })
       }
     })
-
     return {
-      Theme,
-      StyleSheet,
       Component: Architect<Config>(ArchitectType.COMPONENT),
       Layout: Architect<Config>(ArchitectType.LAYOUT),
       Page: Architect<Config>(ArchitectType.PAGE),
-      Store,
-      Custom,
+      Theme: (theme: (context: { colors: Config["appearance"]["colors"] }) => AppTheme<Config["appearance"]["colors"]>) => {
+        return theme({
+          colors: options.appearance.colors,
+        })
+      },
+      StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
+        const style: AppStyleSheet = style1
+        if (typeof style2 !== "undefined") {
+          Object.keys(style2).forEach(key => {
+            const value = (style2 as AppStyleSheet)[key]
+            if (typeof style[key] === "undefined") {
+              style[key] = value
+            } else {
+              style[key] = Object.assign(style[key], value)
+            }
+          })
+        }
+        return style as S1 & S2
+      },
+      Store: (store: any) => {
+        console.log(store)
+        return ""
+      },
+      Custom: <Props>(custom: AppLinksCustom<Props>) => custom,
     }
   }
 }

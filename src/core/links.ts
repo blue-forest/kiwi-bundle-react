@@ -13,7 +13,7 @@ export type AppTheme<Colors = AppConfig["appearance"]["colors"]> = {
 
 export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
 
-export type AppLinks<Options extends AppConfig> = {
+export type AppLinks<Options extends AppConfig = any> = {
   themes?: { [theme: string]: AppTheme<Options["appearance"]["colors"]> }
   pages: { [name in keyof Options["navigation"]["routes"]]: AppComponent }
   stores?: { [store: string]: string }
