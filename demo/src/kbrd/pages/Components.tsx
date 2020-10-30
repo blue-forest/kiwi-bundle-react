@@ -12,8 +12,8 @@ export default KBRD.Page({
 })<HomePageStates>({
   count: 0,
 })({
-  init: () => {
-    console.log("COMPONENTS PAGE INIT")
+  init: ({ colors }) => {
+    console.log("COMPONENTS PAGE INIT", colors)
   },
   render: ({ state, style }) => (
     <Kiwi.View>
