@@ -1,7 +1,7 @@
 import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
-import { DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navigation/native"
+import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
 import { AppConfig } from "./app"
 import { AppLinks } from "./links"
 
@@ -20,44 +20,47 @@ export const Navigation = <Config extends AppConfig>(config: Config, links: AppL
       }, {}),
     },
   }
+  // TITLE
+  let documentTitle: DocumentTitleOptions | undefined
+  if(ReactNative.Platform.OS === "web" && typeof config.platforms?.web?.title !== "undefined") {
+    const configTitle = config.platforms?.web?.title
+    documentTitle = {
+      enabled: true,
+      formatter: (_, route) => {
+        if(typeof configTitle === "string") return configTitle
+        if(typeof route !== "undefined" && typeof config.navigation.routes[route.name]?.title !== "undefined") {
+          return configTitle(config.navigation.routes[route.name].title)
+        }
+        return ""
+      },
+    }
+  }
   return () => {
     return () => {
-      // todo choose theme ?
-      // const colors = links.themes?.default
-      // let themeColors = DefaultTheme.colors
-      // Object.keys(themeColors).map(i => {
-      //   if (typeof colors !== "undefined") {
-      //     if (typeof colors[i] !== "undefined") {
-      //
-      //     }
-      //   }
-      //   themeColors[i] = colors ? colors[i] : ""
-      // })
-      //const [ theme, setTheme ] = useState(ReactNative.useColorScheme())
-
-      let documentTitle: DocumentTitleOptions | undefined
-      if(typeof config.platforms?.web?.title !== "undefined") {
-        const configTitle = config.platforms?.web?.title
-        documentTitle = {
-          enabled: true,
-          formatter: (_, route) => {
-            if(typeof configTitle === "string") return configTitle
-            if(typeof route !== "undefined" && typeof config.navigation.routes[route.name]?.title !== "undefined") {
-              return configTitle(config.navigation.routes[route.name].title)
+      // THEME
+      let currentTheme: Theme
+      if(typeof links.themes !== "undefined") {
+        const scheme = ReactNative.useColorScheme()
+        const first: any = Object.values(links.themes)[0]
+        currentTheme = {
+          dark: scheme === "dark",
+          colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
+            if(typeof first[key] === "function") {
+              all[key] = first[key](config.appearance.colors)
             }
-            return ""
-          },
+            if(typeof first[key] === "object") {
+              all[key] = first[key][scheme || "light"]
+            }
+            return all
+          }, {}) as Theme["colors"]
         }
+      } else {
+        currentTheme = DefaultTheme
       }
-
+      const [ theme ] = React.useState<Theme | undefined>(currentTheme)
+      // RENDER
       return (
-        <NavigationContainer
-            linking={linking}
-            documentTitle={documentTitle}
-            /*theme={{
-              dark: scheme === "dark",
-              colors: DefaultTheme.colors // themeColors
-            }}*/>
+        <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
           <Stack.Navigator screenOptions={{
             headerShown: !config.appearance.header?.hide,
             headerStyle: config.appearance.header?.style,

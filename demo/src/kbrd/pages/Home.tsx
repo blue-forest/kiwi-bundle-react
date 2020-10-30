@@ -10,7 +10,6 @@ export default KBRD.Page({
   count: 5,
 })(({ navigation, style }) => (
   <Kiwi.View style={style.container}>
-    {console.log(style.container)}
     <Kiwi.Image
       source={KiwiImage}
       style={{ width: 64, height: 64, resizeMode: "contain" }}

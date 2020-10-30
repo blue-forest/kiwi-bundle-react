@@ -4,7 +4,7 @@ import { CustomHeaderLeft, CustomHeaderRight } from "./custom"
 
 type AppThemeColor<Colors> = string | ((colors: Colors) => string)
 
-export type AppTheme<Colors = AppConfig["appearance"]["colors"]> = {
+export type AppTheme<Colors> = {
   [color in keyof Theme["colors"]]: AppThemeColor<Colors> | {
     dark: AppThemeColor<Colors>
     light: AppThemeColor<Colors>
