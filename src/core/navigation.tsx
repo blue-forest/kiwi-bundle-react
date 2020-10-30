@@ -1,7 +1,7 @@
 import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
-import { LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navigation/native"
+import { DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap } from "@react-navigation/native"
 import { AppConfig } from "./app"
 import { AppLinks } from "./links"
 
@@ -35,9 +35,25 @@ export const Navigation = <Config extends AppConfig>(config: Config, links: AppL
       // })
       //const [ theme, setTheme ] = useState(ReactNative.useColorScheme())
 
+      let documentTitle: DocumentTitleOptions | undefined
+      if(typeof config.platforms?.web?.title !== "undefined") {
+        const configTitle = config.platforms?.web?.title
+        documentTitle = {
+          enabled: true,
+          formatter: (_, route) => {
+            if(typeof configTitle === "string") return configTitle
+            if(typeof route !== "undefined" && typeof config.navigation.routes[route.name]?.title !== "undefined") {
+              return configTitle(config.navigation.routes[route.name].title)
+            }
+            return ""
+          },
+        }
+      }
+
       return (
         <NavigationContainer
             linking={linking}
+            documentTitle={documentTitle}
             /*theme={{
               dark: scheme === "dark",
               colors: DefaultTheme.colors // themeColors
@@ -48,20 +64,11 @@ export const Navigation = <Config extends AppConfig>(config: Config, links: AppL
           }}>
           {Object.keys(links.pages).map(page => {
             const route = config.navigation.routes[page]
-            let title = ""
-            if(typeof config.platforms?.web?.title !== "undefined") {
-              if(typeof config.platforms?.web.title === "string") {
-                title = config.platforms?.web.title
-              } else {
-                title = config.platforms?.web.title(route.title)
-              }
-            }
             return <Stack.Screen
               key={page}
               name={page}
               component={links.pages[page]}
               options={{
-                title,
                 headerTitle: route.title,
                 headerLeft: links.custom?.header?.left,
                 headerRight: links.custom?.header?.right,
