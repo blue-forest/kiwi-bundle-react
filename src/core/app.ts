@@ -27,7 +27,7 @@ export type AppConfig = {
   }
 }
 
-export type AppComponent<Props = {}> = React.ComponentType<Props>
+export type AppComponent<Props> = React.ComponentType<Props>
 
 const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
   return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
@@ -40,20 +40,30 @@ const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Conte
   }), Promise.resolve({}))
 }
 
-export const App = <Config extends AppConfig>(options: Config) => {
-  return (imports: AppLinksImports<Config>) => {
-    Promise.resolve<AppLinks>({ pages: {} }).then(links => {
-      return resolveImports(imports.pages).then(pages => {
-        links.pages = pages
+export type App<Config extends AppConfig, Links extends AppLinksImports<Config>> = {
+  Component: Architect<Config, Links>
+  Layout: Architect<Config, Links>
+  Page: Architect<Config, Links>
+  Theme: <Theme extends AppTheme<Config["appearance"]["colors"]>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => Theme
+  StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => S1 & S2
+  Store: () => string
+  Custom: <Props>(custom: AppLinksCustom<Props>) => AppLinksCustom<Props>
+}
+
+export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config) => {
+  return (links: Links): App<Config, Links> => {
+    Promise.resolve<AppLinks>({ pages: {} }).then(resolvedLinks => {
+      return resolveImports(links.pages).then(pages => {
+        resolvedLinks.pages = pages
       }).then(() => {
-        if (typeof imports.themes === "undefined") return
-        return resolveImports(imports.themes).then(themes => { links.themes = themes })
+        if (typeof links.themes === "undefined") return
+        return resolveImports(links.themes).then(themes => { resolvedLinks.themes = themes })
       }).then(() => {
-        if (typeof imports.stores === "undefined") return
-        return resolveImports(imports.stores).then(stores => { links.stores = stores })
+        if (typeof links.stores === "undefined") return
+        return resolveImports(links.stores).then(stores => { resolvedLinks.stores = stores })
       }).then(() => {
-        if (typeof imports.custom === "undefined") return
-        const importsCustom = imports.custom
+        if (typeof links.custom === "undefined") return
+        const importsCustom = links.custom
         return Promise.resolve<NonNullable<AppLinks["custom"]>>({}).then(custom => {
           if (typeof importsCustom.header === "undefined") return custom
           return resolveImports(importsCustom.header).then(header => {
@@ -61,11 +71,11 @@ export const App = <Config extends AppConfig>(options: Config) => {
             return custom
           })
         }).then(custom => {
-          links.custom = custom
+          resolvedLinks.custom = custom
         })
-      }).then(() => links)
-    }).then(links => {
-      ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, links))
+      }).then(() => resolvedLinks)
+    }).then(resolvedLinks => {
+      ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks))
       if (ReactNative.Platform.OS === "web") {
         ReactNative.AppRegistry.runApplication(options.key, {
           rootTag: document.getElementById("root"),
@@ -73,14 +83,12 @@ export const App = <Config extends AppConfig>(options: Config) => {
       }
     })
     return {
-      Component: Architect<Config>(ArchitectType.COMPONENT),
-      Layout: Architect<Config>(ArchitectType.LAYOUT),
-      Page: Architect<Config>(ArchitectType.PAGE),
-      Theme: (theme: (context: { colors: Config["appearance"]["colors"] }) => AppTheme<Config["appearance"]["colors"]>) => {
-        return theme({
-          colors: options.appearance.colors,
-        })
-      },
+      Component: Architect<Config, Links>(ArchitectType.COMPONENT),
+      Layout: Architect<Config, Links>(ArchitectType.LAYOUT),
+      Page: Architect<Config, Links>(ArchitectType.PAGE),
+      Theme: theme => theme({
+        colors: options.appearance.colors,
+      }),
       StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
         const style: AppStyleSheet = style1
         if (typeof style2 !== "undefined") {
@@ -95,10 +103,8 @@ export const App = <Config extends AppConfig>(options: Config) => {
         }
         return style as S1 & S2
       },
-      Store: () => {
-        return ""
-      },
-      Custom: <Props>(custom: AppLinksCustom<Props>) => custom,
+      Store: () => "",
+      Custom: custom => custom,
     }
   }
 }

@@ -13,9 +13,9 @@ export type AppTheme<Colors> = {
 
 export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
 
-export type AppLinks<Options extends AppConfig = any> = {
-  themes?: { [theme: string]: AppTheme<Options["appearance"]["colors"]> }
-  pages: { [name in keyof Options["navigation"]["routes"]]: AppComponent }
+export type AppLinks<Config extends AppConfig = any> = {
+  themes?: { [theme: string]: AppTheme<Config["appearance"]["colors"]> }
+  pages: { [name in keyof Config["navigation"]["routes"]]: AppComponent<any> }
   stores?: { [store: string]: string }
   custom?: {
     header?: {
@@ -25,9 +25,9 @@ export type AppLinks<Options extends AppConfig = any> = {
   }
 }
 
-export type AppLinksImports<Options extends AppConfig> = {
-  themes?: { [theme: string]: Promise<{ default: AppTheme<Options["appearance"]["colors"]> }> }
-  pages: { [name in keyof Options["navigation"]["routes"]]: Promise<{ default: AppComponent }> }
+export type AppLinksImports<Config extends AppConfig> = {
+  themes?: { [theme: string]: Promise<{ default: AppTheme<Config["appearance"]["colors"]> }> }
+  pages: { [name in keyof Config["navigation"]["routes"]]: Promise<{ default: AppComponent<any> }> }
   stores?: { [store: string]: Promise<{ default: string }> }
   custom?: {
     header?: {
