@@ -27,7 +27,11 @@ export type AppConfig = {
   }
 }
 
-export type AppComponent<Props> = React.ComponentType<Props>
+export type AppComponentStates = { [name: string]: any }
+
+export type AppComponentProps = { [name: string]: any }
+
+export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
 const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
   return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
@@ -40,19 +44,9 @@ const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Conte
   }), Promise.resolve({}))
 }
 
-export type App<Config extends AppConfig, Links extends AppLinksImports<Config>> = {
-  Component: Architect<Config, Links>
-  Layout: Architect<Config, Links>
-  Page: Architect<Config, Links>
-  Theme: <Theme extends AppTheme<Config["appearance"]["colors"]>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => Theme
-  StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => S1 & S2
-  Store: () => string
-  Custom: <Props>(custom: AppLinksCustom<Props>) => AppLinksCustom<Props>
-}
-
-export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config) => {
-  return (links: Links): App<Config, Links> => {
-    Promise.resolve<AppLinks>({ pages: {} }).then(resolvedLinks => {
+export const App = <Config extends AppConfig>(options: Config) => {
+  return <Links extends AppLinksImports<Config>>(links: Links) => {
+    Promise.resolve<AppLinks<any>>({ pages: {} }).then(resolvedLinks => {
       return resolveImports(links.pages).then(pages => {
         resolvedLinks.pages = pages
       }).then(() => {
@@ -64,7 +58,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       }).then(() => {
         if (typeof links.custom === "undefined") return
         const importsCustom = links.custom
-        return Promise.resolve<NonNullable<AppLinks["custom"]>>({}).then(custom => {
+        return Promise.resolve<NonNullable<AppLinks<any>["custom"]>>({}).then(custom => {
           if (typeof importsCustom.header === "undefined") return custom
           return resolveImports(importsCustom.header).then(header => {
             custom.header = header
@@ -86,9 +80,11 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       Component: Architect<Config, Links>(ArchitectType.COMPONENT),
       Layout: Architect<Config, Links>(ArchitectType.LAYOUT),
       Page: Architect<Config, Links>(ArchitectType.PAGE),
-      Theme: theme => theme({
-        colors: options.appearance.colors,
-      }),
+      Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
+        return theme({
+          colors: options.appearance.colors,
+        })
+      },
       StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
         const style: AppStyleSheet = style1
         if (typeof style2 !== "undefined") {
@@ -104,7 +100,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
         return style as S1 & S2
       },
       Store: () => "",
-      Custom: custom => custom,
+      Custom: <Props extends AppComponentProps>(custom: AppLinksCustom<Props>): AppLinksCustom<Props> => custom,
     }
   }
 }

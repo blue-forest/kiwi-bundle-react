@@ -1,6 +1,6 @@
 import { React } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { AppComponent, AppConfig } from "./app"
+import { AppComponentProps, AppComponentStates, AppConfig } from "./app"
 import { AppStyleSheet } from "./styles"
 import { AppLinksImports } from "./links"
 
@@ -14,16 +14,12 @@ type ArchitectOptions = {
   style?: AppStyleSheet
 }
 
-type ArchitectStates = { [name: string]: any }
-
-type ArchitectProps = { [name: string]: any }
-
 type ArchitectContext<
   Config extends AppConfig,
-  _ extends AppLinksImports<Config>,
+  Links extends AppLinksImports<Config>,
   Options extends ArchitectOptions,
-  States,
-  Props
+  States extends AppComponentStates,
+  Props extends AppComponentProps,
   > = {
     props: Props
     style: Options["style"]
@@ -35,36 +31,29 @@ type ArchitectContext<
       set: { [name in keyof States]: (v: States[keyof States]) => void }
     }
     colors: Config["appearance"]["colors"]
-    setTheme: (theme: string) => void
+    setTheme: (theme: keyof Links["themes"]) => void
   }
-
 
 type AppComponentStart<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Options extends ArchitectOptions,
-  States,
-  Props
+  States extends AppComponentStates,
+  Props extends AppComponentProps,
   > = {
     init?: (context: ArchitectContext<Config, Links, Options, States, Props>) => void
     render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
   }
 
-export type Architect<Config extends AppConfig, Links extends AppLinksImports<Config>> =
-  <Options extends ArchitectOptions>(options?: Options)
-    => <States extends ArchitectStates>(states?: States)
-      => <Props extends ArchitectProps>(start: AppComponentStart<Config, Links, Options, States, Props>)
-        => AppComponent<Props>
-
-export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(type: ArchitectType): Architect<Config, Links> => {
+export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(type: ArchitectType) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
     if (typeof options?.style !== "undefined") {
       style = options.style
     }
-    return <States extends ArchitectStates>(states?: States) => {
-      return <Props extends ArchitectProps>(start: AppComponentStart<Config, Links, Options, States, Props>) => {
-        return props => {
+    return <States extends AppComponentStates>(states?: States) => {
+      return <Props extends AppComponentProps>(start: AppComponentStart<Config, Links, Options, States, Props>) => {
+        return (props: Props) => {
           // NAVIGATION
           const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
           // THEME
