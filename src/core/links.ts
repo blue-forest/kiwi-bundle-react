@@ -24,15 +24,3 @@ export type AppLinks<Config extends AppConfig> = {
     }
   }
 }
-
-export type AppLinksImports<Config extends AppConfig> = {
-  themes?: { [theme: string]: Promise<{ default: AppTheme<Config> }> }
-  pages: { [name in keyof Config["navigation"]["routes"]]: Promise<{ default: AppComponent }> }
-  stores?: { [store: string]: Promise<{ default: string }> }
-  custom?: {
-    header?: {
-      left?: Promise<{ default: AppLinksCustom<CustomHeaderLeft> }>
-      right?: Promise<{ default: AppLinksCustom<CustomHeaderRight> }>
-    }
-  }
-}

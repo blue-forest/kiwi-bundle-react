@@ -1,8 +1,8 @@
 import { React } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { AppComponentProps, AppComponentStates, AppConfig } from "./app"
+import { AppComponent, AppComponentProps, AppComponentStates, AppConfig } from "./app"
 import { AppStyleSheet } from "./styles"
-import { AppLinksImports } from "./links"
+import { AppLinks } from "./links"
 
 export enum ArchitectType {
   COMPONENT,
@@ -16,7 +16,7 @@ type ArchitectOptions = {
 
 type ArchitectContext<
   Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
+  Links extends AppLinks<Config>,
   Options extends ArchitectOptions,
   States extends AppComponentStates,
   Props extends AppComponentProps,
@@ -36,7 +36,7 @@ type ArchitectContext<
 
 type AppComponentStart<
   Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
+  Links extends AppLinks<Config>,
   Options extends ArchitectOptions,
   States extends AppComponentStates,
   Props extends AppComponentProps,
@@ -45,15 +45,15 @@ type AppComponentStart<
     render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
   }
 
-export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(type: ArchitectType) => {
+export const Architect = <Config extends AppConfig, Links extends AppLinks<Config>>(type: ArchitectType) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
     if (typeof options?.style !== "undefined") {
       style = options.style
     }
     return <States extends AppComponentStates>(states?: States) => {
-      return <Props extends AppComponentProps>(start: AppComponentStart<Config, Links, Options, States, Props>) => {
-        return (props: Props) => {
+      return <Props extends AppComponentProps>(start: AppComponentStart<Config, Links, Options, States, Props>): AppComponent<Props> => {
+        return props => {
           // NAVIGATION
           const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
           // THEME
