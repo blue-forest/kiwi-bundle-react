@@ -2,7 +2,7 @@ import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { Navigation } from "./navigation"
 import { StyleSheet } from "./styles"
-import { AppLinks, AppLinksImports, AppOptions, AppTheme } from "./options"
+import { AppLinks, AppLinksCustom, AppLinksImports, AppOptions, AppTheme } from "./options"
 
 type States = { [name: string]: any }
 
@@ -105,6 +105,8 @@ export const App = <Options extends AppOptions>(options: Options) => {
       return ""
     }
 
+    const Custom = <Props>(custom: AppLinksCustom<Props>) => custom
+
     Promise.resolve({ pages: {} } as AppLinks<any>).then(links => {
       return resolveImports(imports.pages).then(pages => {
         links.pages = pages
@@ -143,6 +145,7 @@ export const App = <Options extends AppOptions>(options: Options) => {
       Layout: factory(FactoryType.LAYOUT),
       Page: factory(FactoryType.PAGE),
       Store,
+      Custom,
     }
   }
 }

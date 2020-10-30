@@ -35,14 +35,16 @@ export type AppTheme<Colors = AppOptions["appearance"]["colors"]> = {
   }
 }
 
+export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
+
 export type AppLinks<Options extends AppOptions> = {
   themes?: { [theme: string]: AppTheme<Options["appearance"]["colors"]> }
   pages: { [name in keyof Options["navigation"]["routes"]]: AppComponent }
   stores?: { [store: string]: string }
   custom?: {
     header?: {
-      left?: CustomHeaderLeft
-      right?: CustomHeaderRight
+      left?: AppLinksCustom<CustomHeaderLeft>
+      right?: AppLinksCustom<CustomHeaderRight>
     }
   }
 }
@@ -53,8 +55,8 @@ export type AppLinksImports<Options extends AppOptions> = {
   stores?: { [store: string]: Promise<{ default: string }> }
   custom?: {
     header?: {
-      left?: Promise<{ default: CustomHeaderLeft }>
-      right?: Promise<{ default: CustomHeaderRight }>
+      left?: Promise<{ default: AppLinksCustom<CustomHeaderLeft> }>
+      right?: Promise<{ default: AppLinksCustom<CustomHeaderRight> }>
     }
   }
 }

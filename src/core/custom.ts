@@ -1,5 +1,5 @@
 import { StackHeaderLeftButtonProps } from "@react-navigation/stack"
 
-export type CustomHeaderLeft = (props: StackHeaderLeftButtonProps) => React.ReactNode
+export type CustomHeaderLeft = StackHeaderLeftButtonProps
 
-export type CustomHeaderRight = (props: { tintColor?: string | undefined }) => React.ReactNode
+export type CustomHeaderRight = { tintColor?: string | undefined }
