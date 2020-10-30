@@ -10,11 +10,13 @@ type Props = {
 
 export const ButtonComponent = KBRD.Component({
   style: ButtonComponentStyle,
-})()<Props>(({ props, style }) => (
-  <Kiwi.View style={[style.container, props.containerStyle]}>
-    <Kiwi.Button
-      title={props.title}
-      onPress={props.onPress}
-    />
-  </Kiwi.View>
-))
+})()<Props>({
+  render: ({ props, style }) => (
+    <Kiwi.View style={[style.container, props.containerStyle]}>
+      <Kiwi.Button
+        title={props.title}
+        onPress={props.onPress}
+      />
+    </Kiwi.View>
+  ),
+})

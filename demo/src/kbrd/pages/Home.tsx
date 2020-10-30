@@ -6,15 +6,15 @@ import KiwiImage from "../../assets/kiwi.png"
 
 export default KBRD.Page({
   style: HomePageStyle,
-})({
-  count: 5,
-})(({ navigation, style }) => (
-  <Kiwi.View style={style.container}>
-    <Kiwi.Image
-      source={KiwiImage}
-      style={{ width: 64, height: 64, resizeMode: "contain" }}
-    />
-    <ButtonComponent title="Components" onPress={() => { navigation.navigate("COMPONENTS") }}/>
-    <ButtonComponent title="Parameters" onPress={() => { navigation.navigate("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
-  </Kiwi.View>
-))
+})()({
+  render: ({ navigation, style }) => (
+    <Kiwi.View style={style.container}>
+      <Kiwi.Image
+        source={KiwiImage}
+        style={{ width: 64, height: 64, resizeMode: "contain" }}
+      />
+      <ButtonComponent title="Components" onPress={() => { navigation.navigate("COMPONENTS") }}/>
+      <ButtonComponent title="Parameters" onPress={() => { navigation.navigate("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
+    </Kiwi.View>
+  ),
+})

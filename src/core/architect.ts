@@ -9,11 +9,15 @@ export enum ArchitectType {
   PAGE,
 }
 
+type ArchitectOptions = {
+  style?: AppStyleSheet
+}
+
 type ArchitectStates = { [name: string]: any }
 
 type ArchitectProps = { [name: string]: any }
 
-type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = {
+type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions, States, Props> = {
   props: Props
   style: Options["style"]
   navigation: {
@@ -26,24 +30,19 @@ type ArchitectContext<Config extends AppConfig, Options extends ArchitectOptions
   colors: Config["appearance"]["colors"]
 }
 
-type ArchitectOptions<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = {
-  style?: AppStyleSheet
+
+type AppComponentStart<Config extends AppConfig, Options extends ArchitectOptions, States, Props> = {
   init?: (context: ArchitectContext<Config, Options, States, Props>) => void
+  render: (context: ArchitectContext<Config, Options, States, Props>) => JSX.Element
 }
 
-type AppComponentRender<Config extends AppConfig, Options extends ArchitectOptions<Config, Options, States, Props>, States, Props> = (
-  context: ArchitectContext<Config, Options, States, Props>
-) => JSX.Element
-
-export const Architect = <Config extends AppConfig>(
-  type: ArchitectType
-) => <Options extends ArchitectOptions<Config, Options, States, Props>>(options?: Options) => {
+export const Architect = <Config extends AppConfig>(type: ArchitectType) => <Options extends ArchitectOptions>(options?: Options) => {
   let style: Options["style"] = {}
   if (typeof options?.style !== "undefined") {
     style = options.style
   }
   return <States extends ArchitectStates>(states?: States) => {
-    return <Props extends ArchitectProps>(render: AppComponentRender<Config, Options, States, Props>) => {
+    return <Props extends ArchitectProps>(start: AppComponentStart<Config, Options, States, Props>) => {
       return (props: any) => {
         // NAVIGATION
         const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
@@ -69,17 +68,14 @@ export const Architect = <Config extends AppConfig>(
             context.state.set[name] = state[1]
           })
         }
-        // CONFIG
-        if (typeof options !== "undefined") {
-          // INIT
-          if (typeof options.init !== "undefined") {
-            const init = options.init
-            React.useEffect(() => {
-              init(context)
-            }, [])
-          }
+        // INIT
+        if (typeof start.init !== "undefined") {
+          const init = start.init
+          React.useEffect(() => {
+            init(context)
+          }, [])
         }
-        return render(context)
+        return start.render(context)
       }
     }
   }

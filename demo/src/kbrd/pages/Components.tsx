@@ -14,26 +14,28 @@ export default KBRD.Page({
   },
 })<HomePageStates>({
   count: 0,
-})(({ state, style }) => (
-  <Kiwi.View>
-    <Kiwi.View style={style.textContainer}>
-      <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>
+})({
+  render: ({ state, style }) => (
+    <Kiwi.View>
+      <Kiwi.View style={style.textContainer}>
+        <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>
+      </Kiwi.View>
+      <Kiwi.View style={style.container}>
+        <ButtonComponent
+          title="-"
+          onPress={() => {
+            if (state.get.count > 0) {
+              state.set.count(state.get.count - 1)
+            }
+          }}
+        />
+        <ButtonComponent
+          title="+"
+          onPress={() => {
+            state.set.count(state.get.count + 1)
+          }}
+        />
+      </Kiwi.View>
     </Kiwi.View>
-    <Kiwi.View style={style.container}>
-      <ButtonComponent
-        title="-"
-        onPress={() => {
-          if (state.get.count > 0) {
-            state.set.count(state.get.count - 1)
-          }
-        }}
-      />
-      <ButtonComponent
-        title="+"
-        onPress={() => {
-          state.set.count(state.get.count + 1)
-        }}
-      />
-    </Kiwi.View>
-  </Kiwi.View>
-))
+  ),
+})
