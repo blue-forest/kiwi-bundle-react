@@ -7,17 +7,17 @@ import KiwiImage from "../../assets/kiwi.png"
 export default KBRD.Page({
   style: HomePageStyle,
 })()({
-  render: ({ navigation, style, setTheme }) => (
+  render: ({ navigation, style, appearance }) => (
     <Kiwi.View style={style.container}>
       <Kiwi.Image
         source={KiwiImage}
         style={{ width: 64, height: 64, resizeMode: "contain" }}
       />
-      <ButtonComponent title="Components" onPress={() => { navigation.navigate("COMPONENTS") }}/>
-      <ButtonComponent title="Parameters" onPress={() => { navigation.navigate("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
+      <ButtonComponent title="Components" onPress={() => { navigation.push("COMPONENTS") }}/>
+      <ButtonComponent title="Parameters" onPress={() => { navigation.push("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
 
       <ButtonComponent title="set theme 'default'" onPress={() => {
-        console.log(setTheme("default"))
+        appearance.theme.set("default")
       }}/>
     </Kiwi.View>
   ),
