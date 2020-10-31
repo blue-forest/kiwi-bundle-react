@@ -35,42 +35,48 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-type AppGlobalState = { theme: Theme }
-
-type AppGlobalStateCallbacks<Data> = ((data: Data) => void)[]
+type AppGlobalStateCallbacks<Input, Output> = { get?: () => Output, update: ((data: Input) => void)[] }
 
 type Actions<Input, Output> = {
   get: () => Output
   set: (data: Input) => void
-  bind: (get: () => Output, update: (data: Input) => void) => void
+  bind: {
+    get: (callback: () => Output) => void
+    set: (callback: (data: Input) => void) => void
+  }
 }
 
 export type AppStateGlobalActions = {
-  getTheme: () => Theme
-  setTheme: (theme: string) => void
-  onThemeUpdate: (update: (theme: string) => void) => void
-  getScheme: () => ReactNative.ColorSchemeName
-  setScheme: (scheme: ReactNative.ColorSchemeName) => void
-  onSchemeUpdate: (update: (scheme: ReactNative.ColorSchemeName) => void) => void
+  theme: Actions<string, Theme["colors"]>
+  scheme: Actions<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  const globalState: AppGlobalState = { theme: { DefaultTheme } }
-  const globalStateSchemeCallbacks: AppGlobalStateCallbacks<AppGlobalState["theme"]["dark"]> = []
-  const globalStateThemeCallbacks: AppGlobalStateCallbacks<AppGlobalState["theme"]> = []
+  const globalStateThemeCallbacks: AppGlobalStateCallbacks<string, Theme["colors"]> = { update: [] }
+  const globalStateSchemeCallbacks: AppGlobalStateCallbacks<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName> = { update: [] }
   const globalStateActions: AppStateGlobalActions = {
-    setTheme: theme => {
-      globalState.theme = theme
-      globalStateThemeCallbacks.forEach(update => update(theme))
+    theme: {
+      get: () => {
+        if (typeof globalStateThemeCallbacks.get === "undefined") return DefaultTheme.colors
+        return globalStateThemeCallbacks.get()
+      },
+      set: theme => { globalStateThemeCallbacks.update.forEach(update => update(theme)) },
+      bind: {
+        get: cb => { globalStateThemeCallbacks.update.push(cb) },
+        set: cb => { globalStateThemeCallbacks.get = cb }
+      },
     },
-    getTheme: () => globalState.theme,
-    onThemeUpdate: callback => { globalStateThemeCallbacks.push(callback) },
-    setScheme: scheme => {
-      globalState.scheme = scheme
-      globalStateSchemeCallbacks.forEach(update => update(scheme))
+    scheme: {
+      get: () => {
+        if (typeof globalStateSchemeCallbacks.get === "undefined") return "light"
+        return globalStateSchemeCallbacks.get()
+      },
+      set: theme => { globalStateSchemeCallbacks.update.forEach(update => update(theme)) },
+      bind: {
+        get: cb => { globalStateSchemeCallbacks.update.push(cb) },
+        set: cb => { globalStateSchemeCallbacks.get = cb }
+      },
     },
-    getScheme: () => globalState.scheme,
-    onSchemeUpdate: callback => { globalStateSchemeCallbacks.push(callback) },
   }
   return {
     Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalStateActions),
