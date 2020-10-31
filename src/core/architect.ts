@@ -74,12 +74,27 @@ type AppComponentStart<
     render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
   }
 
+type ArchitectContext2<Props extends AppComponentProps> = {
+  props: Props
+}
+
+type ArchitectSelf<Props extends AppComponentProps> = {
+  render: (render: (context: ArchitectContext2<Props>) => React.ReactNode) => AppComponent<Props>
+}
+
 export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
   config: Config,
   globalState: AppGlobalState<keyof Links["themes"]>,
   type: ArchitectType,
 ) => {
-  return <Options extends ArchitectOptions>(options?: Options) => {
+
+  return <Props extends AppComponentProps>(self: (s: ArchitectSelf<Props>) => AppComponent<Props>) => {
+    return self({
+      render: () => "" as any as AppComponent<Props>
+    })
+  }
+
+  /*return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
     if (typeof options?.style !== "undefined") {
       style = options.style
@@ -130,5 +145,5 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
       }
     }
     //}
-  }
+  }*/
 }
