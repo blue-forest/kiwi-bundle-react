@@ -18,7 +18,7 @@ export default KBRD.Page({
   init: ({ appearance }) => {
     console.log("COMPONENTS PAGE INIT", appearance.colors)
   },
-  render: ({ state, style }) => (
+  render: ({ state, style, appearance }) => (
     <Kiwi.View>
       <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>
@@ -39,6 +39,11 @@ export default KBRD.Page({
           }}
         />
       </Kiwi.View>
+      <ButtonComponent title="set dark scheme" onPress={() => {
+        console.log(appearance.theme.scheme.get())
+        appearance.theme.scheme.set("dark")
+        console.log(appearance.theme.scheme.get())
+      }}/>
     </Kiwi.View>
   ),
   /*functions: {

@@ -5,6 +5,7 @@ import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } 
 import { Architect, ArchitectType } from "./architect"
 import { React } from "../vendors"
 import { DefaultTheme, Theme } from "@react-navigation/native"
+import { Actions } from "../utils/actions"
 
 export type AppConfig = {
   key: string
@@ -35,33 +36,29 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-const generateGlobalStateItem = <Input, Output>(defaultValue: Output) => {
-  const callbacks: { get?: () => Output, set: ((data: Input) => void)[] } = { set: [] }
-  return {
-    get: () => {
-      if (typeof callbacks.get === "undefined") return defaultValue
-      return callbacks.get()
-    },
-    set: (data: Input) => { callbacks.set.forEach(set => set(data)) },
-    bind: {
-      get: (callback: () => Output) => { callbacks.get = callback },
-      set: (callback: (data: Input) => void) => { callbacks.set.push(callback) },
-    },
+export type AppGlobalState<Themes = any> = {
+  theme: {
+    name: Actions<Themes>
+    colors: Actions<Theme["colors"]>
+    scheme: Actions<ReactNative.ColorSchemeName>
   }
 }
 
-export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  const globalState = {
-    theme: generateGlobalStateItem<string, Theme["colors"]>(DefaultTheme.colors),
-    scheme: generateGlobalStateItem<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>("light"),
+export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
+  const globalState: AppGlobalState = {
+    theme: {
+      name: Actions(""),
+      colors: Actions<Theme["colors"]>(DefaultTheme.colors),
+      scheme: Actions("light" as ReactNative.ColorSchemeName)
+    }
   }
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalState),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, globalState),
-    Page: Architect<Config, Links>(ArchitectType.PAGE, globalState),
+    Component: Architect<Config, Links>(config, globalState, ArchitectType.COMPONENT),
+    Layout: Architect<Config, Links>(config, globalState, ArchitectType.LAYOUT),
+    Page: Architect<Config, Links>(config, globalState, ArchitectType.PAGE),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
-        colors: options.appearance.colors,
+        colors: config.appearance.colors,
       })
     },
     StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
@@ -115,9 +112,9 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, globalState))
+        ReactNative.AppRegistry.registerComponent(config.key, Navigation(config, resolvedLinks, globalState))
         if (ReactNative.Platform.OS === "web") {
-          ReactNative.AppRegistry.runApplication(options.key, {
+          ReactNative.AppRegistry.runApplication(config.key, {
             rootTag: document.getElementById("root"),
           })
         }

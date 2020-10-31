@@ -7,7 +7,7 @@ import KiwiImage from "../../assets/kiwi.png"
 export default KBRD.Page({
   style: HomePageStyle,
 })()({
-  render: ({ navigation, style, appearance }) => (
+  render: ({ navigation, style }) => (
     <Kiwi.View style={style.container}>
       <Kiwi.Image
         source={KiwiImage}
@@ -15,12 +15,6 @@ export default KBRD.Page({
       />
       <ButtonComponent title="Components" onPress={() => { navigation.push("COMPONENTS") }}/>
       <ButtonComponent title="Parameters" onPress={() => { navigation.push("PARAMS", { first: "it", second: "works", very: "well" }) }}/>
-
-      <ButtonComponent title="set dark scheme" onPress={() => {
-        //appearance.theme.set("default")
-        console.log(appearance.scheme.get())
-        appearance.scheme.set("dark")
-      }}/>
     </Kiwi.View>
   ),
 })

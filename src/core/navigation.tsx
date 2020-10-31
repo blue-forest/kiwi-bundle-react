@@ -5,10 +5,10 @@ import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer
 import { AppConfig, AppGlobalState } from "./app"
 import { AppLinks } from "./links"
 
-export const Navigation = <Config extends AppConfig>(
+export const Navigation = <Config extends AppConfig, Links extends AppLinks<Config>>(
   config: Config,
-  links: AppLinks<Config>,
-  globalStateActions: AppGlobalState,
+  links: Links,
+  globalState: AppGlobalState,
 ): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
@@ -58,8 +58,10 @@ export const Navigation = <Config extends AppConfig>(
       // THEME
       const [ theme, setTheme ] = React.useState<Theme>(generateTheme(ReactNative.useColorScheme()))
       React.useEffect(() => {
-        globalStateActions.onThemeUpdate(_ => {})
-        globalStateActions.onSchemeUpdate(scheme => { setTheme(generateTheme(scheme)) })
+        globalState.theme.scheme.bind({
+          get: () => theme.dark ? "dark" : "light",
+          set: scheme => { setTheme(generateTheme(scheme)) },
+        })
       }, [])
       // RENDER
       return (

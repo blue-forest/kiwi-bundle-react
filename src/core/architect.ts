@@ -1,8 +1,8 @@
 import { React, ReactNative } from "../vendors"
-import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
+import { NavigationProp, Theme, useNavigation, useTheme } from "@react-navigation/native"
 import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "./app"
 import { AppStyleSheet } from "./styles"
-import { AppLinksImports, AppTheme } from "./links"
+import { AppLinksImports } from "./links"
 
 export enum ArchitectType {
   COMPONENT,
@@ -37,12 +37,13 @@ type ArchitectContext<
     appearance: {
       colors: Config["appearance"]["colors"]
       theme: {
-        get: () => AppTheme<Config> | undefined
+        get: () => keyof Links["themes"]
         set: (theme: keyof Links["themes"]) => void
-      }
-      scheme: {
-        get: () => "dark" | "light" | undefined
-        set: (scheme: "dark" | "light") => void
+        colors: Theme["colors"],
+        scheme: {
+          get: () => ReactNative.ColorSchemeName
+          set: (scheme: ReactNative.ColorSchemeName) => void
+        }
       }
     }
   }
@@ -74,8 +75,9 @@ type AppComponentStart<
   }
 
 export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
+  config: Config,
+  globalState: AppGlobalState<keyof Links["themes"]>,
   type: ArchitectType,
-  globalStateActions: AppGlobalState,
 ) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
@@ -100,14 +102,11 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
               push: (route, params) => { navigation.navigate(route, params) },
             },
             appearance: {
-              colors,
+              colors: config.appearance.colors,
               theme: {
-                get: globalStateActions.getTheme,
-                set: globalStateActions.setTheme,
-              },
-              scheme: {
-                get: globalStateActions.getScheme,
-                set: globalStateActions.setScheme,
+                ...globalState.theme.name.target,
+                colors,
+                scheme: globalState.theme.scheme.target,
               },
             }
           }
