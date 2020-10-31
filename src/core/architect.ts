@@ -37,7 +37,7 @@ type ArchitectContext<
     appearance: {
       colors: Config["appearance"]["colors"]
       theme: {
-        get: () => keyof Links["themes"]
+        get: () => keyof Links["themes"] | undefined
         set: (theme: keyof Links["themes"]) => void
         colors: Theme["colors"],
         scheme: {

@@ -4,7 +4,6 @@ import { AppStyleSheet } from "./styles"
 import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
 import { Architect, ArchitectType } from "./architect"
 import { React } from "../vendors"
-import { DefaultTheme, Theme } from "@react-navigation/native"
 import { Actions } from "../utils/actions"
 
 export type AppConfig = {
@@ -39,19 +38,12 @@ export type AppComponent<Props extends AppComponentProps = {}> = React.Component
 export type AppGlobalState<Themes = any> = {
   theme: {
     name: Actions<Themes>
-    colors: Actions<Theme["colors"]>
     scheme: Actions<ReactNative.ColorSchemeName>
   }
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
-  const globalState: AppGlobalState = {
-    theme: {
-      name: Actions(""),
-      colors: Actions<Theme["colors"]>(DefaultTheme.colors),
-      scheme: Actions("light" as ReactNative.ColorSchemeName)
-    }
-  }
+  const globalState: AppGlobalState = { theme: { name: Actions(), scheme: Actions() } }
   return {
     Component: Architect<Config, Links>(config, globalState, ArchitectType.COMPONENT),
     Layout: Architect<Config, Links>(config, globalState, ArchitectType.LAYOUT),

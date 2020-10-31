@@ -39,31 +39,44 @@ export const Navigation = <Config extends AppConfig, Links extends AppLinks<Conf
       },
     }
   }
-  const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
-    if(typeof links.themes !== "undefined") {
-      const first: any = Object.values(links.themes)[0]
-      return {
-        dark: scheme === "dark",
-        colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
-          if(typeof first[key] === "function") all[key] = first[key](config.appearance.colors)
-          if(typeof first[key] === "object") all[key] = first[key][scheme || "light"]
-          return all
-        }, {}) as Theme["colors"]
-      }
-    }
-    return DefaultTheme
-  }
   return () => {
+    // THEME
+    const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
+      if(typeof links.themes !== "undefined") {
+        const first: any = Object.values(links.themes)[0]
+        return {
+          dark: scheme === "dark",
+          colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
+            if(typeof first[key] === "function") all[key] = first[key](config.appearance.colors)
+            if(typeof first[key] === "object") all[key] = first[key][scheme || "light"]
+            return all
+          }, {}) as Theme["colors"]
+        }
+      }
+      return DefaultTheme
+    }
     return () => {
       // THEME
+      let themeName = "default"
       const [ theme, setTheme ] = React.useState<Theme>(generateTheme(ReactNative.useColorScheme()))
+      globalState.theme.name.bind({ get: () => themeName })
+      globalState.theme.scheme.bind({ get: () => theme.dark ? "dark" : "light" })
       React.useEffect(() => {
-        globalState.theme.scheme.bind({
-          get: () => theme.dark ? "dark" : "light",
-          set: scheme => { setTheme(generateTheme(scheme)) },
+        globalState.theme.name.bind({
+          set: name => {
+            console.log("load", name)
+          },
         })
-      }, [])
+        globalState.theme.scheme.bind({
+          set: scheme => {
+            if((scheme === "dark") !== theme.dark) {
+              setTheme(generateTheme(scheme))
+            }
+          },
+        })
+      }, [ theme ])
       // RENDER
+      console.log("RENDER -", "NAVIGATION")
       return (
         <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
           <Stack.Navigator screenOptions={{
