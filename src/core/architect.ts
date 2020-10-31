@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppStateGlobalActions } from "./app"
+import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "./app"
 import { AppStyleSheet } from "./styles"
 import { AppLinksImports, AppTheme } from "./links"
 
@@ -75,7 +75,7 @@ type AppComponentStart<
 
 export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
   type: ArchitectType,
-  globalStateActions: AppStateGlobalActions,
+  globalStateActions: AppGlobalState,
 ) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}

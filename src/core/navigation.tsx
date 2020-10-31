@@ -2,13 +2,13 @@ import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppConfig, AppStateGlobalActions } from "./app"
+import { AppConfig, AppGlobalState } from "./app"
 import { AppLinks } from "./links"
 
 export const Navigation = <Config extends AppConfig>(
   config: Config,
   links: AppLinks<Config>,
-  globalStateActions: AppStateGlobalActions,
+  globalStateActions: AppGlobalState,
 ): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {

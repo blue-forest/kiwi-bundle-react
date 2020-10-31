@@ -35,7 +35,10 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-type AppGlobalStateCallbacks<Input, Output> = { get?: () => Output, update: ((data: Input) => void)[] }
+export type AppGlobalState = {
+  theme: Actions<string, Theme["colors"]>
+  scheme: Actions<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>
+}
 
 type Actions<Input, Output> = {
   get: () => Output
@@ -46,37 +49,27 @@ type Actions<Input, Output> = {
   }
 }
 
-export type AppStateGlobalActions = {
-  theme: Actions<string, Theme["colors"]>
-  scheme: Actions<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>
+type AppGlobalStateCallbacks<Input, Output> = { get?: () => Output, set: ((data: Input) => void)[] }
+
+const generateGlobalStateItem = <Input, Output>(defaultValue: Output): Actions<Input, Output> => {
+  const callbacks: AppGlobalStateCallbacks<Input, Output> = { set: [] }
+  return {
+    get: () => {
+      if (typeof callbacks.get === "undefined") return defaultValue
+      return callbacks.get()
+    },
+    set: theme => { callbacks.set.forEach(set => set(theme)) },
+    bind: {
+      get: cb => { callbacks.get = cb },
+      set: cb => { callbacks.set.push(cb) },
+    },
+  }
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  const globalStateThemeCallbacks: AppGlobalStateCallbacks<string, Theme["colors"]> = { update: [] }
-  const globalStateSchemeCallbacks: AppGlobalStateCallbacks<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName> = { update: [] }
-  const globalStateActions: AppStateGlobalActions = {
-    theme: {
-      get: () => {
-        if (typeof globalStateThemeCallbacks.get === "undefined") return DefaultTheme.colors
-        return globalStateThemeCallbacks.get()
-      },
-      set: theme => { globalStateThemeCallbacks.update.forEach(update => update(theme)) },
-      bind: {
-        get: cb => { globalStateThemeCallbacks.update.push(cb) },
-        set: cb => { globalStateThemeCallbacks.get = cb }
-      },
-    },
-    scheme: {
-      get: () => {
-        if (typeof globalStateSchemeCallbacks.get === "undefined") return "light"
-        return globalStateSchemeCallbacks.get()
-      },
-      set: theme => { globalStateSchemeCallbacks.update.forEach(update => update(theme)) },
-      bind: {
-        get: cb => { globalStateSchemeCallbacks.update.push(cb) },
-        set: cb => { globalStateSchemeCallbacks.get = cb }
-      },
-    },
+  const globalStateActions: AppGlobalState = {
+    theme: generateGlobalStateItem<string, Theme["colors"]>(DefaultTheme.colors),
+    scheme: generateGlobalStateItem<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>("light"),
   }
   return {
     Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalStateActions),
