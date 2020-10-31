@@ -35,46 +35,30 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-export type AppGlobalState = {
-  theme: Actions<string, Theme["colors"]>
-  scheme: Actions<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>
-}
-
-type Actions<Input, Output> = {
-  get: () => Output
-  set: (data: Input) => void
-  bind: {
-    get: (callback: () => Output) => void
-    set: (callback: (data: Input) => void) => void
-  }
-}
-
-type AppGlobalStateCallbacks<Input, Output> = { get?: () => Output, set: ((data: Input) => void)[] }
-
-const generateGlobalStateItem = <Input, Output>(defaultValue: Output): Actions<Input, Output> => {
-  const callbacks: AppGlobalStateCallbacks<Input, Output> = { set: [] }
+const generateGlobalStateItem = <Input, Output>(defaultValue: Output) => {
+  const callbacks: { get?: () => Output, set: ((data: Input) => void)[] } = { set: [] }
   return {
     get: () => {
       if (typeof callbacks.get === "undefined") return defaultValue
       return callbacks.get()
     },
-    set: theme => { callbacks.set.forEach(set => set(theme)) },
+    set: (data: Input) => { callbacks.set.forEach(set => set(data)) },
     bind: {
-      get: cb => { callbacks.get = cb },
-      set: cb => { callbacks.set.push(cb) },
+      get: (callback: () => Output) => { callbacks.get = callback },
+      set: (callback: (data: Input) => void) => { callbacks.set.push(callback) },
     },
   }
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  const globalStateActions: AppGlobalState = {
+  const globalState = {
     theme: generateGlobalStateItem<string, Theme["colors"]>(DefaultTheme.colors),
     scheme: generateGlobalStateItem<ReactNative.ColorSchemeName, ReactNative.ColorSchemeName>("light"),
   }
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalStateActions),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, globalStateActions),
-    Page: Architect<Config, Links>(ArchitectType.PAGE, globalStateActions),
+    Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalState),
+    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, globalState),
+    Page: Architect<Config, Links>(ArchitectType.PAGE, globalState),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: options.appearance.colors,
@@ -131,7 +115,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, globalStateActions))
+        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, globalState))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(options.key, {
             rootTag: document.getElementById("root"),
