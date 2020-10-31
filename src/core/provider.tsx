@@ -5,11 +5,12 @@ import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer
 import { AppConfig, AppGlobalState } from "./app"
 import { AppLinks } from "./links"
 
-export const Navigation = <Config extends AppConfig, Links extends AppLinks<Config>>(
+export const Provider = <Config extends AppConfig, Links extends AppLinks<Config>>(
   config: Config,
   links: Links,
   globalState: AppGlobalState,
 ): ReactNative.ComponentProvider => {
+  // LINKING
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
     enabled: true,
@@ -39,22 +40,22 @@ export const Navigation = <Config extends AppConfig, Links extends AppLinks<Conf
       },
     }
   }
-  return () => {
-    // THEME
-    const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
-      if(typeof links.themes !== "undefined") {
-        const first: any = Object.values(links.themes)[0]
-        return {
-          dark: scheme === "dark",
-          colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
-            if(typeof first[key] === "function") all[key] = first[key](config.appearance.colors)
-            if(typeof first[key] === "object") all[key] = first[key][scheme || "light"]
-            return all
-          }, {}) as Theme["colors"]
-        }
+  // THEME
+  const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
+    if(typeof links.themes !== "undefined") {
+      const first: any = Object.values(links.themes)[0]
+      return {
+        dark: scheme === "dark",
+        colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
+          if(typeof first[key] === "function") all[key] = first[key](config.appearance.colors)
+          if(typeof first[key] === "object") all[key] = first[key][scheme || "light"]
+          return all
+        }, {}) as Theme["colors"]
       }
-      return DefaultTheme
     }
+    return DefaultTheme
+  }
+  return () => {
     return () => {
       // THEME
       let themeName = "default"

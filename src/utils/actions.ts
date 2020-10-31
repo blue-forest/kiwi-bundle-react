@@ -9,23 +9,23 @@ export type Actions<Data> = {
 
 export const Actions = <Data>(defaultValue?: Data): Actions<Data> => {
   let get: () => Data
-  let set: (data: Data) => void = () => { }
+  let set: ((data: Data) => void)[] = []
   if (typeof defaultValue !== "undefined") {
     get = () => defaultValue
   }
   return {
+    bind: cb => {
+      if (typeof cb.get !== "undefined") get = cb.get
+      if (typeof cb.set !== "undefined") set.push(cb.set)
+    },
     target: {
       get: () => {
         if (typeof get === "undefined") return
         return get()
       },
       set: data => {
-        if (typeof set !== "undefined") set(data)
+        set.forEach(cb => cb(data))
       },
-    },
-    bind: cb => {
-      if (typeof cb.get !== "undefined") get = cb.get
-      if (typeof cb.set !== "undefined") set = cb.set
     },
   }
 }

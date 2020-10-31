@@ -21,9 +21,7 @@ export default KBRD.Page({
   render: ({ state, style, appearance }) => {
     const scheme = appearance.theme.scheme.get()
     const theme = appearance.theme.get()
-    console.log(appearance.colors)
-    console.log(theme)
-    console.log({ scheme })
+    console.log({ theme })
     return <Kiwi.View>
       <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>

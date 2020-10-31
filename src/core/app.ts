@@ -1,5 +1,5 @@
 import { ReactNative } from "../vendors"
-import { Navigation } from "./navigation"
+import { Provider } from "./provider"
 import { AppStyleSheet } from "./styles"
 import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
 import { Architect, ArchitectType } from "./architect"
@@ -67,8 +67,8 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       }
       return style as S1 & S2
     },
-    Store: () => "",
-    Custom: <Props extends AppComponentProps>(custom: AppLinksCustom<Props>): AppLinksCustom<Props> => custom,
+    Store: <Data>(data: Data) => data,
+    Custom: <Props extends AppComponentProps>(custom: AppLinksCustom<Props>) => custom,
     Render: () => {
       const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
         return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
@@ -104,7 +104,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(config.key, Navigation(config, resolvedLinks, globalState))
+        ReactNative.AppRegistry.registerComponent(config.key, Provider(config, resolvedLinks, globalState))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(config.key, {
             rootTag: document.getElementById("root"),
