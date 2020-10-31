@@ -2,13 +2,13 @@ import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppConfig, AppGlobalState } from "./app"
+import { AppConfig, AppStateGlobalActions } from "./app"
 import { AppLinks } from "./links"
 
 export const Navigation = <Config extends AppConfig>(
   config: Config,
   links: AppLinks<Config>,
-  onAppContextUpdate: (cb: (state: AppGlobalState) => void) => void,
+  globalStateActions: AppStateGlobalActions,
 ): ReactNative.ComponentProvider => {
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
@@ -39,32 +39,28 @@ export const Navigation = <Config extends AppConfig>(
       },
     }
   }
-  onAppContextUpdate(state => {
-    console.log(state)
-  })
+  const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
+    if(typeof links.themes !== "undefined") {
+      const first: any = Object.values(links.themes)[0]
+      return {
+        dark: scheme === "dark",
+        colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
+          if(typeof first[key] === "function") all[key] = first[key](config.appearance.colors)
+          if(typeof first[key] === "object") all[key] = first[key][scheme || "light"]
+          return all
+        }, {}) as Theme["colors"]
+      }
+    }
+    return DefaultTheme
+  }
   return () => {
     return () => {
       // THEME
-      let currentTheme: Theme
-      if(typeof links.themes !== "undefined") {
-        const scheme = ReactNative.useColorScheme()
-        const first: any = Object.values(links.themes)[0]
-        currentTheme = {
-          dark: scheme === "dark",
-          colors: (Object.keys(first) as (keyof Theme["colors"])[]).reduce<Partial<Theme["colors"]>>((all, key) => {
-            if(typeof first[key] === "function") {
-              all[key] = first[key](config.appearance.colors)
-            }
-            if(typeof first[key] === "object") {
-              all[key] = first[key][scheme || "light"]
-            }
-            return all
-          }, {}) as Theme["colors"]
-        }
-      } else {
-        currentTheme = DefaultTheme
-      }
-      const [ theme ] = React.useState<Theme>(currentTheme)
+      const [ theme, setTheme ] = React.useState<Theme>(generateTheme(ReactNative.useColorScheme()))
+      React.useEffect(() => {
+        globalStateActions.onThemeUpdate(_ => {})
+        globalStateActions.onSchemeUpdate(scheme => { setTheme(generateTheme(scheme)) })
+      }, [])
       // RENDER
       return (
         <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>

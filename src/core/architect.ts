@@ -1,6 +1,6 @@
 import { React, ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "./app"
+import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppStateGlobalActions } from "./app"
 import { AppStyleSheet } from "./styles"
 import { AppLinksImports, AppTheme } from "./links"
 
@@ -37,11 +37,11 @@ type ArchitectContext<
     appearance: {
       colors: Config["appearance"]["colors"]
       theme: {
-        get: () => AppTheme<Config>
+        get: () => AppTheme<Config> | undefined
         set: (theme: keyof Links["themes"]) => void
       }
       scheme: {
-        get: () => "dark" | "light"
+        get: () => "dark" | "light" | undefined
         set: (scheme: "dark" | "light") => void
       }
     }
@@ -75,7 +75,7 @@ type AppComponentStart<
 
 export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
   type: ArchitectType,
-  setGlobalState: (state: AppGlobalState) => void,
+  globalStateActions: AppStateGlobalActions,
 ) => {
   return <Options extends ArchitectOptions>(options?: Options) => {
     let style: Options["style"] = {}
@@ -102,12 +102,12 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
             appearance: {
               colors,
               theme: {
-                set: theme => { console.log(theme) },
-                get: () => "" as any,
+                get: globalStateActions.getTheme,
+                set: globalStateActions.setTheme,
               },
               scheme: {
-                set: scheme => { setGlobalState({ scheme }) },
-                get: () => "" as any,
+                get: globalStateActions.getScheme,
+                set: globalStateActions.setScheme,
               },
             }
           }

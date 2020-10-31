@@ -18,6 +18,7 @@ export default KBRD.Page({
 
       <ButtonComponent title="set dark scheme" onPress={() => {
         //appearance.theme.set("default")
+        console.log(appearance.scheme.get())
         appearance.scheme.set("dark")
       }}/>
     </Kiwi.View>

@@ -4,6 +4,7 @@ import { AppStyleSheet } from "./styles"
 import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
 import { Architect, ArchitectType } from "./architect"
 import { React } from "../vendors"
+import { DefaultTheme, Theme } from "@react-navigation/native"
 
 export type AppConfig = {
   key: string
@@ -34,14 +35,47 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-export type AppGlobalState = { scheme?: "dark" | "light" }
+type AppGlobalState = { theme: Theme }
+
+type AppGlobalStateCallbacks<Data> = ((data: Data) => void)[]
+
+type Actions<Input, Output> = {
+  get: () => Output
+  set: (data: Input) => void
+  bind: (get: () => Output, update: (data: Input) => void) => void
+}
+
+export type AppStateGlobalActions = {
+  getTheme: () => Theme
+  setTheme: (theme: string) => void
+  onThemeUpdate: (update: (theme: string) => void) => void
+  getScheme: () => ReactNative.ColorSchemeName
+  setScheme: (scheme: ReactNative.ColorSchemeName) => void
+  onSchemeUpdate: (update: (scheme: ReactNative.ColorSchemeName) => void) => void
+}
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Config, links: Links) => {
-  let globalState: (state: AppGlobalState) => void = () => { }
+  const globalState: AppGlobalState = { theme: { DefaultTheme } }
+  const globalStateSchemeCallbacks: AppGlobalStateCallbacks<AppGlobalState["theme"]["dark"]> = []
+  const globalStateThemeCallbacks: AppGlobalStateCallbacks<AppGlobalState["theme"]> = []
+  const globalStateActions: AppStateGlobalActions = {
+    setTheme: theme => {
+      globalState.theme = theme
+      globalStateThemeCallbacks.forEach(update => update(theme))
+    },
+    getTheme: () => globalState.theme,
+    onThemeUpdate: callback => { globalStateThemeCallbacks.push(callback) },
+    setScheme: scheme => {
+      globalState.scheme = scheme
+      globalStateSchemeCallbacks.forEach(update => update(scheme))
+    },
+    getScheme: () => globalState.scheme,
+    onSchemeUpdate: callback => { globalStateSchemeCallbacks.push(callback) },
+  }
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT, state => globalState(state)),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, state => globalState(state)),
-    Page: Architect<Config, Links>(ArchitectType.PAGE, state => globalState(state)),
+    Component: Architect<Config, Links>(ArchitectType.COMPONENT, globalStateActions),
+    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, globalStateActions),
+    Page: Architect<Config, Links>(ArchitectType.PAGE, globalStateActions),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: options.appearance.colors,
@@ -98,7 +132,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, cb => { globalState = cb }))
+        ReactNative.AppRegistry.registerComponent(options.key, Navigation(options, resolvedLinks, globalStateActions))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(options.key, {
             rootTag: document.getElementById("root"),
