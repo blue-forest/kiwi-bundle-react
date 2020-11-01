@@ -15,3 +15,5 @@ export type ArchitectOnMount<
   > = () => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style" | "stores" | "states" | "values" | "functions" | "onInit" | "onMount"
   >
+
+export const ArchitectOnMount = () => { }

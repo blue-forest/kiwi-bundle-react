@@ -15,3 +15,5 @@ export type ArchitectOnInit<
   > = () => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style" | "stores" | "states" | "values" | "functions" | "onInit"
   >
+
+export const ArchitectOnInit = () => { }

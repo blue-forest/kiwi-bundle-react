@@ -43,11 +43,11 @@ export type AppGlobalState<Themes = any> = {
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
-  const globalState: AppGlobalState = { theme: { name: Actions(), scheme: Actions() } }
+  const global: AppGlobalState = { theme: { name: Actions(), scheme: Actions() } }
   return {
-    Component: Architect<Config, Links>(config, globalState, ArchitectType.COMPONENT),
-    Layout: Architect<Config, Links>(config, globalState, ArchitectType.LAYOUT),
-    Page: Architect<Config, Links>(config, globalState, ArchitectType.PAGE),
+    Component: Architect<Config, Links>(ArchitectType.COMPONENT, config, global),
+    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, config, global),
+    Page: Architect<Config, Links>(ArchitectType.PAGE, config, global),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: config.appearance.colors,
@@ -104,7 +104,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(config.key, Provider(config, resolvedLinks, globalState))
+        ReactNative.AppRegistry.registerComponent(config.key, Provider(config, resolvedLinks, global))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(config.key, {
             rootTag: document.getElementById("root"),

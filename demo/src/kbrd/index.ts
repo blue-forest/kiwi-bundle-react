@@ -32,7 +32,7 @@ export const KBRD = App({
       small: 10,
       medium: 15,
       big: 20,
-    },
+    } as const,
     colors: {
       blue: "rgb(2, 68, 198)",
       black: "rgb(28, 28, 30)",

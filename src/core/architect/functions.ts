@@ -15,3 +15,5 @@ export type ArchitectFunctions<
   > = () => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style" | "stores" | "states" | "values" | "functions"
   >
+
+export const ArchitectFunctions = () => { }

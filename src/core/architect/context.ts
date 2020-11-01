@@ -8,11 +8,11 @@ export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
-  Style extends AppStyleSheet,
-  Stores,
-  States extends AppComponentStates,
-  Values,
-  Functions,
+  Style extends AppStyleSheet = {},
+  Stores = {},
+  States extends AppComponentStates = {},
+  Values = {},
+  Functions = {},
   > = {
     appearance: {
       colors: Config["appearance"]["colors"]

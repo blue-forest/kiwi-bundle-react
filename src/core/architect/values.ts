@@ -4,6 +4,7 @@ import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
+import { ArchitectStates } from "./states"
 import { ArchitectStyle } from "./style"
 
 export type ArchitectValues<
@@ -34,7 +35,8 @@ export const ArchitectValues = <Config extends AppConfig,
 ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
   return () => {
     return {
-      render: ArchitectRender<Config, Links, Props>(config, globalState, type),
+      render: ArchitectRender<Config, Links, Props>(type, context),
+      states: ArchitectStates<Config, Links, Props>(),
     }
   }
 }
