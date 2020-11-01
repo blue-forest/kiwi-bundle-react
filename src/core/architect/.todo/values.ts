@@ -36,7 +36,7 @@ export const ArchitectValues = <Config extends AppConfig,
 ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
   return () => {
     return {
-      render: ArchitectRender<Config, Links, Props>(type, context),
+      render: ArchitectRender<Config, Links, Props>(type),
       states: ArchitectStates<Config, Links, Props>(),
     }
   }

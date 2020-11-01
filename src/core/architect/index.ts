@@ -15,7 +15,10 @@ export enum ArchitectType {
   PAGE,
 }
 
-export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(options: Omit<ArchitectOptions<Config, Links>, "context">) => {
+export const Architect = <
+  Config extends AppConfig,
+  Links extends AppLinksImports<Config>
+>(options: Omit<ArchitectOptions<Config, Links>, "context" | "cache">) => {
   return <Props extends AppComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => AppComponent<Props>) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {
@@ -36,10 +39,10 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
       navigation: {} as any,
     }
     return architect({
-      style: ArchitectStyle<Config, Links, Props>({ ...options, context }),
-      states: ArchitectStates<Config, Links, Props>({ ...options, context }),
-      onInit: ArchitectOnInit<Config, Links, Props>({ ...options, context }),
-      render: ArchitectRender<Config, Links, Props>({ ...options, context }),
+      style: ArchitectStyle<Config, Links, Props>({ ...options, context, cache: {} }),
+      states: ArchitectStates<Config, Links, Props>({ ...options, context, cache: {} }),
+      onInit: ArchitectOnInit<Config, Links, Props>({ ...options, context, cache: {} }),
+      render: ArchitectRender<Config, Links, Props>({ ...options, context, cache: {} }),
     })
   }
 }

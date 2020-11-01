@@ -1,4 +1,3 @@
-import { React } from "../../vendors"
 import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
@@ -33,11 +32,7 @@ export const ArchitectStates = <
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions> => {
   return <S extends States>(states: States) => {
-    Object.keys(states).forEach(name => {
-      const state = React.useState(states[name])
-      options.context.state.get[name] = state[0]
-      options.context.state.set[name] = state[1]
-    })
+    options.cache.states = states
     return {
       onInit: ArchitectOnInit<Config, Links, Props, Style, Stores, S, Values, Functions>(options),
       render: ArchitectRender<Config, Links, Props, Style, Stores, S, Values, Functions>(options),

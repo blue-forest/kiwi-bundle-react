@@ -16,8 +16,11 @@ export type ArchitectOptions<
   > = {
     type: ArchitectType
     app: {
-      config: Config,
+      config: Config
       options: AppOptions<keyof Links["themes"]>
     }
     context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+    cache: {
+      states?: States
+    }
   }

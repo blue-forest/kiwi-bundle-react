@@ -16,7 +16,7 @@ export type ArchitectStyle<
   States extends AppComponentStates,
   Values,
   Functions,
-  > = (style: Style) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
+  > = <S extends Style>(style: S) => Omit<ArchitectSelf<Config, Links, Props, S, Stores, States, Values, Functions>,
     "style"
   >
 
@@ -30,14 +30,14 @@ export const ArchitectStyle = <
   Values = any,
   Functions = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, Stores, States, Values, Functions>
+    options: ArchitectOptions<Config, Links, Props, any, Stores, States, Values, Functions>
   ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return style => {
-    console.log(style)
+  return <S extends Style>(style: S) => {
+    options.context.style = style
     return {
-      states: ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
-      render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
+      states: ArchitectStates<Config, Links, Props, S, Stores, States, Values, Functions>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, S, Stores, States, Values, Functions>(options),
+      render: ArchitectRender<Config, Links, Props, S, Stores, States, Values, Functions>(options),
     }
   }
 }

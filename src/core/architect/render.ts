@@ -1,3 +1,4 @@
+import { React } from "../../vendors"
 import { AppComponent, AppComponentProps, AppComponentStates, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
@@ -30,12 +31,8 @@ export const ArchitectRender = <Config extends AppConfig,
   Values = any,
   Functions = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, Stores, States, Values, Functions>
+    options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions> => render => {
-    /*let style: Options["style"] = {}
-    if (typeof options?.style !== "undefined") {
-      style = options.style
-    }*/
     return props => {
       // PROPS
       options.context.props = options.type === ArchitectType.PAGE ? props.route.params : props
@@ -49,6 +46,16 @@ export const ArchitectRender = <Config extends AppConfig,
       // THEME COLORS
       const { colors } = useTheme()
       options.context.appearance.theme.colors = colors
+
+      // STATES
+      const states = options.cache.states
+      if (typeof states !== "undefined") {
+        Object.keys(states).forEach(name => {
+          const state = React.useState(states[name])
+          options.context.state.get[name] = state[0]
+          options.context.state.set[name] = state[1]
+        })
+      }
 
       // INIT
       /*if (typeof start.init !== "undefined") {
