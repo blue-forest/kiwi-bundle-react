@@ -2,7 +2,7 @@ import { AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from
 import { ArchitectType } from "."
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
-import { createRender } from "./render"
+import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 
 export type ArchitectStyle<
@@ -18,7 +18,7 @@ export type ArchitectStyle<
     "style"
   >
 
-export const createStyle = <Config extends AppConfig,
+export const ArchitectStyle = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
   Style extends AppStyleSheet = any,
@@ -34,7 +34,7 @@ export const createStyle = <Config extends AppConfig,
   return style => {
     console.log(style)
     return {
-      render: createRender<Config, Links, Props>(config, globalState, type),
+      render: ArchitectRender<Config, Links, Props>(config, globalState, type),
     }
   }
 }

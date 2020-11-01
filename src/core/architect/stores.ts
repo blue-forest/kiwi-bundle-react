@@ -12,4 +12,6 @@ export type ArchitectStores<
   States extends AppComponentStates,
   Values,
   Functions,
-  > = (stores: Stores) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>, "style" | "stores">
+  > = (stores: Stores) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
+    "style" | "stores"
+  >

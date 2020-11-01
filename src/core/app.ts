@@ -2,7 +2,7 @@ import { ReactNative } from "../vendors"
 import { Provider } from "./provider"
 import { AppStyleSheet } from "./styles"
 import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
-import { Architect, ArchitectType } from "../architect"
+import { Architect, ArchitectType } from "./architect"
 import { React } from "../vendors"
 import { Actions } from "../utils/actions"
 

@@ -1,8 +1,8 @@
 import { AppComponent, AppComponentProps, AppConfig, AppGlobalState } from "../app"
 import { AppLinksImports } from "../links"
-import { createRender } from "./render"
+import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
-import { createStyle } from "./style"
+import { ArchitectStyle } from "./style"
 
 export enum ArchitectType {
   COMPONENT,
@@ -17,8 +17,8 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
 ) => {
   return <Props extends AppComponentProps>(architect: (options: ArchitectSelf<Config, Links, Props>) => AppComponent<Props>) => {
     return architect({
-      style: createStyle<Config, Links, Props>(config, globalState, type),
-      render: createRender<Config, Links, Props>(config, globalState, type),
+      style: ArchitectStyle<Config, Links, Props>(config, globalState, type),
+      render: ArchitectRender<Config, Links, Props>(config, globalState, type),
     })
   }
 }

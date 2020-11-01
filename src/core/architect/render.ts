@@ -21,7 +21,7 @@ export type ArchitectRender<
     ) => React.ReactElement
   ) => AppComponent<Props>
 
-export const createRender = <Config extends AppConfig,
+export const ArchitectRender = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
   Style extends AppStyleSheet = any,
