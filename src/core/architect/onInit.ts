@@ -1,13 +1,12 @@
 import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
+import { ArchitectContext } from "./context"
+import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
-import { ArchitectStates } from "./states"
-import { ArchitectOptions } from "./options"
-import { ArchitectOnInit } from "./onInit"
 
-export type ArchitectStyle<
+export type ArchitectOnInit<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
@@ -16,11 +15,15 @@ export type ArchitectStyle<
   States extends AppComponentStates,
   Values,
   Functions,
-  > = (style: Style) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
-    "style"
+  > = (
+    onInit: (
+      context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+    ) => void
+  ) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
+    "style" | "stores" | "states" | "values" | "functions" | "onInit"
   >
 
-export const ArchitectStyle = <
+export const ArchitectOnInit = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
@@ -30,13 +33,10 @@ export const ArchitectStyle = <
   Values = any,
   Functions = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, Stores, States, Values, Functions>
-  ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return style => {
-    console.log(style)
+    options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
+  ): ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions> => {
+  return () => {
     return {
-      states: ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
       render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
     }
   }

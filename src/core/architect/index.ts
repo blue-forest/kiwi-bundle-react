@@ -2,6 +2,7 @@ import { ReactNative } from "../../vendors"
 import { AppComponent, AppComponentProps, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { ArchitectContext } from "./context"
+import { ArchitectOnInit } from "./onInit"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
@@ -37,6 +38,7 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
     return architect({
       style: ArchitectStyle<Config, Links, Props>({ ...options, context }),
       states: ArchitectStates<Config, Links, Props>({ ...options, context }),
+      onInit: ArchitectOnInit<Config, Links, Props>({ ...options, context }),
       render: ArchitectRender<Config, Links, Props>({ ...options, context }),
     })
   }

@@ -1,7 +1,7 @@
-import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
-import { ArchitectSelf } from "./self"
+import { AppComponentProps, AppComponentStates, AppConfig } from "../../app"
+import { AppLinksImports } from "../../links"
+import { AppStyleSheet } from "../../styles"
+import { ArchitectSelf } from "../self"
 
 export type ArchitectStores<
   Config extends AppConfig,
