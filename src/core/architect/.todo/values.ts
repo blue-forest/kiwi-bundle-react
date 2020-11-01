@@ -42,19 +42,3 @@ export const ArchitectValues = <Config extends AppConfig,
   }
 }
 
-export type ArchitectStep<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet,
-  Stores,
-  States extends AppComponentStates,
-  Values,
-  Functions,
-  Output,
-  > = (
-    config: Config,
-    global: AppGlobalState<keyof Links["themes"]>,
-    type: ArchitectType,
-    context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
-  ) => Output

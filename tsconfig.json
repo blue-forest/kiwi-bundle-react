@@ -33,7 +33,7 @@
     "outDir": "dist"
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "src/core/architect/.todo/functions.ts"
   ],
   "exclude": [
     "node_modules",

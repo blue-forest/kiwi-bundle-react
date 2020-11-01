@@ -35,19 +35,25 @@ export type AppComponentProps = { [name: string]: any }
 
 export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
 
-export type AppGlobalState<Themes = any> = {
-  theme: {
-    name: Actions<Themes>
-    scheme: Actions<ReactNative.ColorSchemeName>
+export type AppOptions<Themes = any> = {
+  actions: {
+    theme: {
+      name: Actions<Themes>
+      scheme: Actions<ReactNative.ColorSchemeName>
+    }
   }
 }
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
-  const global: AppGlobalState = { theme: { name: Actions(), scheme: Actions() } }
+  const options: AppOptions = {
+    actions: {
+      theme: { name: Actions(), scheme: Actions() }
+    }
+  }
   return {
-    Component: Architect<Config, Links>(ArchitectType.COMPONENT, config, global),
-    Layout: Architect<Config, Links>(ArchitectType.LAYOUT, config, global),
-    Page: Architect<Config, Links>(ArchitectType.PAGE, config, global),
+    Component: Architect<Config, Links>({ type: ArchitectType.COMPONENT, app: { config, options } }),
+    Layout: Architect<Config, Links>({ type: ArchitectType.LAYOUT, app: { config, options } }),
+    Page: Architect<Config, Links>({ type: ArchitectType.PAGE, app: { config, options } }),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: config.appearance.colors,
@@ -104,7 +110,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
           })
         }).then(() => resolvedLinks)
       }).then(resolvedLinks => {
-        ReactNative.AppRegistry.registerComponent(config.key, Provider(config, resolvedLinks, global))
+        ReactNative.AppRegistry.registerComponent(config.key, Provider(config, resolvedLinks, options))
         if (ReactNative.Platform.OS === "web") {
           ReactNative.AppRegistry.runApplication(config.key, {
             rootTag: document.getElementById("root"),

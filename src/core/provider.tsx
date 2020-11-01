@@ -2,13 +2,13 @@ import "./imports"
 import { React, ReactNative } from "../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppConfig, AppGlobalState } from "./app"
+import { AppConfig, AppOptions } from "./app"
 import { AppLinks } from "./links"
 
 export const Provider = <Config extends AppConfig, Links extends AppLinks<Config>>(
   config: Config,
   links: Links,
-  globalState: AppGlobalState,
+  options: AppOptions,
 ): ReactNative.ComponentProvider => {
   // LINKING
   const Stack = createStackNavigator()
@@ -60,15 +60,15 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
       // THEME
       let themeName = "default"
       const [ theme, setTheme ] = React.useState<Theme>(generateTheme(ReactNative.useColorScheme()))
-      globalState.theme.name.bind({ get: () => themeName })
-      globalState.theme.scheme.bind({ get: () => theme.dark ? "dark" : "light" })
+      options.actions.theme.name.bind({ get: () => themeName })
+      options.actions.theme.scheme.bind({ get: () => theme.dark ? "dark" : "light" })
       React.useEffect(() => {
-        globalState.theme.name.bind({
+        options.actions.theme.name.bind({
           set: name => {
             console.log("load", name)
           },
         })
-        globalState.theme.scheme.bind({
+        options.actions.theme.scheme.bind({
           set: scheme => {
             if((scheme === "dark") !== theme.dark) {
               setTheme(generateTheme(scheme))
