@@ -37,9 +37,9 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
       navigation: {} as any,
     }
     return architect({
-      style: ArchitectStyle<Config, Links, Props>(config, global, type),
-      states: ArchitectStyle<Config, Links, Props>(config, global, type),
-      render: ArchitectRender<Config, Links, Props>(type, context),
+      style: ArchitectStyle<Config, Links, Props>(type, config, global, context),
+      states: ArchitectStyle<Config, Links, Props>(type, config, global, context),
+      render: ArchitectRender<Config, Links, Props>(type, config, global, context),
     })
   }
 }

@@ -12,7 +12,7 @@ export type ArchitectStates<
   States extends AppComponentStates,
   Values,
   Functions,
-  > = <S extends number>(states: S) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
+  > = <S extends AppStyleSheet>(states: S) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style" | "stores" | "states"
   >
 

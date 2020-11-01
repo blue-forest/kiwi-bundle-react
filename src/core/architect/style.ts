@@ -5,6 +5,7 @@ import { AppStyleSheet } from "../styles"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
+import { ArchitectContext } from "./context"
 
 export type ArchitectStyle<
   Config extends AppConfig,
@@ -28,14 +29,15 @@ export const ArchitectStyle = <Config extends AppConfig,
   Values = any,
   Functions = any,
   >(
-    config: Config,
-    globalState: AppGlobalState<keyof Links["themes"]>,
     type: ArchitectType,
+    config: Config,
+    global: AppGlobalState<keyof Links["themes"]>,
+    context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>,
 ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
   return style => {
     console.log(style)
     return {
-      render: ArchitectRender<Config, Links, Props>(config, globalState, type),
+      render: ArchitectRender<Config, Links, Props>(type, config, global, context),
       states: ArchitectStates<Config, Links, Props>(),
     }
   }

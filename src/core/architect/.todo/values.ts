@@ -2,6 +2,7 @@ import { ArchitectType } from "."
 import { AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "../app"
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
+import { ArchitectContext } from "./context"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
@@ -30,7 +31,7 @@ export const ArchitectValues = <Config extends AppConfig,
   Functions = any,
   >(
     config: Config,
-    globalState: AppGlobalState<keyof Links["themes"]>,
+    global: AppGlobalState<keyof Links["themes"]>,
     type: ArchitectType,
 ): ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions> => {
   return () => {
@@ -40,3 +41,20 @@ export const ArchitectValues = <Config extends AppConfig,
     }
   }
 }
+
+export type ArchitectStep<
+  Config extends AppConfig,
+  Links extends AppLinksImports<Config>,
+  Props extends AppComponentProps,
+  Style extends AppStyleSheet,
+  Stores,
+  States extends AppComponentStates,
+  Values,
+  Functions,
+  Output,
+  > = (
+    config: Config,
+    global: AppGlobalState<keyof Links["themes"]>,
+    type: ArchitectType,
+    context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+  ) => Output
