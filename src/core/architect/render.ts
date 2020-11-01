@@ -1,10 +1,10 @@
-import { ReactNative } from "../vendors"
-import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "../core/app"
-import { AppLinksImports } from "../core/links"
-import { AppStyleSheet } from "../core/styles"
+import { ReactNative } from "../../vendors"
+import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "../app"
+import { AppLinksImports } from "../links"
+import { AppStyleSheet } from "../styles"
 import { ArchitectContext } from "./context"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { ArchitectType } from "../core/architect"
+import { ArchitectType } from "."
 
 export type ArchitectRender<
   Config extends AppConfig,

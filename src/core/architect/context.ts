@@ -1,8 +1,8 @@
 import { Theme } from "@react-navigation/native"
-import { ReactNative } from "../vendors"
-import { AppComponentProps, AppComponentStates, AppConfig } from "../core/app"
-import { AppLinksImports } from "../core/links"
-import { AppStyleSheet } from "../core/styles"
+import { ReactNative } from "../../vendors"
+import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
+import { AppLinksImports } from "../links"
+import { AppStyleSheet } from "../styles"
 
 export type ArchitectContext<
   Config extends AppConfig,

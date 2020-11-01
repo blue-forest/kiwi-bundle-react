@@ -1,9 +1,9 @@
-import { AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "../core/app"
-import { ArchitectType } from "../core/architect"
-import { AppLinksImports } from "../core/links"
-import { AppStyleSheet } from "../core/styles"
+import { AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "../app"
+import { ArchitectType } from "."
+import { AppLinksImports } from "../links"
+import { AppStyleSheet } from "../styles"
 import { createRender } from "./render"
-import { Self } from "./self"
+import { ArchitectSelf } from "./self"
 
 export type ArchitectStyle<
   Config extends AppConfig,
@@ -14,7 +14,7 @@ export type ArchitectStyle<
   States extends AppComponentStates,
   Values,
   Functions,
-  > = (style: Style) => Omit<Self<Config, Links, Props, Style, Stores, States, Values, Functions>,
+  > = (style: Style) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style"
   >
 
