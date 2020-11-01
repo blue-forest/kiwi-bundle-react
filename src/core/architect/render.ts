@@ -1,45 +1,53 @@
 import { React } from "../../vendors"
-import { AppComponent, AppComponentProps, AppComponentStates, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
+import { AppLinksImports } from "../app/links"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
-import { ArchitectType } from "."
 import { ArchitectContext } from "./context"
 import { ArchitectOptions } from "./options"
+import { AppConfig } from "../app/config"
+import {
+  ArchitectComponentProps,
+  ArchitectComponentStyle,
+  ArchitectComponentStates,
+  ArchitectComponentType,
+  ArchitectComponent,
+  ArchitectComponentFunctions,
+  ArchitectComponentStores,
+  ArchitectComponentValues,
+} from "./component"
 
 export type ArchitectRender<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet,
-  Stores,
-  States extends AppComponentStates,
-  Values,
-  Functions,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle,
+  Stores extends ArchitectComponentStores,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
   > = (
     render: (
       context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
     ) => React.ReactElement
-  ) => AppComponent<Props>
+  ) => ArchitectComponent<Props>
 
 export const ArchitectRender = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet = any,
-  Stores = any,
-  States extends AppComponentStates = any,
-  Values = any,
-  Functions = any,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle = {},
+  Stores extends ArchitectComponentStores = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions> => render => {
     let started = false
     return props => {
       // PROPS
-      options.context.props = options.type === ArchitectType.PAGE ? props.route.params : props
+      options.context.props = options.type === ArchitectComponentType.PAGE ? props.route.params : props
 
       // NAVIGATION
-      const navigation: NavigationProp<any> = options.type === ArchitectType.PAGE ? props.navigation : useNavigation()
+      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
       options.context.navigation = {
         push: (route, params) => { navigation.navigate(route, params) },
       }

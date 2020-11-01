@@ -17,8 +17,6 @@ export default KBRD.Page(self => self
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
   .render(({ state, style, appearance }) => {
     const scheme = appearance.theme.scheme.get()
-    const theme = appearance.theme.get()
-    console.log({ theme })
     return <Kiwi.View>
       <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={style.text}>{state.get.count}</Kiwi.Text>
@@ -26,17 +24,11 @@ export default KBRD.Page(self => self
       <Kiwi.View style={style.container}>
         <ButtonComponent
           title="-"
-          onPress={() => {
-            if (state.get.count > 0) {
-              state.set.count(state.get.count - 1)
-            }
-          }}
+          onPress={() => { if (state.get.count > 0) { state.set.count(state.get.count - 1) } }}
         />
         <ButtonComponent
           title="+"
-          onPress={() => {
-            state.set.count(state.get.count + 1)
-          }}
+          onPress={() => { state.set.count(state.get.count + 1) }}
         />
       </Kiwi.View>
       <ButtonComponent title={`Switch from ${scheme} to ${scheme === "dark" ? "light" : "dark"}`} onPress={() => {

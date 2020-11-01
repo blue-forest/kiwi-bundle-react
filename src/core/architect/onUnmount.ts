@@ -1,6 +1,13 @@
-import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
+import {
+  ArchitectComponentProps,
+  ArchitectComponentStyle,
+  ArchitectComponentStates,
+  ArchitectComponentFunctions,
+  ArchitectComponentStores,
+  ArchitectComponentValues,
+} from "./component"
 import { ArchitectContext } from "./context"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
@@ -9,12 +16,12 @@ import { ArchitectSelf } from "./self"
 export type ArchitectOnUnmount<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet,
-  Stores,
-  States extends AppComponentStates,
-  Values,
-  Functions,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle,
+  Stores extends ArchitectComponentStores,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
   > = (
     onUnmount: (
       context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
@@ -26,12 +33,12 @@ export type ArchitectOnUnmount<
 export const ArchitectOnUnmount = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet = any,
-  Stores = any,
-  States extends AppComponentStates = any,
-  Values = any,
-  Functions = any,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle = {},
+  Stores extends ArchitectComponentStores = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectOnUnmount<Config, Links, Props, Style, Stores, States, Values, Functions> => {

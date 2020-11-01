@@ -1,6 +1,13 @@
-import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
+import {
+  ArchitectComponentFunctions,
+  ArchitectComponentProps,
+  ArchitectComponentStates,
+  ArchitectComponentStores,
+  ArchitectComponentStyle,
+  ArchitectComponentValues,
+} from "./component"
 import { ArchitectContext } from "./context"
 import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
@@ -11,12 +18,12 @@ import { ArchitectSelf } from "./self"
 export type ArchitectOnInit<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet,
-  Stores,
-  States extends AppComponentStates,
-  Values,
-  Functions,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle,
+  Stores extends ArchitectComponentStores,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
   > = (
     onInit: (
       context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
@@ -28,12 +35,12 @@ export type ArchitectOnInit<
 export const ArchitectOnInit = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet = any,
-  Stores = any,
-  States extends AppComponentStates = any,
-  Values = any,
-  Functions = any,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle = {},
+  Stores extends ArchitectComponentStores = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions> => {

@@ -1,7 +1,7 @@
-import { React, Kiwi, CustomHeaderLeft } from "kiwi-bundle-react"
+import { React, Kiwi, AppCustomHeaderLeft } from "kiwi-bundle-react"
 import { KBRD } from ".."
 
-export default KBRD.Custom<CustomHeaderLeft>(() => (
+export default KBRD.Custom<AppCustomHeaderLeft>(() => (
   <Kiwi.View>
     <Kiwi.Text>LEFT</Kiwi.Text>
   </Kiwi.View>

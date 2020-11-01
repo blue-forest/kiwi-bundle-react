@@ -1,19 +1,15 @@
 import { ReactNative } from "../vendors"
 
-export type AppStyleSheetViewStyle = ReactNative.ViewStyle
+export type StyleSheetViewStyle = ReactNative.ViewStyle
 
-export type AppStyleSheetTextStyle = ReactNative.TextStyle
+export type StyleSheetTextStyle = ReactNative.TextStyle
 
-export type AppStyleSheetImageStyle = ReactNative.ImageStyle
+export type StyleSheetImageStyle = ReactNative.ImageStyle
 
-export type StyleSheetStyle = AppStyleSheetViewStyle | AppStyleSheetTextStyle | AppStyleSheetImageStyle
+export type StyleSheetStyle = StyleSheetViewStyle | StyleSheetTextStyle | StyleSheetImageStyle
 
-type AppStyleSheetMediaQuery = {
+export type StyleSheetMediaQuery = {
   min?: number
   max?: number
   style: StyleSheetStyle
-}
-
-export type AppStyleSheet = {
-  [name: string]: StyleSheetStyle | AppStyleSheetMediaQuery[]
 }

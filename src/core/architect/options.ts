@@ -1,20 +1,28 @@
-import { ArchitectType } from "."
-import { AppComponentProps, AppComponentStates, AppConfig, AppOptions } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
+import { AppOptions } from "../app/options"
+import {
+  ArchitectComponentProps,
+  ArchitectComponentStyle,
+  ArchitectComponentStates,
+  ArchitectComponentType,
+  ArchitectComponentFunctions,
+  ArchitectComponentStores,
+  ArchitectComponentValues,
+} from "./component"
 import { ArchitectContext } from "./context"
 
 export type ArchitectOptions<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps = any,
-  Style extends AppStyleSheet = any,
-  Stores = any,
-  States extends AppComponentStates = any,
-  Values = any,
-  Functions = any,
+  Props extends ArchitectComponentProps = {},
+  Style extends ArchitectComponentStyle = {},
+  Stores extends ArchitectComponentStores = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   > = {
-    type: ArchitectType
+    type: ArchitectComponentType
     app: {
       config: Config
       options: AppOptions<keyof Links["themes"]>

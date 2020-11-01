@@ -1,7 +1,9 @@
 import { ReactNative } from "../../vendors"
-import { AppComponent, AppComponentProps, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
+import { ArchitectComponent, ArchitectComponentProps } from "./component"
 import { ArchitectContext } from "./context"
+import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
@@ -9,19 +11,15 @@ import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
+import { ArchitectStores } from "./stores"
 import { ArchitectStyle } from "./style"
-
-export enum ArchitectType {
-  COMPONENT,
-  LAYOUT,
-  PAGE,
-}
+import { ArchitectValues } from "./values"
 
 export const Architect = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>
 >(options: Omit<ArchitectOptions<Config, Links>, "context" | "cache">) => {
-  return <Props extends AppComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => AppComponent<Props>) => {
+  return <Props extends ArchitectComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {
         colors: options.app.config.appearance.colors,
@@ -40,13 +38,17 @@ export const Architect = <
       OS: ReactNative.Platform.OS,
       navigation: {} as any,
     }
+    const children = { ...options, context, cache: {} }
     return architect({
-      style: ArchitectStyle<Config, Links, Props>({ ...options, context, cache: {} }),
-      states: ArchitectStates<Config, Links, Props>({ ...options, context, cache: {} }),
-      onInit: ArchitectOnInit<Config, Links, Props>({ ...options, context, cache: {} }),
-      onMount: ArchitectOnMount<Config, Links, Props>({ ...options, context, cache: {} }),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props>({ ...options, context, cache: {} }),
-      render: ArchitectRender<Config, Links, Props>({ ...options, context, cache: {} }),
+      style: ArchitectStyle<Config, Links, Props>(children),
+      stores: ArchitectStores<Config, Links, Props>(children),
+      states: ArchitectStates<Config, Links, Props>(children),
+      values: ArchitectValues<Config, Links, Props>(children),
+      functions: ArchitectFunctions<Config, Links, Props>(children),
+      onInit: ArchitectOnInit<Config, Links, Props>(children),
+      onMount: ArchitectOnMount<Config, Links, Props>(children),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props>(children),
+      render: ArchitectRender<Config, Links, Props>(children),
     })
   }
 }

@@ -1,9 +1,10 @@
 import "./imports"
-import { React, ReactNative } from "../vendors"
+import { React, ReactNative } from "../../vendors"
 import { createStackNavigator } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppConfig, AppOptions } from "./app"
-import { AppLinks } from "./links"
+import { AppLinks } from "../app/links"
+import { AppConfig } from "../app/config"
+import { AppOptions } from "../app/options"
 
 export const Provider = <Config extends AppConfig, Links extends AppLinks<Config>>(
   config: Config,

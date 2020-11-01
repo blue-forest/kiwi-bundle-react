@@ -1,18 +1,25 @@
 import { Theme } from "@react-navigation/native"
 import { ReactNative } from "../../vendors"
-import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
-import { AppLinksImports } from "../links"
-import { AppStyleSheet } from "../styles"
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
+import {
+  ArchitectComponentFunctions,
+  ArchitectComponentProps,
+  ArchitectComponentStates,
+  ArchitectComponentStores,
+  ArchitectComponentStyle,
+  ArchitectComponentValues,
+} from "./component"
 
 export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
-  Props extends AppComponentProps,
-  Style extends AppStyleSheet = {},
-  Stores = {},
-  States extends AppComponentStates = {},
-  Values = {},
-  Functions = {},
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle = {},
+  Stores extends ArchitectComponentStores = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   > = {
     appearance: {
       colors: Config["appearance"]["colors"]

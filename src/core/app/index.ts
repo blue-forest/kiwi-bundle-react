@@ -1,48 +1,12 @@
-import { ReactNative } from "../vendors"
-import { Provider } from "./provider"
-import { AppStyleSheet } from "./styles"
-import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports, AppTheme } from "./links"
-import { Architect, ArchitectType } from "./architect"
-import { React } from "../vendors"
-import { Actions } from "../utils/actions"
-
-export type AppConfig = {
-  key: string
-  navigation: {
-    routes: {
-      [name: string]: { path: string, title?: string }
-    }
-    prefixes: string[]
-  }
-  appearance: {
-    sizes: { [name: string]: number | string }
-    colors: { [name: string]: string }
-    header?: {
-      hide?: boolean
-      style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
-    }
-  }
-  platforms?: {
-    web?: {
-      title?: string | ((page?: string) => string)
-    }
-  }
-}
-
-export type AppComponentStates = { [name: string]: any }
-
-export type AppComponentProps = { [name: string]: any }
-
-export type AppComponent<Props extends AppComponentProps = {}> = React.ComponentType<Props>
-
-export type AppOptions<Themes = any> = {
-  actions: {
-    theme: {
-      name: Actions<Themes>
-      scheme: Actions<ReactNative.ColorSchemeName>
-    }
-  }
-}
+import { ReactNative } from "../../vendors"
+import { Provider } from "../provider"
+import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports } from "./links"
+import { Architect } from "../architect"
+import { Actions } from "../../utils/actions"
+import { ArchitectComponentProps, ArchitectComponentStyle, ArchitectComponentType } from "../architect/component"
+import { AppConfig } from "./config"
+import { AppOptions } from "./options"
+import { AppTheme } from "./theme"
 
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
   const options: AppOptions = {
@@ -51,19 +15,19 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
     }
   }
   return {
-    Component: Architect<Config, Links>({ type: ArchitectType.COMPONENT, app: { config, options } }),
-    Layout: Architect<Config, Links>({ type: ArchitectType.LAYOUT, app: { config, options } }),
-    Page: Architect<Config, Links>({ type: ArchitectType.PAGE, app: { config, options } }),
+    Component: Architect<Config, Links>({ type: ArchitectComponentType.COMPONENT, app: { config, options } }),
+    Layout: Architect<Config, Links>({ type: ArchitectComponentType.LAYOUT, app: { config, options } }),
+    Page: Architect<Config, Links>({ type: ArchitectComponentType.PAGE, app: { config, options } }),
     Theme: <Theme extends AppTheme<Config>>(theme: (context: { colors: Config["appearance"]["colors"] }) => Theme) => {
       return theme({
         colors: config.appearance.colors,
       })
     },
-    StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(style1: S1, style2?: S2) => {
-      const style: AppStyleSheet = style1
+    StyleSheet: <S1 extends ArchitectComponentStyle, S2 extends ArchitectComponentStyle>(style1: S1, style2?: S2) => {
+      const style: ArchitectComponentStyle = style1
       if (typeof style2 !== "undefined") {
         Object.keys(style2).forEach(key => {
-          const value = (style2 as AppStyleSheet)[key]
+          const value = (style2 as ArchitectComponentStyle)[key]
           if (typeof style[key] === "undefined") {
             style[key] = value
           } else {
@@ -74,7 +38,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       return style as S1 & S2
     },
     Store: <Data>(data: Data) => data,
-    Custom: <Props extends AppComponentProps>(custom: AppLinksCustom<Props>) => custom,
+    Custom: <Props extends ArchitectComponentProps>(custom: AppLinksCustom<Props>) => custom,
     Render: () => {
       const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
         return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {
