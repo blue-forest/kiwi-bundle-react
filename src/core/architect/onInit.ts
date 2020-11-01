@@ -35,7 +35,8 @@ export const ArchitectOnInit = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return () => {
+  return onInit => {
+    options.cache.onInit = onInit
     return {
       render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
     }

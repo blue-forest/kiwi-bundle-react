@@ -22,5 +22,8 @@ export type ArchitectOptions<
     context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
     cache: {
       states?: States
+      onInit?: (
+        context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+      ) => void
     }
   }

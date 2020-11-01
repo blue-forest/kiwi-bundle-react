@@ -4,5 +4,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.gotoLocation.multipleImplementations": "goto"
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "cSpell.words": [
+    "kbrd"
+  ]
 }

@@ -58,12 +58,12 @@ export const ArchitectRender = <Config extends AppConfig,
       }
 
       // INIT
-      /*if (typeof start.init !== "undefined") {
-        const init = start.init
+      if (typeof options.cache.onInit !== "undefined") {
+        const init = options.cache.onInit
         React.useEffect(() => {
-          init(context)
+          init(options.context)
         }, [])
-      }*/
+      }
 
       return render(options.context)
     }
