@@ -25,5 +25,11 @@ export type ArchitectOptions<
       onInit?: (
         context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
       ) => void
+      onMount?: (
+        context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+      ) => void
+      onUnmount?: (
+        context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+      ) => void
     }
   }

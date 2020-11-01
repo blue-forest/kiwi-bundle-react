@@ -6,6 +6,8 @@ import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
 import { ArchitectOptions } from "./options"
 import { ArchitectOnInit } from "./onInit"
+import { ArchitectOnMount } from "./onMount"
+import { ArchitectOnUnmount } from "./onUnmount"
 
 export type ArchitectStyle<
   Config extends AppConfig,
@@ -37,6 +39,8 @@ export const ArchitectStyle = <
     return {
       states: ArchitectStates<Config, Links, Props, S, Stores, States, Values, Functions>(options),
       onInit: ArchitectOnInit<Config, Links, Props, S, Stores, States, Values, Functions>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, S, Stores, States, Values, Functions>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, S, Stores, States, Values, Functions>(options),
       render: ArchitectRender<Config, Links, Props, S, Stores, States, Values, Functions>(options),
     }
   }

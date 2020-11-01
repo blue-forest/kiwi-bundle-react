@@ -33,6 +33,7 @@ export const ArchitectRender = <Config extends AppConfig,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions> => render => {
+    let started = false
     return props => {
       // PROPS
       options.context.props = options.type === ArchitectType.PAGE ? props.route.params : props
@@ -58,13 +59,26 @@ export const ArchitectRender = <Config extends AppConfig,
       }
 
       // INIT
-      if (typeof options.cache.onInit !== "undefined") {
-        const init = options.cache.onInit
-        React.useEffect(() => {
-          init(options.context)
-        }, [])
+      if (!started) {
+        if (typeof options.cache.onInit !== "undefined") {
+          options.cache.onInit(options.context)
+        }
+        started = true
       }
 
+      // MOUNT / UNMOUNT
+      React.useEffect(() => {
+        if (typeof options.cache.onMount !== "undefined") {
+          options.cache.onMount(options.context)
+        }
+        return () => {
+          if (typeof options.cache.onUnmount !== "undefined") {
+            options.cache.onUnmount(options.context)
+          }
+        }
+      }, [])
+
+      // RENDER
       return render(options.context)
     }
   }

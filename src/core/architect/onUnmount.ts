@@ -2,13 +2,11 @@ import { AppComponentProps, AppComponentStates, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { AppStyleSheet } from "../styles"
 import { ArchitectContext } from "./context"
-import { ArchitectOnMount } from "./onMount"
-import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 
-export type ArchitectOnInit<
+export type ArchitectOnUnmount<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
@@ -18,14 +16,14 @@ export type ArchitectOnInit<
   Values,
   Functions,
   > = (
-    onInit: (
+    onUnmount: (
       context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
     ) => void
   ) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
-    "style" | "stores" | "states" | "values" | "functions" | "onInit"
+    "style" | "stores" | "states" | "values" | "functions" | "onInit" | "onMount" | "onUnmount"
   >
 
-export const ArchitectOnInit = <
+export const ArchitectOnUnmount = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends AppComponentProps,
@@ -36,12 +34,10 @@ export const ArchitectOnInit = <
   Functions = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
-  ): ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return onInit => {
-    options.cache.onInit = onInit
+  ): ArchitectOnUnmount<Config, Links, Props, Style, Stores, States, Values, Functions> => {
+  return onUnmount => {
+    options.cache.onUnmount = onUnmount
     return {
-      onMount: ArchitectOnMount<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
       render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
     }
   }

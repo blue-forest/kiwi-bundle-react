@@ -3,6 +3,8 @@ import { AppComponent, AppComponentProps, AppConfig } from "../app"
 import { AppLinksImports } from "../links"
 import { ArchitectContext } from "./context"
 import { ArchitectOnInit } from "./onInit"
+import { ArchitectOnMount } from "./onMount"
+import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
@@ -42,6 +44,8 @@ export const Architect = <
       style: ArchitectStyle<Config, Links, Props>({ ...options, context, cache: {} }),
       states: ArchitectStates<Config, Links, Props>({ ...options, context, cache: {} }),
       onInit: ArchitectOnInit<Config, Links, Props>({ ...options, context, cache: {} }),
+      onMount: ArchitectOnMount<Config, Links, Props>({ ...options, context, cache: {} }),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props>({ ...options, context, cache: {} }),
       render: ArchitectRender<Config, Links, Props>({ ...options, context, cache: {} }),
     })
   }

@@ -12,9 +12,9 @@ export default KBRD.Page(self => self
   .states<HomePageStates>({
     count: 0,
   })
-  .onInit(({ appearance }) => {
-    console.log("COMPONENTS PAGE INIT", appearance.colors)
-  })
+  .onInit(() => { console.log("COMPONENTS", "INIT") })
+  .onMount(() => { console.log("COMPONENTS", "MOUNT") })
+  .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
   .render(({ state, style, appearance }) => {
     const scheme = appearance.theme.scheme.get()
     const theme = appearance.theme.get()
