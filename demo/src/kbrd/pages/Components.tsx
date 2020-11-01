@@ -7,18 +7,15 @@ type HomePageStates = {
   count: number
 }
 
-export default KBRD.Page({
-  style: ComponentsPageStyle,
-})<HomePageStates>({
-  count: 0,
-/*})({
-  values: {},
-  functions: {},*/
-})({
-  init: ({ appearance }) => {
+export default KBRD.Page(self => self
+  .style(ComponentsPageStyle)
+  .states<HomePageStates>({
+    count: 0,
+  })
+  .onInit(({ appearance }) => {
     console.log("COMPONENTS PAGE INIT", appearance.colors)
-  },
-  render: ({ state, style, appearance }) => {
+  })
+  .render(({ state, style, appearance }) => {
     const scheme = appearance.theme.scheme.get()
     const theme = appearance.theme.get()
     console.log({ theme })
@@ -50,8 +47,5 @@ export default KBRD.Page({
         }
       }}/>
     </Kiwi.View>
-  },
-  /*functions: {
-    test: context => { console.log(context) },
-  },*/
-})
+  })
+)

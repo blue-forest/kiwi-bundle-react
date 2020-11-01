@@ -2,7 +2,7 @@ import { ReactNative } from "../vendors"
 import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "./app"
 import { AppLinksImports } from "./links"
-import { ArchitectSelf as ArchitectOptions, ArchitectContext, ArchitectRender } from "./architect.types"
+import { ArchitectSelf, ArchitectContext, ArchitectRender } from "./architect.types"
 import { AppStyleSheet } from "./styles"
 
 export enum ArchitectType {
@@ -73,7 +73,7 @@ export const Architect = <Config extends AppConfig, Links extends AppLinksImport
         return render(context)
       }
     }
-  return <Props extends AppComponentProps>(architect: (options: ArchitectOptions<Config, Links, Props>) => AppComponent<Props>) => {
+  return <Props extends AppComponentProps>(architect: (options: ArchitectSelf<Config, Links, Props>) => AppComponent<Props>) => {
     return architect({
       render: createRender<Config, Links, Props>(),
     })

@@ -86,5 +86,13 @@ export type ArchitectSelf<
   Values = {},
   Functions = {},
   > = {
+    style?: any
+    stores?: any
+    states?: any
+    values?: any
+    functions?: any
+    onInit?: any
+    onMount?: any
+    onUnmount?: any
     render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>
   }
