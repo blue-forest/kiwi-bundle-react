@@ -1,8 +1,9 @@
-import { React, ReactNative } from "../vendors"
-import { NavigationProp, Theme, useNavigation, useTheme } from "@react-navigation/native"
+import { ReactNative } from "../vendors"
+import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
 import { AppComponent, AppComponentProps, AppComponentStates, AppConfig, AppGlobalState } from "./app"
-import { AppStyleSheet } from "./styles"
 import { AppLinksImports } from "./links"
+import { ArchitectSelf as ArchitectOptions, ArchitectContext, ArchitectRender } from "./architect.types"
+import { AppStyleSheet } from "./styles"
 
 export enum ArchitectType {
   COMPONENT,
@@ -10,140 +11,71 @@ export enum ArchitectType {
   PAGE,
 }
 
-type ArchitectOptions = {
-  style?: AppStyleSheet
-}
-
-type ArchitectContext<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Options extends ArchitectOptions,
-  States extends AppComponentStates,
-  Props extends AppComponentProps,
-  //Operations extends ArchitectOperations<Config, Links, Options, States, Props, Operations>,
-  > = {
-    props: Props
-    style: Options["style"]
-    /*values: Operations["values"]
-    functions: Operations["functions"]*/
-    OS: ReactNative.PlatformOSType
-    state: {
-      get: { [name in keyof States]: States[keyof States] }
-      set: { [name in keyof States]: (v: States[keyof States]) => void }
-    }
-    navigation: {
-      push: (route: keyof Config["navigation"]["routes"], params?: { [key: string]: string }) => void
-    }
-    appearance: {
-      colors: Config["appearance"]["colors"]
-      theme: {
-        get: () => keyof Links["themes"] | undefined
-        set: (theme: keyof Links["themes"]) => void
-        colors: Theme["colors"],
-        scheme: {
-          get: () => ReactNative.ColorSchemeName
-          set: (scheme: ReactNative.ColorSchemeName) => void
-        }
-      }
-    }
-  }
-
-/*type ArchitectOperations<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Options extends ArchitectOptions,
-  States extends AppComponentStates,
-  Props extends AppComponentProps,
-  Operations extends ArchitectOperations<Config, Links, Options, States, Props, Operations>,
-  > = {
-    values?: { [name: string]: any }
-    functions?: {
-      [name: string]: (context: ArchitectContext<Config, Links, Options, States, Props, Operations>) => void,
-    }
-  }*/
-
-type AppComponentStart<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Options extends ArchitectOptions,
-  States extends AppComponentStates,
-  Props extends AppComponentProps,
-  //Operations extends ArchitectOperations<Config, Links, Options, States, Props, Operations>,
-  > = {
-    init?: (context: ArchitectContext<Config, Links, Options, States, Props>) => void
-    render: (context: ArchitectContext<Config, Links, Options, States, Props>) => JSX.Element
-  }
-
-type ArchitectContext2<Props extends AppComponentProps> = {
-  props: Props
-}
-
-type ArchitectSelf<Props extends AppComponentProps> = {
-  render: (render: (context: ArchitectContext2<Props>) => React.ReactNode) => AppComponent<Props>
-}
-
 export const Architect = <Config extends AppConfig, Links extends AppLinksImports<Config>>(
   config: Config,
   globalState: AppGlobalState<keyof Links["themes"]>,
   type: ArchitectType,
 ) => {
-
-  return <Props extends AppComponentProps>(self: (s: ArchitectSelf<Props>) => AppComponent<Props>) => {
-    return self({
-      render: () => "" as any as AppComponent<Props>
-    })
-  }
-
-  /*return <Options extends ArchitectOptions>(options?: Options) => {
-    let style: Options["style"] = {}
-    if (typeof options?.style !== "undefined") {
-      style = options.style
-    }
-    return <States extends AppComponentStates>(states?: States) => {
-      //return <Values extends { [name: string]: any }>(values?: Values) => {
-      return <Props extends AppComponentProps>(start: AppComponentStart<Config, Links, Options, States, Props>): AppComponent<Props> => {
-        return props => {
-          // NAVIGATION
-          const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
-          // THEME
-          const { colors } = useTheme()
-          // CONTEXT
-          const context: ArchitectContext<Config, Links, Options, any, Props> = {
-            props: type === ArchitectType.PAGE ? props.route.params : props,
-            style,
-            OS: ReactNative.Platform.OS,
-            state: { get: {}, set: {} },
-            navigation: {
-              push: (route, params) => { navigation.navigate(route, params) },
+  const createRender = <Config extends AppConfig,
+    Links extends AppLinksImports<Config>,
+    Props extends AppComponentProps,
+    Style extends AppStyleSheet = any,
+    Stores = any,
+    States extends AppComponentStates = any,
+    Values = any,
+    Functions = any,
+    >(): ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions> => render => {
+      /*let style: Options["style"] = {}
+      if (typeof options?.style !== "undefined") {
+        style = options.style
+      }*/
+      return props => {
+        // NAVIGATION
+        const navigation: NavigationProp<any> = type === ArchitectType.PAGE ? props.navigation : useNavigation()
+        // THEME
+        const { colors } = useTheme()
+        // CONTEXT
+        const context: ArchitectContext<Config, Links, Props, Style, Stores, any, Values, Functions> = {
+          appearance: {
+            colors: config.appearance.colors,
+            theme: {
+              ...globalState.theme.name.target,
+              colors,
+              scheme: globalState.theme.scheme.target,
             },
-            appearance: {
-              colors: config.appearance.colors,
-              theme: {
-                ...globalState.theme.name.target,
-                colors,
-                scheme: globalState.theme.scheme.target,
-              },
-            }
-          }
-          // STATES
-          if (typeof states !== "undefined") {
-            Object.keys(states).forEach(name => {
-              const state = React.useState(states[name])
-              context.state.get[name] = state[0]
-              context.state.set[name] = state[1]
-            })
-          }
-          // INIT
-          if (typeof start.init !== "undefined") {
-            const init = start.init
-            React.useEffect(() => {
-              init(context)
-            }, [])
-          }
-          return start.render(context)
+          },
+          props: type === ArchitectType.PAGE ? props.route.params : props,
+          style: {} as any, // TODO
+          stores: {} as any, // TODO
+          state: { get: {}, set: {} },
+          values: {} as any, // TODO
+          functions: {} as any, // TODO
+          OS: ReactNative.Platform.OS,
+          navigation: {
+            push: (route, params) => { navigation.navigate(route, params) },
+          },
         }
+        // STATES
+        /*if (typeof states !== "undefined") {
+          Object.keys(states).forEach(name => {
+            const state = React.useState(states[name])
+            context.state.get[name] = state[0]
+            context.state.set[name] = state[1]
+          })
+        }*/
+        // INIT
+        /*if (typeof start.init !== "undefined") {
+          const init = start.init
+          React.useEffect(() => {
+            init(context)
+          }, [])
+        }*/
+        return render(context)
       }
     }
-    //}
-  }*/
+  return <Props extends AppComponentProps>(architect: (options: ArchitectOptions<Config, Links, Props>) => AppComponent<Props>) => {
+    return architect({
+      render: createRender<Config, Links, Props>(),
+    })
+  }
 }
