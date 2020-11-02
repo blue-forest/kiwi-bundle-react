@@ -23,8 +23,11 @@ export type ArchitectStores<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores,
-  > = (stores: Stores) => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
+  EmptyStores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, EmptyStores>,
+  > = <Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>>(
+    stores: Stores
+  ) => Omit<
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
     "style" | "states" | "values" | "functions" | "stores"
   >
 
@@ -36,16 +39,16 @@ export const ArchitectStores = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, any>
   ): ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return () => {
     return {
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      onInit: ArchitectOnInit(options),
+      onMount: ArchitectOnMount(options),
+      onUnmount: ArchitectOnUnmount(options),
+      render: ArchitectRender(options),
     }
   }
 }

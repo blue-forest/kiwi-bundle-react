@@ -21,7 +21,7 @@ export type ArchitectOnUnmount<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = (
     onUnmount: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
@@ -38,14 +38,14 @@ export const ArchitectOnUnmount = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
   ): ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return onUnmount => {
     options.cache.onUnmount = onUnmount
     return {
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      render: ArchitectRender(options),
     }
   }
 }

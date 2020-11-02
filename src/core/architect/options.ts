@@ -20,7 +20,7 @@ export type ArchitectOptions<
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   > = {
     type: ArchitectComponentType
     app: {

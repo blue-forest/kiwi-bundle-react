@@ -25,7 +25,7 @@ export type ArchitectValues<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = () => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
     "style" | "states" | "values"
   >
@@ -38,7 +38,7 @@ export const ArchitectValues = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
   ): ArchitectValues<Config, Links, Props, Style, States, Values, Functions, Stores> => {

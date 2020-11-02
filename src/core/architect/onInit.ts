@@ -23,7 +23,7 @@ export type ArchitectOnInit<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = (
     onInit: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
@@ -40,7 +40,7 @@ export const ArchitectOnInit = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
   ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores> => {

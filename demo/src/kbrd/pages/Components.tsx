@@ -18,6 +18,11 @@ export default KBRD.Page(self => self
       test: "test",
     },
   })
+  /*.stores({
+    counter: context => {
+      console.log(context)
+    },
+  })*/
   .onInit(() => { console.log("COMPONENTS", "INIT") })
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
