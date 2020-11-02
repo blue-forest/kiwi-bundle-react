@@ -28,9 +28,9 @@ export type ArchitectStates<
   Functions extends ArchitectComponentFunctions,
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, any, Values, Functions, Stores>,
   > = <States extends Required<States>>(
-    states: States
+    states: States,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, any>,
     "style" | "states"
   >
 

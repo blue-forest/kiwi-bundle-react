@@ -35,7 +35,7 @@ export type ArchitectContext<
     }
     props: Props
     style: Style
-    stores: Stores
+    stores: { [store in keyof Required<Stores>]: number }
     state: {
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }

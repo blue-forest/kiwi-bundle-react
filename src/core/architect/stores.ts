@@ -25,7 +25,7 @@ export type ArchitectStores<
   Functions extends ArchitectComponentFunctions,
   EmptyStores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, EmptyStores>,
   > = <Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>>(
-    stores: Stores
+    stores: Stores,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
     "style" | "states" | "values" | "functions" | "stores"
@@ -41,9 +41,10 @@ export const ArchitectStores = <
   Functions extends ArchitectComponentFunctions = {},
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, any>
-  ): ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores> => {
-  return () => {
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>,
+): ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores> => {
+  return stores => {
+    console.log(stores)
     return {
       onInit: ArchitectOnInit(options),
       onMount: ArchitectOnMount(options),

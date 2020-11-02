@@ -43,7 +43,7 @@ export const ArchitectStyle = <
   Functions extends ArchitectComponentFunctions = {},
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, any, States, Values, Functions, any>
+    options: ArchitectOptions<Config, Links, Props, any, States, Values, Functions, Stores>
   ): ArchitectStyle<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return style => {
     options.context.style = style

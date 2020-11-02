@@ -18,15 +18,16 @@ export default KBRD.Page(self => self
       test: "test",
     },
   })
-  /*.stores({
+  .stores({
     counter: context => {
       console.log(context)
     },
-  })*/
+  })
   .onInit(() => { console.log("COMPONENTS", "INIT") })
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
-  .render(({ state, style, appearance }) => {
+  .render(({ state, style, appearance, stores }) => {
+    console.log(stores)
     console.log("COMPONENTS", "RENDER")
     const scheme = appearance.theme.scheme.get()
     return <Kiwi.View>
