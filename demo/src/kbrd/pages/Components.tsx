@@ -16,6 +16,7 @@ export default KBRD.Page(self => self
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
   .render(({ state, style, appearance }) => {
+    console.log("COMPONENTS", "RENDER")
     const scheme = appearance.theme.scheme.get()
     return <Kiwi.View>
       <Kiwi.View style={style.textContainer}>
