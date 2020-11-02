@@ -5,7 +5,7 @@ import { ComponentsPageStyle } from "./Components.style"
 
 type States = {
   count: number
-  test: {
+  test?: {
     test: string
   }
 }

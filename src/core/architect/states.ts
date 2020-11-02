@@ -23,10 +23,10 @@ export type ArchitectStates<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   Stores extends ArchitectComponentStores,
-  States extends ArchitectComponentStates,
+  _,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  > = <S extends States>(states: S) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, S, Values, Functions>,
+  > = <States extends Required<States>>(states: States) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
     "style" | "stores" | "states"
   >
 
@@ -42,7 +42,7 @@ export const ArchitectStates = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return <S extends States>(states: S) => {
+  return <S extends Required<S>>(states: S) => {
     options.cache.states = states
     return {
       values: ArchitectValues<Config, Links, Props, Style, Stores, S, Values, Functions>(options),
