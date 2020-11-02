@@ -42,7 +42,7 @@ export const ArchitectStates = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
   ): ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions> => {
-  return <S extends States>(states: States) => {
+  return <S extends States>(states: S) => {
     options.cache.states = states
     return {
       values: ArchitectValues<Config, Links, Props, Style, Stores, S, Values, Functions>(options),

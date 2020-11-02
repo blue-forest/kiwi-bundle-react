@@ -37,8 +37,8 @@ export type ArchitectContext<
     style: Style
     stores: Stores
     state: {
-      get: { [name in keyof States]: States[keyof States] }
-      set: { [name in keyof States]: (v: States[keyof States]) => void }
+      get: { [name in keyof States]: States[name] }
+      set: { [name in keyof States]: (v: States[name]) => void }
     }
     values: Values
     functions: Functions

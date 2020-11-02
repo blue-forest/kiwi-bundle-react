@@ -5,18 +5,18 @@ import { ComponentsPageStyle } from "./Components.style"
 
 type States = {
   count: number
-  /*test: {
+  test: {
     test: string
-  }*/
+  }
 }
 
 export default KBRD.Page(self => self
   .style(ComponentsPageStyle)
   .states<States>({
     count: 0,
-    /*test: {
+    test: {
       test: "test",
-    },*/
+    },
   })
   .onInit(() => { console.log("COMPONENTS", "INIT") })
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
