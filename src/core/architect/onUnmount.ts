@@ -18,16 +18,16 @@ export type ArchitectOnUnmount<
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
-  Stores extends ArchitectComponentStores,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = (
     onUnmount: (
-      context: ArchitectContext<Config, Links, Props, Style, Stores, States, Values, Functions>
+      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
     ) => void
-  ) => Omit<ArchitectSelf<Config, Links, Props, Style, Stores, States, Values, Functions>,
-    "style" | "stores" | "states" | "values" | "functions" | "onInit" | "onMount" | "onUnmount"
+  ) => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
+    "style" | "states" | "values" | "functions" | "stores" | "onInit" | "onMount" | "onUnmount"
   >
 
 export const ArchitectOnUnmount = <
@@ -35,17 +35,17 @@ export const ArchitectOnUnmount = <
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = {},
-  Stores extends ArchitectComponentStores = {},
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, Stores, any, Values, Functions>
-  ): ArchitectOnUnmount<Config, Links, Props, Style, Stores, States, Values, Functions> => {
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
+  ): ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return onUnmount => {
     options.cache.onUnmount = onUnmount
     return {
-      render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>(options),
+      render: ArchitectRender(options),
     }
   }
 }

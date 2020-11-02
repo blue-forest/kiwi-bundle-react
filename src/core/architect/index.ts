@@ -18,7 +18,7 @@ import { ArchitectValues } from "./values"
 export const Architect = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>
->(options: Omit<ArchitectOptions<Config, Links>, "context" | "cache">) => {
+>(options: Omit<ArchitectOptions<Config, Links, {}>, "context" | "cache">) => {
   return <Props extends ArchitectComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {
@@ -29,22 +29,22 @@ export const Architect = <
           scheme: options.app.options.actions.theme.scheme.target,
         },
       },
+      OS: ReactNative.Platform.OS,
+      navigation: {} as any,
       props: {} as any,
       style: {},
-      stores: {},
       state: { get: {}, set: {} },
       values: {},
       functions: {},
-      OS: ReactNative.Platform.OS,
-      navigation: {} as any,
+      stores: {},
     }
     const children = { ...options, context, cache: {} }
     return architect({
       style: ArchitectStyle<Config, Links, Props>(children),
-      stores: ArchitectStores<Config, Links, Props>(children),
       states: ArchitectStates<Config, Links, Props>(children),
       values: ArchitectValues<Config, Links, Props>(children),
       functions: ArchitectFunctions<Config, Links, Props>(children),
+      stores: ArchitectStores<Config, Links, Props>(children),
       onInit: ArchitectOnInit<Config, Links, Props>(children),
       onMount: ArchitectOnMount<Config, Links, Props>(children),
       onUnmount: ArchitectOnUnmount<Config, Links, Props>(children),

@@ -16,10 +16,10 @@ export type ArchitectContext<
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = {},
-  Stores extends ArchitectComponentStores = {},
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   > = {
     appearance: {
       colors: Config["appearance"]["colors"]
@@ -37,8 +37,8 @@ export type ArchitectContext<
     style: Style
     stores: Stores
     state: {
-      get: { [name in keyof States]: States[keyof States] }
-      set: { [name in keyof States]: (v: States[keyof States]) => void }
+      get: { [name in keyof States]: States[name] }
+      set: { [name in keyof States]: (v: States[name]) => void }
     }
     values: Values
     functions: Functions

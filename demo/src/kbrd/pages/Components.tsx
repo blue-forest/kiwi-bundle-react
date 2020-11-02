@@ -3,15 +3,26 @@ import { KBRD } from ".."
 import { ButtonComponent } from "../components/Button"
 import { ComponentsPageStyle } from "./Components.style"
 
-type HomePageStates = {
+type States = {
   count: number
+  test: {
+    test?: string
+  }
 }
 
 export default KBRD.Page(self => self
   .style(ComponentsPageStyle)
-  .states<HomePageStates>({
+  .states<States>({
     count: 0,
+    test: {
+      test: "test",
+    },
   })
+  /*.stores({
+    counter: context => {
+      console.log(context)
+    },
+  })*/
   .onInit(() => { console.log("COMPONENTS", "INIT") })
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })

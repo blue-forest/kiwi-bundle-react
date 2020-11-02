@@ -23,18 +23,18 @@ export type ArchitectSelf<
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = {},
-  Stores extends ArchitectComponentStores = {},
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   > = {
-    style: ArchitectStyle<Config, Links, Props, Style, Stores, States, Values, Functions>
-    stores: ArchitectStores<Config, Links, Props, Style, Stores, States, Values, Functions>
-    states: ArchitectStates<Config, Links, Props, Style, Stores, States, Values, Functions>
-    values: ArchitectValues<Config, Links, Props, Style, Stores, States, Values, Functions>
-    functions: ArchitectFunctions<Config, Links, Props, Style, Stores, States, Values, Functions>
-    onInit: ArchitectOnInit<Config, Links, Props, Style, Stores, States, Values, Functions>
-    onMount: ArchitectOnMount<Config, Links, Props, Style, Stores, States, Values, Functions>
-    onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, Stores, States, Values, Functions>
-    render: ArchitectRender<Config, Links, Props, Style, Stores, States, Values, Functions>
+    style: ArchitectStyle<Config, Links, Props, Style, States, Values, Functions, Stores>
+    states: ArchitectStates<Config, Links, Props, Style, States, Values, Functions, Stores>
+    values: ArchitectValues<Config, Links, Props, Style, States, Values, Functions, Stores>
+    functions: ArchitectFunctions<Config, Links, Props, Style, States, Values, Functions, Stores>
+    stores: ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores>
+    onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores>
+    onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions, Stores>
+    onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores>
+    render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>
   }
