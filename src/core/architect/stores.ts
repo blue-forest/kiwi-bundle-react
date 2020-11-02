@@ -41,7 +41,7 @@ export const ArchitectStores = <
   Functions extends ArchitectComponentFunctions = {},
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>,
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, any>,
 ): ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return stores => {
     console.log(stores)

@@ -28,8 +28,8 @@ export type ArchitectStyle<
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
   Stores extends ArchitectComponentStores<Config, Links, Props, EmptyStyle, States, Values, Functions, Stores>,
-  > = <Style extends EmptyStyle>(style: Style) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
+  > = <Style extends ArchitectComponentStyle>(style: Style) => Omit<
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, any>,
     "style"
   >
 
@@ -41,14 +41,14 @@ export const ArchitectStyle = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = {},
   >(
     options: ArchitectOptions<Config, Links, Props, any, States, Values, Functions, Stores>
   ): ArchitectStyle<Config, Links, Props, Style, States, Values, Functions, Stores> => {
-  return style => {
+  return <Style extends ArchitectComponentStyle, Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>>(style: Style) => {
     options.context.style = style
     return {
-      states: ArchitectStates(options),
+      states: ArchitectStates<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
       values: ArchitectValues(options),
       functions: ArchitectFunctions(options),
       stores: ArchitectStores(options),
