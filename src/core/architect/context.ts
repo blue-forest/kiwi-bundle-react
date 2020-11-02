@@ -16,10 +16,10 @@ export type ArchitectContext<
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = {},
-  Stores extends ArchitectComponentStores = {},
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
+  Stores extends ArchitectComponentStores = {},
   > = {
     appearance: {
       colors: Config["appearance"]["colors"]
