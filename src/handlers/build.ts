@@ -1,9 +1,10 @@
 import { KiwiBundleHandler } from "../.bundles/kiwi-bundle/handler"
 import { spawn } from "child_process"
+import { join } from "path"
 
 export const main: KiwiBundleHandler = ({ path }) => {
   spawn(
-    "./node_modules/.bin/react-scripts",
+    join(path, "node_modules/.bin/react-scripts"),
     ["build"],
     {
       shell: true,
