@@ -44,12 +44,12 @@ export const ArchitectValues = <
   ): ArchitectValues<Config, Links, Props, Style, States, Values, Functions, Stores> => {
   return () => {
     return {
-      functions: ArchitectFunctions(options),
-      stores: ArchitectStores(options),
-      onInit: ArchitectOnInit(options),
-      onMount: ArchitectOnMount(options),
-      onUnmount: ArchitectOnUnmount(options),
-      render: ArchitectRender(options),
+      functions: ArchitectFunctions<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      stores: ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
     }
   }
 }
