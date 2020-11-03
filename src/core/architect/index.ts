@@ -9,6 +9,7 @@ import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
+import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
 import { ArchitectStores } from "./stores"
 import { ArchitectStyle } from "./style"
@@ -19,17 +20,7 @@ export const Architect = <
   Links extends AppLinksImports<Config>
 >(options: Omit<ArchitectOptions<Config, Links, {}>, "context" | "cache">) => {
   return <Props extends ArchitectComponentProps>(
-    architect: (self: {
-      style: typeof ArchitectStyle
-      states: typeof ArchitectStates
-      values: typeof ArchitectValues
-      functions: typeof ArchitectFunctions
-      stores: typeof ArchitectStores
-      onInit: typeof ArchitectOnInit
-      onMount: typeof ArchitectOnMount
-      onUnmount: typeof ArchitectOnUnmount
-      render: typeof ArchitectRender
-    }) => ArchitectComponent<Props>,
+    architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>,
   ) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {

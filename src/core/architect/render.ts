@@ -15,8 +15,22 @@ import {
   ArchitectComponentValues,
 } from "./component"
 
-export const ArchitectRender = <
+export type ArchitectRender<
   Config extends AppConfig,
+  Links extends AppLinksImports<Config>,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
+  > = (
+    render: (
+      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
+    ) => React.ReactElement
+  ) => ArchitectComponent<Props>
+
+export const ArchitectRender = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = {},
@@ -24,8 +38,9 @@ export const ArchitectRender = <
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
-  >(options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, Stores>) => {
-  return (render: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>) => React.ReactElement): ArchitectComponent<Props> => {
+  >(
+    options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, Stores>
+  ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores> => render => {
     let started = false
     return props => {
       // PROPS
@@ -75,4 +90,3 @@ export const ArchitectRender = <
       return render(options.context)
     }
   }
-}
