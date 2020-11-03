@@ -37,7 +37,7 @@ export const ArchitectRender = <Config extends AppConfig,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = {},
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, Stores>
   ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores> => render => {

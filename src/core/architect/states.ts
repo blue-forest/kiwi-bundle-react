@@ -60,19 +60,17 @@ export const ArchitectStates = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, any>
   ) => {
-  return <
-    States extends Required<States>,
-    Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>
-  >(states: States): ArchitectStatesSelf<Config, Links, Props, Style, States, Values, Functions, Stores> => {
+  return <States extends Required<States>>(states: States) => {
     options.cache.states = states
+    type Stores = ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, EmptyStores>
     return {
-      values: ArchitectValues<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      functions: ArchitectFunctions<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      stores: ArchitectStores<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-    }
+      values: ArchitectValues(options),
+      functions: ArchitectFunctions(options),
+      stores: ArchitectStores(options),
+      onInit: ArchitectOnInit(options),
+      onMount: ArchitectOnMount(options),
+      onUnmount: ArchitectOnUnmount(options),
+      render: ArchitectRender(options),
+    } as ArchitectStatesSelf<Config, Links, Props, Style, States, Values, Functions, Stores>
   }
 }
