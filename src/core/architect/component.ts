@@ -1,7 +1,6 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
 import { StyleSheetMediaQuery, StyleSheetStyle } from "../styles"
-import { ArchitectContext } from "./context"
 
 export enum ArchitectComponentType {
   COMPONENT,
@@ -30,10 +29,6 @@ export type ArchitectComponentStores<
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
-  > = {
-    [name in keyof Links["stores"]]?: (
-      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
-    ) => void
-  }
+  > = Required<{ [store in keyof Stores]: any }>
 
 export type ArchitectComponent<Props extends ArchitectComponentProps = {}> = React.ComponentType<Props>

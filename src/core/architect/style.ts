@@ -53,7 +53,7 @@ export const ArchitectStyle = <
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  EmptyStores extends ArchitectComponentStores<Config, Links, Props, EmptyStyle, States, Values, Functions, EmptyStores> = {},
+  EmptyStores extends ArchitectComponentStores<Config, Links, Props, EmptyStyle, States, Values, Functions, EmptyStores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, any, States, Values, Functions, EmptyStores>
   ) => {
