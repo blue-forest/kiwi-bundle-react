@@ -11,12 +11,25 @@ type States = {
   }
 }
 
+type Values = {
+  test: string
+}
+
 export default KBRD.Page(self => self
   .style(ComponentsPageStyle)
   .states<States>({
     count: 0,
     test: {
       test: "test",
+    },
+  })
+  .values<Values>({
+    test: "",
+  })
+  .functions({
+    getText: context => context.values.test,
+    setText: context => {
+      context.values.test = ""
     },
   })
   .onInit(() => { console.log("COMPONENTS", "INIT") })

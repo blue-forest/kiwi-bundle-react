@@ -15,10 +15,11 @@ export type ArchitectFunctions<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  > = () => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
-    "style" | "states" | "values" | "functions"
-  >
+  EmptyFunctions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions>,
+  > = <Functions extends EmptyFunctions>(functions: Functions)
+    => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+      "style" | "states" | "values" | "functions"
+    >
 
 export const ArchitectFunctions = <
   Config extends AppConfig,
@@ -27,11 +28,12 @@ export const ArchitectFunctions = <
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  EmptyFunctions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
-  ): ArchitectFunctions<Config, Links, Props, Style, States, Values, Functions> => {
-  return () => {
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, any>
+  ): ArchitectFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions> => {
+  return functions => {
+    console.log(functions)
     return {
       onInit: ArchitectOnInit(options),
       onMount: ArchitectOnMount(options),

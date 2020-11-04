@@ -23,8 +23,8 @@ export type ArchitectStates<
   Style extends ArchitectComponentStyle,
   EmptyStates extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  > = <States extends Required<States>>(
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, EmptyStates, Values, Functions>,
+  > = <States extends EmptyStates>(
     states: States,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
@@ -38,7 +38,7 @@ export const ArchitectStates = <
   Style extends ArchitectComponentStyle = any,
   EmptyStates extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, EmptyStates, Values, Functions> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
   ): ArchitectStates<Config, Links, Props, Style, EmptyStates, Values, Functions> => {

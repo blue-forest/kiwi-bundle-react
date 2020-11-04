@@ -23,7 +23,7 @@ export type ArchitectSelf<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
   > = {
     style: ArchitectStyle<Config, Links, Props, Style, States, Values, Functions>
     states: ArchitectStates<Config, Links, Props, Style, States, Values, Functions>

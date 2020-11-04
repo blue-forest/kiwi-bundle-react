@@ -21,7 +21,7 @@ export type ArchitectRender<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
   > = (
     render: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
@@ -34,7 +34,7 @@ export const ArchitectRender = <Config extends AppConfig,
   Style extends ArchitectComponentStyle = {},
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = {},
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => render => {

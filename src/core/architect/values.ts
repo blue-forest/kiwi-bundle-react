@@ -21,11 +21,13 @@ export type ArchitectValues<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  > = () => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
-    "style" | "states" | "values"
-  >
+  EmptyValues extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, EmptyValues, Functions>,
+  > = <Values extends EmptyValues>(values: Values)
+    => Omit<
+      ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+      "style" | "states" | "values"
+    >
 
 export const ArchitectValues = <
   Config extends AppConfig,
@@ -34,17 +36,18 @@ export const ArchitectValues = <
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
+    options: ArchitectOptions<Config, Links, Props, Style, States, any, Functions>
   ): ArchitectValues<Config, Links, Props, Style, States, Values, Functions> => {
-  return () => {
+  return values => {
+    console.log(values)
     return {
-      functions: ArchitectFunctions<Config, Links, Props, Style, States, Values, Functions>(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions>(options),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions>(options),
+      functions: ArchitectFunctions(options),
+      onInit: ArchitectOnInit(options),
+      onMount: ArchitectOnMount(options),
+      onUnmount: ArchitectOnUnmount(options),
+      render: ArchitectRender(options),
     }
   }
 }

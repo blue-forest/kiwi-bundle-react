@@ -1,4 +1,7 @@
+import { AppConfig } from "../app/config"
+import { AppLinksImports } from "../app/links"
 import { StyleSheetMediaQuery, StyleSheetStyle } from "../app/styles"
+import { ArchitectContext } from "./context"
 
 export enum ArchitectComponentType {
   COMPONENT,
@@ -8,14 +11,22 @@ export enum ArchitectComponentType {
 
 export type ArchitectComponentProps = { [name: string]: any }
 
-export type ArchitectComponentStyle = {
-  [name: string]: StyleSheetStyle | StyleSheetMediaQuery[]
-}
+export type ArchitectComponentStyle = { [name: string]: StyleSheetStyle | StyleSheetMediaQuery[] }
 
 export type ArchitectComponentStates = { [name: string]: any }
 
 export type ArchitectComponentValues = { [name: string]: any }
 
-export type ArchitectComponentFunctions = { [name: string]: () => void }
+export type ArchitectComponentFunctions<
+  Config extends AppConfig,
+  Links extends AppLinksImports<Config>,
+  Props extends ArchitectComponentProps,
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
+  > = {
+    [name: string]: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => any
+  }
 
 export type ArchitectComponent<Props extends ArchitectComponentProps = {}> = React.ComponentType<Props>
