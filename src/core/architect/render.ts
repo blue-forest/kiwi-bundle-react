@@ -11,7 +11,6 @@ import {
   ArchitectComponentType,
   ArchitectComponent,
   ArchitectComponentFunctions,
-  ArchitectComponentStores,
   ArchitectComponentValues,
 } from "./component"
 
@@ -23,10 +22,9 @@ export type ArchitectRender<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = (
     render: (
-      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
+      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
     ) => React.ReactElement
   ) => ArchitectComponent<Props>
 
@@ -37,10 +35,9 @@ export const ArchitectRender = <Config extends AppConfig,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, Stores>
-  ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores> => render => {
+    options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
+  ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => render => {
     let started = false
     return props => {
       // PROPS
@@ -61,8 +58,8 @@ export const ArchitectRender = <Config extends AppConfig,
       if (typeof states !== "undefined") {
         Object.keys(states).forEach(name => {
           const state = React.useState(states[name])
-          options.context.state.get[name] = state[0]
-          options.context.state.set[name] = state[1]
+          options.context.states.get[name] = state[0]
+          options.context.states.set[name] = state[1]
         })
       }
 

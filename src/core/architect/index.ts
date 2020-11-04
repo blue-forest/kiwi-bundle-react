@@ -11,7 +11,6 @@ import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
-import { ArchitectStores } from "./stores"
 import { ArchitectStyle } from "./style"
 import { ArchitectValues } from "./values"
 
@@ -24,19 +23,18 @@ export const Architect = <
       appearance: {
         colors: options.app.config.appearance.colors,
         theme: {
-          ...options.app.options.actions.theme.name.target,
+          ...options.app.options.actions.theme.name.data,
           colors: {} as any,
-          scheme: options.app.options.actions.theme.scheme.target,
+          scheme: options.app.options.actions.theme.scheme.data,
         },
       },
       OS: ReactNative.Platform.OS,
       navigation: {} as any,
       props: {} as any,
       style: {},
-      state: { get: {}, set: {} },
+      states: { get: {}, set: {} },
       values: {},
       functions: {},
-      stores: {},
     }
     const children = { ...options, context, cache: {} }
     return architect({
@@ -44,7 +42,6 @@ export const Architect = <
       states: ArchitectStates<Config, Links, Props>(children),
       values: ArchitectValues<Config, Links, Props>(children),
       functions: ArchitectFunctions<Config, Links, Props>(children),
-      stores: ArchitectStores<Config, Links, Props>(children),
       onInit: ArchitectOnInit<Config, Links, Props>(children),
       onMount: ArchitectOnMount<Config, Links, Props>(children),
       onUnmount: ArchitectOnUnmount<Config, Links, Props>(children),

@@ -4,7 +4,6 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -23,33 +22,32 @@ export type ArchitectOnInit<
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores>,
   > = (
     onInit: (
-      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
+      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
     ) => void
-  ) => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions, Stores>,
-    "style" | "states" | "values" | "functions" | "stores" | "onInit"
+  ) => Omit<
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+    "style" | "states" | "values" | "functions" | "onInit"
   >
 
 export const ArchitectOnInit = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = any,
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>
-  ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions, Stores> => {
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
+  ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions> => {
   return onInit => {
     options.cache.onInit = onInit
     return {
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores>(options),
+      onMount: ArchitectOnMount(options),
+      onUnmount: ArchitectOnUnmount(options),
+      render: ArchitectRender(options),
     }
   }
 }

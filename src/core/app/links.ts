@@ -32,7 +32,7 @@ export type AppLinksResolve = {
 export type AppLinks<Config extends AppConfig> = {
   pages: { [name in keyof Config["navigation"]["routes"]]: ArchitectComponent }
   themes?: { [theme: string]: AppTheme<Config> }
-  stores?: { [store: string]: string }
+  stores?: { [store: string]: any }
   custom?: {
     header?: {
       left?: AppLinksCustom<AppCustomHeaderLeft>

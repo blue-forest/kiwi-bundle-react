@@ -6,7 +6,6 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -15,12 +14,20 @@ export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = any,
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions = any,
   > = {
+    props: Props
+    style: Style
+    states: {
+      get: { [name in keyof States]: States[name] }
+      set: { [name in keyof States]: (v: States[name]) => void }
+    }
+    values: Values
+    functions: Functions
+    OS: ReactNative.PlatformOSType
     appearance: {
       colors: Config["appearance"]["colors"]
       theme: {
@@ -33,16 +40,6 @@ export type ArchitectContext<
         }
       }
     }
-    props: Props
-    style: Style
-    stores: Stores
-    state: {
-      get: { [name in keyof States]: States[name] }
-      set: { [name in keyof States]: (v: States[name]) => void }
-    }
-    values: Values
-    functions: Functions
-    OS: ReactNative.PlatformOSType
     navigation: {
       push: (route: keyof Config["navigation"]["routes"], params?: { [key: string]: string }) => void
     }

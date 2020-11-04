@@ -2,7 +2,7 @@ import { ReactNative } from "../../vendors"
 import { Provider } from "../provider"
 import { AppLinks, AppLinksCustom, AppLinksResolve, AppLinksImports } from "./links"
 import { Architect } from "../architect"
-import { Actions } from "../../utils/actions"
+import { Store } from "../../utils/store"
 import { ArchitectComponentProps, ArchitectComponentStyle, ArchitectComponentType } from "../architect/component"
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
@@ -11,7 +11,7 @@ import { AppTheme } from "./theme"
 export const App = <Config extends AppConfig, Links extends AppLinksImports<Config>>(config: Config, links: Links) => {
   const options: AppOptions = {
     actions: {
-      theme: { name: Actions(), scheme: Actions() }
+      theme: { name: Store(), scheme: Store() }
     }
   }
   return {
