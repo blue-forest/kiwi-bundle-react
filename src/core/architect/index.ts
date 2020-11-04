@@ -11,7 +11,6 @@ import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 import { ArchitectStates } from "./states"
-import { ArchitectStores } from "./stores"
 import { ArchitectStyle } from "./style"
 import { ArchitectValues } from "./values"
 
@@ -46,7 +45,6 @@ export const Architect = <
       states: ArchitectStates<Config, Links, Props>(children),
       values: ArchitectValues<Config, Links, Props>(children),
       functions: ArchitectFunctions<Config, Links, Props>(children),
-      stores: ArchitectStores<Config, Links, Props>(children),
       onInit: ArchitectOnInit<Config, Links, Props>(children),
       onMount: ArchitectOnMount<Config, Links, Props>(children),
       onUnmount: ArchitectOnUnmount<Config, Links, Props>(children),

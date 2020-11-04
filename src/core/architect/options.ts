@@ -7,7 +7,6 @@ import {
   ArchitectComponentStates,
   ArchitectComponentType,
   ArchitectComponentFunctions,
-  ArchitectComponentStores,
   ArchitectComponentValues,
 } from "./component"
 import { ArchitectContext } from "./context"
@@ -20,18 +19,17 @@ export type ArchitectOptions<
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
   Functions extends ArchitectComponentFunctions = any,
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   > = {
     type: ArchitectComponentType
     app: {
       config: Config
       options: AppOptions<keyof Links["themes"]>
     }
-    context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>
+    context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
     cache: {
       states?: States
-      onInit?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>) => void
-      onMount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>) => void
-      onUnmount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions, Stores>) => void
+      onInit?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
+      onMount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
+      onUnmount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
     }
   }
