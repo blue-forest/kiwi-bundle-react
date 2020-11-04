@@ -83,6 +83,10 @@ export const ArchitectRender = <Config extends AppConfig,
         }
       }, [])
 
+      // UPDATE
+      const update = React.useReducer(u => ++u, 0)[1]
+      options.context.update = () => { update() }
+
       // RENDER
       return render(options.context)
     }

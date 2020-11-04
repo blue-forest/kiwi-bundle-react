@@ -35,6 +35,7 @@ export const Architect = <
       states: { get: {}, set: {} },
       values: {},
       functions: {},
+      update: () => { },
     }
     const children = { ...options, context, cache: {} }
     return architect({

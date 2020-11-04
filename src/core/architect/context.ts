@@ -43,4 +43,5 @@ export type ArchitectContext<
     navigation: {
       push: (route: keyof Config["navigation"]["routes"], params?: { [key: string]: string }) => void
     }
+    update: () => void
   }
