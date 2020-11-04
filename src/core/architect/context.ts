@@ -18,7 +18,6 @@ export type ArchitectContext<
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
   Functions extends ArchitectComponentFunctions = any,
-  Stores extends string = any,
   > = {
     props: Props
     style: Style
@@ -28,7 +27,6 @@ export type ArchitectContext<
     }
     values: Values
     functions: Functions
-    stores: Required<{ [store in Stores]: any }>
     OS: ReactNative.PlatformOSType
     appearance: {
       colors: Config["appearance"]["colors"]

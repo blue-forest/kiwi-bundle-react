@@ -18,9 +18,7 @@ export const Architect = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>
 >(options: Omit<ArchitectOptions<Config, Links, {}>, "context" | "cache">) => {
-  return <Props extends ArchitectComponentProps>(
-    architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>,
-  ) => {
+  return <Props extends ArchitectComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {
         colors: options.app.config.appearance.colors,
@@ -37,7 +35,6 @@ export const Architect = <
       states: { get: {}, set: {} },
       values: {},
       functions: {},
-      stores: {},
     }
     const children = { ...options, context, cache: {} }
     return architect({
