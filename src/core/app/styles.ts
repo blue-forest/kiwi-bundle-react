@@ -1,4 +1,4 @@
-import { ReactNative } from "../vendors"
+import { ReactNative } from "../../vendors"
 
 export type StyleSheetViewStyle = ReactNative.ViewStyle
 

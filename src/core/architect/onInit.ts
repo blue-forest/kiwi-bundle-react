@@ -59,10 +59,10 @@ export const ArchitectOnInit = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = any,
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions = any,
   Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions, Stores>

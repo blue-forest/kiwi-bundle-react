@@ -33,11 +33,11 @@ export type ArchitectRender<
 export const ArchitectRender = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
-  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = {},
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = any,
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions = any,
+  Stores extends ArchitectComponentStores<Config, Links, Props, Style, States, Values, Functions, Stores> = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions, Stores>
   ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions, Stores> => render => {
@@ -61,8 +61,8 @@ export const ArchitectRender = <Config extends AppConfig,
       if (typeof states !== "undefined") {
         Object.keys(states).forEach(name => {
           const state = React.useState(states[name])
-          options.context.state.get[name] = state[0]
-          options.context.state.set[name] = state[1]
+          options.context.states.get[name] = state[0]
+          options.context.states.set[name] = state[1]
         })
       }
 
