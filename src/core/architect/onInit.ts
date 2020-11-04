@@ -14,31 +14,6 @@ import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
 
-type ArchitectOnInitSelf<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates,
-  Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  > = Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
-    "style" | "states" | "values" | "functions" | "onInit"
-  >
-
-type ArchitectOnInitCallback<
-  Config extends AppConfig,
-  Links extends AppLinksImports<Config>,
-  Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates,
-  Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  > = (
-    context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
-  ) => void
-
 export type ArchitectOnInit<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
@@ -48,8 +23,13 @@ export type ArchitectOnInit<
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions,
   > = (
-    onInit: ArchitectOnInitCallback<Config, Links, Props, Style, States, Values, Functions>
-  ) => ArchitectOnInitSelf<Config, Links, Props, Style, States, Values, Functions>
+    onInit: (
+      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
+    ) => void
+  ) => Omit<
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+    "style" | "states" | "values" | "functions" | "onInit"
+  >
 
 export const ArchitectOnInit = <
   Config extends AppConfig,
@@ -61,15 +41,13 @@ export const ArchitectOnInit = <
   Functions extends ArchitectComponentFunctions = any,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
-  ) => {
-  return (
-    onInit: ArchitectOnInitCallback<Config, Links, Props, Style, States, Values, Functions>,
-  ): ArchitectOnInitSelf<Config, Links, Props, Style, States, Values, Functions> => {
+  ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions> => {
+  return onInit => {
     options.cache.onInit = onInit
     return {
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions>(options),
+      onMount: ArchitectOnMount(options),
+      onUnmount: ArchitectOnUnmount(options),
+      render: ArchitectRender(options),
     }
   }
 }
