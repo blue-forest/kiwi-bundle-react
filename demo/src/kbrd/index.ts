@@ -51,16 +51,13 @@ export const KBRD = App({
     },
   },
 }, {
-  themes: {
-    default: import("./themes/default"),
-  },
-  stores: {
-    counter: import("./stores/counter"),
-  },
   pages: {
     HOME: import("./pages/Home"),
     COMPONENTS: import("./pages/Components"),
     PARAMS: import("./pages/Params"),
+  },
+  themes: {
+    default: import("./themes/default"),
   },
   custom: {
     header: {

@@ -43,16 +43,6 @@ export const ArchitectRender = <Config extends AppConfig,
       // PROPS
       options.context.props = options.type === ArchitectComponentType.PAGE ? props.route.params : props
 
-      // NAVIGATION
-      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
-      options.context.navigation = {
-        push: (route, params) => { navigation.navigate(route, params) },
-      }
-
-      // THEME COLORS
-      const { colors } = useTheme()
-      options.context.appearance.theme.colors = colors
-
       // STATES
       const states = options.cache.states
       if (typeof states !== "undefined") {
@@ -62,6 +52,20 @@ export const ArchitectRender = <Config extends AppConfig,
           options.context.states.set[name] = state[1]
         })
       }
+
+      // THEME COLORS
+      const { colors } = useTheme()
+      options.context.appearance.theme.colors = colors
+
+      // NAVIGATION
+      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
+      options.context.navigation = {
+        push: (route, params) => { navigation.navigate(route, params) },
+      }
+
+      // UPDATE
+      const update = React.useReducer(u => ++u, 0)[1]
+      options.context.update = () => { update() }
 
       // INIT
       if (!started) {
@@ -82,10 +86,6 @@ export const ArchitectRender = <Config extends AppConfig,
           }
         }
       }, [])
-
-      // UPDATE
-      const update = React.useReducer(u => ++u, 0)[1]
-      options.context.update = () => { update() }
 
       // RENDER
       return render(options.context)

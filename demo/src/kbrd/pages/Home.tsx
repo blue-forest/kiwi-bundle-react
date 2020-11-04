@@ -3,6 +3,7 @@ import { KBRD } from ".."
 import { ButtonComponent } from "../components/Button"
 import { HomePageStyle } from "./Home.style"
 import KiwiImage from "../../assets/kiwi.png"
+import { CounterStore } from "../stores/counter"
 
 export default KBRD.Page(self => self
   .style(HomePageStyle)
@@ -19,6 +20,12 @@ export default KBRD.Page(self => self
       <ButtonComponent
         title="Parameters"
         onPress={() => { navigation.push("PARAMS", { first: "it", second: "works", very: "well" }) }}
+      />
+      <ButtonComponent
+        title="+1 to counter"
+        onPress={() => {
+          CounterStore.data.set({ current: (CounterStore.data.get()?.current || 0) + 1 })
+        }}
       />
     </Kiwi.View>
   ))

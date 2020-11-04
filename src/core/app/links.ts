@@ -8,7 +8,7 @@ export type AppLinksCustom<Props> = (props: Props) => React.ReactNode
 export type AppLinksImports<Config extends AppConfig> = {
   pages: { [name in keyof Config["navigation"]["routes"]]: Promise<any> }
   themes?: { [theme: string]: Promise<any> }
-  stores?: { [store: string]: Promise<any> }
+  //stores?: { [store: string]: Promise<any> }
   custom?: {
     header?: {
       left?: Promise<any>
@@ -20,7 +20,7 @@ export type AppLinksImports<Config extends AppConfig> = {
 export type AppLinksResolve = {
   pages: { [page: string]: Promise<{ default: ArchitectComponent }> }
   themes?: { [theme: string]: Promise<{ default: AppTheme<any> }> }
-  stores?: { [store: string]: Promise<{ default: string }> }
+  //stores?: { [store: string]: Promise<{ default: string }> }
   custom?: {
     header?: {
       left?: Promise<{ default: AppLinksCustom<AppCustomHeaderLeft> }>
@@ -32,7 +32,7 @@ export type AppLinksResolve = {
 export type AppLinks<Config extends AppConfig> = {
   pages: { [name in keyof Config["navigation"]["routes"]]: ArchitectComponent }
   themes?: { [theme: string]: AppTheme<Config> }
-  stores?: { [store: string]: any }
+  //stores?: { [store: string]: any }
   custom?: {
     header?: {
       left?: AppLinksCustom<AppCustomHeaderLeft>
