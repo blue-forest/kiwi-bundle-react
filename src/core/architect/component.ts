@@ -13,7 +13,7 @@ export type ArchitectComponentProps = { [name: string]: any }
 
 export type ArchitectComponentStyle = { [name: string]: StyleSheetStyle | StyleSheetMediaQuery[] }
 
-export type ArchitectComponentStates = { [name: string]: any }
+export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
 export type ArchitectComponentValues = { [name: string]: any }
 
@@ -21,10 +21,10 @@ export type ArchitectComponentFunctions<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
   > = {
     [name: string]: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => any
   }

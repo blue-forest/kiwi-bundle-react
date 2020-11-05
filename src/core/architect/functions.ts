@@ -15,9 +15,9 @@ export type ArchitectFunctions<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  EmptyFunctions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions>,
-  > = <Functions extends EmptyFunctions>(functions: Functions)
-    => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+  > = <Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>>(functions: Functions)
+    => Omit<
+      ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
       "style" | "states" | "values" | "functions"
     >
 
@@ -25,13 +25,12 @@ export const ArchitectFunctions = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  EmptyFunctions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions> = any,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, any>
-  ): ArchitectFunctions<Config, Links, Props, Style, States, Values, EmptyFunctions> => {
+    options: ArchitectOptions<Config, Links, Props, Style, States, Values>
+  ): ArchitectFunctions<Config, Links, Props, Style, States, Values> => {
   return functions => {
     console.log(functions)
     return {

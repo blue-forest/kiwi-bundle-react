@@ -21,11 +21,9 @@ export type ArchitectValues<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  EmptyValues extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, EmptyValues, Functions>,
-  > = <Values extends EmptyValues>(values: Values)
+  > = <Values extends ArchitectComponentValues>(values: Values)
     => Omit<
-      ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+      ArchitectSelf<Config, Links, Props, Style, States, Values>,
       "style" | "states" | "values"
     >
 
@@ -33,13 +31,11 @@ export const ArchitectValues = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
   >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, any, Functions>
-  ): ArchitectValues<Config, Links, Props, Style, States, Values, Functions> => {
+    options: ArchitectOptions<Config, Links, Props, Style, States>
+  ): ArchitectValues<Config, Links, Props, Style, States> => {
   return values => {
     console.log(values)
     return {

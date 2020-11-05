@@ -35,10 +35,10 @@ export const ArchitectOnInit = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
   ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions> => {

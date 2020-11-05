@@ -9,11 +9,8 @@ import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectValues } from "./values"
 import { ArchitectFunctions } from "./functions"
 import {
-  ArchitectComponentFunctions,
   ArchitectComponentProps,
-  ArchitectComponentStates,
   ArchitectComponentStyle,
-  ArchitectComponentValues
 } from "./component"
 import { AppConfig } from "../app/config"
 
@@ -21,14 +18,8 @@ export type ArchitectStyle<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  EmptyStyle extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates,
-  Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, EmptyStyle, States, Values, Functions>,
-  > = <Style extends EmptyStyle>(
-    style: Style,
-  ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+  > = <Style extends ArchitectComponentStyle>(style: Style) => Omit<
+    ArchitectSelf<Config, Links, Props, Style>,
     "style"
   >
 
@@ -36,13 +27,9 @@ export const ArchitectStyle = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  EmptyStyle extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, EmptyStyle, States, Values, Functions> = any,
   >(
-    options: ArchitectOptions<Config, Links, Props, any, States, Values, Functions>
-  ): ArchitectStyle<Config, Links, Props, EmptyStyle, States, Values, Functions> => {
+    options: ArchitectOptions<Config, Links, Props>
+  ): ArchitectStyle<Config, Links, Props> => {
   return style => {
     options.context.style = style
     return {
