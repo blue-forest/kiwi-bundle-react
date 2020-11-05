@@ -26,7 +26,7 @@ export type ArchitectContext<
       set: { [name in keyof States]: (v: States[name]) => void }
     }
     values: Values
-    functions: Functions
+    functions: { [name in keyof Functions]: () => void }
     OS: ReactNative.PlatformOSType
     appearance: {
       colors: Config["appearance"]["colors"]

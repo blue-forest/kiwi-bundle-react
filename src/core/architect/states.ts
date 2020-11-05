@@ -32,15 +32,15 @@ export const ArchitectStates = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style>
   ): ArchitectStates<Config, Links, Props, Style> => {
-  return states => {
+  return <States extends ArchitectComponentStates>(states: States) => {
     options.cache.states = states
     return {
-      values: ArchitectValues(options),
-      functions: ArchitectFunctions(options),
-      onInit: ArchitectOnInit(options),
-      onMount: ArchitectOnMount(options),
-      onUnmount: ArchitectOnUnmount(options),
-      render: ArchitectRender(options),
+      values: ArchitectValues<Config, Links, Props, Style, States>(options),
+      functions: ArchitectFunctions<Config, Links, Props, Style, States, {}>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, {}>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, Style, States, {}, {}>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, {}, {}>(options),
+      render: ArchitectRender<Config, Links, Props, Style, States, {}, {}>(options),
     }
   }
 }

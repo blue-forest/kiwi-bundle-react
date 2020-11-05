@@ -26,7 +26,7 @@ export type ArchitectComponentFunctions<
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
   > = {
-    [name: string]: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => any
+    [name: string]: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => () => void
   }
 
 export type ArchitectComponent<Props extends ArchitectComponentProps = {}> = React.ComponentType<Props>

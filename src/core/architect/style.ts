@@ -30,16 +30,16 @@ export const ArchitectStyle = <
   >(
     options: ArchitectOptions<Config, Links, Props>
   ): ArchitectStyle<Config, Links, Props> => {
-  return style => {
+  return <Style extends ArchitectComponentStyle>(style: Style) => {
     options.context.style = style
     return {
-      states: ArchitectStates(options),
-      values: ArchitectValues(options),
-      functions: ArchitectFunctions(options),
-      onInit: ArchitectOnInit(options),
-      onMount: ArchitectOnMount(options),
-      onUnmount: ArchitectOnUnmount(options),
-      render: ArchitectRender(options),
+      states: ArchitectStates<Config, Links, Props, Style>(options),
+      values: ArchitectValues<Config, Links, Props, Style, {}>(options),
+      functions: ArchitectFunctions<Config, Links, Props, Style, {}, {}>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, Style, {}, {}, {}>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, Style, {}, {}, {}>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, {}, {}, {}>(options),
+      render: ArchitectRender<Config, Links, Props, Style, {}, {}, {}>(options),
     }
   }
 }

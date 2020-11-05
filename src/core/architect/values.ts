@@ -35,14 +35,14 @@ export const ArchitectValues = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States>
   ): ArchitectValues<Config, Links, Props, Style, States> => {
-  return values => {
+  return <Values extends ArchitectComponentValues>(values: Values) => {
     console.log(values)
     return {
-      functions: ArchitectFunctions(options),
-      onInit: ArchitectOnInit(options),
-      onMount: ArchitectOnMount(options),
-      onUnmount: ArchitectOnUnmount(options),
-      render: ArchitectRender(options),
+      functions: ArchitectFunctions<Config, Links, Props, Style, States, Values>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, {}>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, {}>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, {}>(options),
+      render: ArchitectRender<Config, Links, Props, Style, States, Values, {}>(options),
     }
   }
 }

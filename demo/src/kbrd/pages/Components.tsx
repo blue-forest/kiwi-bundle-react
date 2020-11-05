@@ -27,8 +27,10 @@ export default KBRD.Page(self => self
     test: "",
   })
   .functions({
-    getText: context => context.values.test,
-    setText: context => {
+    getText: context => () => {
+      console.log(context.values.test)
+    },
+    setText: context => () => {
       context.values.test = ""
     },
   })
