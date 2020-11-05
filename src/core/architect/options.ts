@@ -15,10 +15,10 @@ export type ArchitectOptions<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = {},
+  Style extends ArchitectComponentStyle = any,
+  States extends ArchitectComponentStates = any,
+  Values extends ArchitectComponentValues = any,
+  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
   > = {
     type: ArchitectComponentType
     app: {

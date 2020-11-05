@@ -1,7 +1,6 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
 import {
-  ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
   ArchitectComponentStyle,
