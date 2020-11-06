@@ -37,7 +37,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       }
       return style as S1 & S2
     },
-    Store: <Data>(data: Data) => data,
+    Store: <Data>(data: Data) => Store<Data>(data),
     Custom: <Props extends ArchitectComponentProps>(custom: AppLinksCustom<Props>) => custom,
     Render: () => {
       const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
@@ -57,9 +57,6 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
         }).then(() => {
           if (typeof linksResolve.themes === "undefined") return
           return resolveImports(linksResolve.themes).then(themes => { resolvedLinks.themes = themes })
-        }).then(() => {
-          if (typeof linksResolve.stores === "undefined") return
-          return resolveImports(linksResolve.stores).then(stores => { resolvedLinks.stores = stores })
         }).then(() => {
           if (typeof linksResolve.custom === "undefined") return
           const importsCustom = linksResolve.custom

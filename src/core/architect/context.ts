@@ -14,10 +14,10 @@ export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Style extends ArchitectComponentStyle = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   > = {
     props: Props
     style: Style
@@ -43,4 +43,5 @@ export type ArchitectContext<
     navigation: {
       push: (route: keyof Config["navigation"]["routes"], params?: { [key: string]: string }) => void
     }
+    update: () => void
   }

@@ -32,10 +32,10 @@ export const ArchitectOnUnmount = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
   ): ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions> => {

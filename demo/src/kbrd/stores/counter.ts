@@ -4,6 +4,6 @@ type Data = {
   current: number
 }
 
-export default KBRD.Store<Data>({
+export const CounterStore = KBRD.Store<Data>({
   current: 0,
 })

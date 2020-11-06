@@ -31,10 +31,10 @@ export type ArchitectRender<
 export const ArchitectRender = <Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = {},
-  States extends ArchitectComponentStates = {},
-  Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates,
+  Values extends ArchitectComponentValues,
+  Functions extends ArchitectComponentFunctions,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => render => {
@@ -42,16 +42,6 @@ export const ArchitectRender = <Config extends AppConfig,
     return props => {
       // PROPS
       options.context.props = options.type === ArchitectComponentType.PAGE ? props.route.params : props
-
-      // NAVIGATION
-      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
-      options.context.navigation = {
-        push: (route, params) => { navigation.navigate(route, params) },
-      }
-
-      // THEME COLORS
-      const { colors } = useTheme()
-      options.context.appearance.theme.colors = colors
 
       // STATES
       const states = options.cache.states
@@ -62,6 +52,25 @@ export const ArchitectRender = <Config extends AppConfig,
           options.context.states.set[name] = state[1]
         })
       }
+
+      // THEME COLORS
+      const { colors } = useTheme()
+      options.context.appearance.theme.colors = colors
+
+      // NAVIGATION
+      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
+      options.context.navigation = {
+        push: (route, params) => { navigation.navigate(route, params) },
+      }
+
+      // FUNCTIONS
+      if (typeof options.cache.functions !== "undefined") {
+        options.context.functions = options.cache.functions(options.context)
+      }
+
+      // UPDATE
+      const update = React.useReducer(u => ++u, 0)[1]
+      options.context.update = () => { update() }
 
       // INIT
       if (!started) {
