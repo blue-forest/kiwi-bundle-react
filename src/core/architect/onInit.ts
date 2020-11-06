@@ -21,7 +21,7 @@ export type ArchitectOnInit<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Functions>,
+  Functions extends ArchitectComponentFunctions,
   > = (
     onInit: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
@@ -38,7 +38,7 @@ export const ArchitectOnInit = <
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Functions>,
+  Functions extends ArchitectComponentFunctions,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
   ): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions> => {

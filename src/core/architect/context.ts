@@ -14,10 +14,10 @@ export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Functions> = any,
+  Style extends ArchitectComponentStyle = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   > = {
     props: Props
     style: Style
@@ -26,7 +26,7 @@ export type ArchitectContext<
       set: { [name in keyof States]: (v: States[name]) => void }
     }
     values: Values
-    functions: { [name in keyof Functions]: () => void }
+    functions: Functions
     OS: ReactNative.PlatformOSType
     appearance: {
       colors: Config["appearance"]["colors"]

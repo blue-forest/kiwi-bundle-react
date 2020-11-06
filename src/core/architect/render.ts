@@ -21,7 +21,7 @@ export type ArchitectRender<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Functions>,
+  Functions extends ArchitectComponentFunctions,
   > = (
     render: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
@@ -34,7 +34,7 @@ export const ArchitectRender = <Config extends AppConfig,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Functions>,
+  Functions extends ArchitectComponentFunctions,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
   ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => render => {
@@ -61,6 +61,11 @@ export const ArchitectRender = <Config extends AppConfig,
       const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
       options.context.navigation = {
         push: (route, params) => { navigation.navigate(route, params) },
+      }
+
+      // FUNCTIONS
+      if (typeof options.cache.functions !== "undefined") {
+        options.context.functions = options.cache.functions(options.context)
       }
 
       // UPDATE

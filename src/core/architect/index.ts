@@ -43,10 +43,10 @@ export const Architect = <
       states: ArchitectStates<Config, Links, Props, {}>(children),
       values: ArchitectValues<Config, Links, Props, {}, {}>(children),
       functions: ArchitectFunctions<Config, Links, Props, {}, {}, {}>(children),
-      onInit: ArchitectOnInit<Config, Links, Props, {}, {}, {}, any>(children),
-      onMount: ArchitectOnMount<Config, Links, Props, {}, {}, {}, any>(children),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, any>(children),
-      render: ArchitectRender<Config, Links, Props, {}, {}, {}, any>(children),
+      onInit: ArchitectOnInit<Config, Links, Props, {}, {}, {}, {}>(children),
+      onMount: ArchitectOnMount<Config, Links, Props, {}, {}, {}, {}>(children),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, {}>(children),
+      render: ArchitectRender<Config, Links, Props, {}, {}, {}, {}>(children),
     })
   }
 }

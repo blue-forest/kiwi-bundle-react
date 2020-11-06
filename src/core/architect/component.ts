@@ -14,8 +14,6 @@ export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
 export type ArchitectComponentValues = { [name: string]: any }
 
-export type ArchitectComponentFunctions<Functions extends ArchitectComponentFunctions<Functions>> = Required<{
-  [name in keyof Functions]: Functions[name]
-}>
+export type ArchitectComponentFunctions = Required<{ [name: string]: (...params: any) => any }>
 
 export type ArchitectComponent<Props extends ArchitectComponentProps = {}> = React.ComponentType<Props>

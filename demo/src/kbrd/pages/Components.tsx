@@ -23,7 +23,7 @@ export default KBRD.Page(self => self
   .states<States>({
     count: 0,
     test: {
-      test: "test",
+      test: "test1",
     },
   })
   .values<Values>({
@@ -37,7 +37,7 @@ export default KBRD.Page(self => self
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
   .render(({ states, style, appearance, functions }) => {
-    console.log(functions)
+    console.log(functions.setText("test2"), functions.getText())
     console.log("COMPONENTS", "RENDER")
     const scheme = appearance.theme.scheme.get()
     return <Kiwi.View>

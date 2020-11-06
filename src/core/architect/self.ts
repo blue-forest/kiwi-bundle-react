@@ -20,10 +20,10 @@ export type ArchitectSelf<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
-  States extends ArchitectComponentStates = any,
-  Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Functions> = any,
+  Style extends ArchitectComponentStyle = {},
+  States extends ArchitectComponentStates = {},
+  Values extends ArchitectComponentValues = {},
+  Functions extends ArchitectComponentFunctions = {},
   > = {
     style: ArchitectStyle<Config, Links, Props>
     states: ArchitectStates<Config, Links, Props, Style>

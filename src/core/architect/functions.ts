@@ -16,7 +16,7 @@ export type ArchitectFunctions<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  > = <Functions extends ArchitectComponentFunctions<Functions>>(
+  > = <Functions extends ArchitectComponentFunctions>(
     functions: ((context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions)
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
@@ -33,10 +33,10 @@ export const ArchitectFunctions = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values>
   ): ArchitectFunctions<Config, Links, Props, Style, States, Values> => {
-  return <Functions extends ArchitectComponentFunctions<Functions>>(
+  return <Functions extends ArchitectComponentFunctions>(
     functions: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions
   ) => {
-    console.log(functions)
+    options.cache.functions = functions
     return {
       onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions>(options),
       onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions>(options),

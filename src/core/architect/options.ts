@@ -18,7 +18,7 @@ export type ArchitectOptions<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Functions> = any,
+  Functions extends ArchitectComponentFunctions = any,
   > = {
     type: ArchitectComponentType
     app: {
@@ -28,6 +28,7 @@ export type ArchitectOptions<
     context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
     cache: {
       states?: States
+      functions?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions
       onInit?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
       onMount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
       onUnmount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
