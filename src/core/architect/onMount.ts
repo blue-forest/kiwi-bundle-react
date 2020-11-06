@@ -20,7 +20,7 @@ export type ArchitectOnMount<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
+  Functions extends ArchitectComponentFunctions<Functions>,
   > = (
     onMount: (
       context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
@@ -36,7 +36,7 @@ export const ArchitectOnMount = <
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>,
+  Functions extends ArchitectComponentFunctions<Functions>,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
   ): ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions> => {

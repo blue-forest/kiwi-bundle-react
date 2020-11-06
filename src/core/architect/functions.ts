@@ -1,6 +1,7 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
 import { ArchitectComponentFunctions, ArchitectComponentProps, ArchitectComponentStates, ArchitectComponentStyle, ArchitectComponentValues } from "./component"
+import { ArchitectContext } from "./context"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
@@ -15,8 +16,8 @@ export type ArchitectFunctions<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  > = <Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>>(
-    functions: Functions
+  > = <Functions extends ArchitectComponentFunctions<Functions>>(
+    functions: ((context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions)
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
     "style" | "states" | "values" | "functions"
@@ -32,8 +33,8 @@ export const ArchitectFunctions = <
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States, Values>
   ): ArchitectFunctions<Config, Links, Props, Style, States, Values> => {
-  return <Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions>>(
-    functions: Functions
+  return <Functions extends ArchitectComponentFunctions<Functions>>(
+    functions: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions
   ) => {
     console.log(functions)
     return {

@@ -37,10 +37,10 @@ export const ArchitectStates = <
     return {
       values: ArchitectValues<Config, Links, Props, Style, States>(options),
       functions: ArchitectFunctions<Config, Links, Props, Style, States, {}>(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, {}>(options),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, {}, {}>(options),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, {}, {}>(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, {}, {}>(options),
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, any>(options),
+      onMount: ArchitectOnMount<Config, Links, Props, Style, States, {}, any>(options),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, {}, any>(options),
+      render: ArchitectRender<Config, Links, Props, Style, States, {}, any>(options),
     }
   }
 }

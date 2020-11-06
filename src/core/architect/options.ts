@@ -18,7 +18,7 @@ export type ArchitectOptions<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions<Config, Links, Props, Style, States, Values, Functions> = any,
+  Functions extends ArchitectComponentFunctions<Functions> = any,
   > = {
     type: ArchitectComponentType
     app: {

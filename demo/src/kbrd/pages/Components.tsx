@@ -6,13 +6,16 @@ import { ComponentsPageStyle } from "./Components.style"
 
 type States = {
   count: number
-  test: {
-    test?: string
-  }
+  test: { test?: string }
 }
 
 type Values = {
   test: string
+}
+
+type Functions = {
+  getText: () => string
+  setText: (text: string) => void
 }
 
 export default KBRD.Page(self => self
@@ -26,18 +29,15 @@ export default KBRD.Page(self => self
   .values<Values>({
     test: "",
   })
-  .functions({
-    getText: context => () => {
-      console.log(context.values.test)
-    },
-    setText: context => () => {
-      context.values.test = ""
-    },
-  })
+  .functions<Functions>(context => ({
+    getText: () => context.values.test,
+    setText: text => { context.values.test = text },
+  }))
   .onInit(() => { console.log("COMPONENTS", "INIT") })
   .onMount(() => { console.log("COMPONENTS", "MOUNT") })
   .onUnmount(() => { console.log("COMPONENTS", "UNMOUNT") })
-  .render(({ states, style, appearance }) => {
+  .render(({ states, style, appearance, functions }) => {
+    console.log(functions)
     console.log("COMPONENTS", "RENDER")
     const scheme = appearance.theme.scheme.get()
     return <Kiwi.View>
