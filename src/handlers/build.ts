@@ -9,7 +9,7 @@ export const main: KiwiBundleHandler = ({ path }) => {
     {
       shell: true,
       stdio: "inherit",
-      uid: 1000,
+      //uid: 1000,
       cwd: path,
       env: {
         SKIP_PREFLIGHT_CHECK: "true",
