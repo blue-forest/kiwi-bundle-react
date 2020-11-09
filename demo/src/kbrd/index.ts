@@ -8,6 +8,9 @@ export const KBRD = App({
       HOME: {
         path: "/",
         title: "Accueil",
+        header: {
+          hideTitle: true,
+        },
       },
       COMPONENTS: {
         path: "/components",

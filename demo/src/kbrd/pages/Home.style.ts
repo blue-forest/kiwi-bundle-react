@@ -1,14 +1,24 @@
 import { StyleSheetStyleImage } from "kiwi-bundle-react"
 import { KBRD } from ".."
 
-export const HomePageStyle = KBRD.StyleSheet({
+export const HomePageStyle = KBRD.StyleSheet(() => ({
   container: {
     flex: 1,
-    padding: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingBottom: 30,
+    alignItems: "center",
   },
   cover: {
+    flex: 1,
     width: "100%",
-    height: 200,
+    maxHeight: 300,
     resizeMode: "contain",
+    marginBottom: 4,
   } as StyleSheetStyleImage,
-} as const)
+  button: {
+    marginTop: 4,
+    marginBottom: 4,
+    width: 200,
+  },
+} as const))

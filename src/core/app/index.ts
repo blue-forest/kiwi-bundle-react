@@ -23,11 +23,14 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
         colors: config.appearance.colors,
       })
     },
-    StyleSheet: <S1 extends ArchitectComponentStyle, S2 extends ArchitectComponentStyle>(style1: S1, style2?: S2) => {
-      const style: ArchitectComponentStyle = style1
+    StyleSheet: <S1 extends () => ArchitectComponentStyle, S2 extends ArchitectComponentStyle>(
+      style1: S1,
+      style2?: S2,
+    ) => {
+      const style: ArchitectComponentStyle = style1()
       if (typeof style2 !== "undefined") {
         Object.keys(style2).forEach(key => {
-          const value = (style2 as ArchitectComponentStyle)[key]
+          const value = style2[key]
           if (typeof style[key] === "undefined") {
             style[key] = value
           } else {
