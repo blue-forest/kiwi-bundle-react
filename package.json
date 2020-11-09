@@ -36,6 +36,7 @@
     "@types/react-native": "0.63.25",
     "@types/react-test-renderer": "16.9.3",
     "babel-jest": "26.5.2",
+    "dropin-client": "^0.0.6",
     "metro-react-native-babel-preset": "0.63.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",

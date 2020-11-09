@@ -1,8 +1,14 @@
+import { StyleSheetStyleImage } from "kiwi-bundle-react"
 import { KBRD } from ".."
-import { HomePageStyle as common } from "./Home.style.common"
 
-export const HomePageStyle = KBRD.StyleSheet(common, {
-  textContainer: {
-    backgroundColor: "blue",
+export const HomePageStyle = KBRD.StyleSheet({
+  container: {
+    flex: 1,
+    padding: 30,
   },
+  cover: {
+    width: "100%",
+    height: 200,
+    resizeMode: "contain",
+  } as StyleSheetStyleImage,
 } as const)
