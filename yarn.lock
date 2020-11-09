@@ -5027,7 +5027,7 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-dropin-client@0.0.6:
+dropin-client@0.0.6, dropin-client@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/dropin-client/-/dropin-client-0.0.6.tgz#d0fa70765ff459454a98447b7d1b30b7344e504b"
   integrity sha512-NETEC79e0akQ6ATcvloxqHm899Z5SYj03pqqlX0n+3EFSuXdTkt25YvrWCsVKT/wZXYD908zzoHYSxPQc6PLxA==
@@ -8566,10 +8566,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kiwi-bundle@3.2.9:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/kiwi-bundle/-/kiwi-bundle-3.2.9.tgz#5e62c7f3fbafc6c112266a160414afdde71e5077"
-  integrity sha512-SGH7LlOvjeQZYdE0VySPjDQAOu7HikULWZnXHTij1cfs2xzU8bSXVPwrzzmsXomoZSZ1K/FCN77Ncgg5iwfAtg==
+kiwi-bundle@3.2.10:
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/kiwi-bundle/-/kiwi-bundle-3.2.10.tgz#efeffa8c5a8a9bd6ca858c6898d11dc0d29668b9"
+  integrity sha512-7WXMmGYIBNtEX0E+MfMtoByg/XitwAPzVjx5PGaAFjLIAs33CHZ/AlzDwph/HrzWKLVpXTbL0j1N+kBe3VI+BA==
   dependencies:
     "@types/jest" "26.0.14"
     "@types/node" "14.11.1"

@@ -713,7 +713,7 @@
     "@babel/helper-plugin-utils" "^7.8.3"
     "@babel/plugin-syntax-flow" "^7.8.3"
 
-"@babel/plugin-transform-flow-strip-types@^7.0.0", "@babel/plugin-transform-flow-strip-types@^7.10.4":
+"@babel/plugin-transform-flow-strip-types@^7.0.0":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.12.1.tgz#8430decfa7eb2aea5414ed4a3fa6e1652b7d77c4"
   integrity sha512-8hAtkmsQb36yMmEtk2JZ9JnVyDSnDOdlB+0nEGzIDLuK4yR3JcEjfuFPYkdEPSh8Id+rAMeBEn+X0iVEyho6Hg==
@@ -8469,13 +8469,12 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kiwi-bundle-react@2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/kiwi-bundle-react/-/kiwi-bundle-react-2.0.6.tgz#32b4cea7138f7bd7851ca3077173fdc42f45b882"
-  integrity sha512-WD2nN2meJgtW7hxerwmbPBP3bO4x9i4CUQ6b0q+l1Rr0wwivc6QpiDpwBU7VaSwl6fKSmqqTrXzGEM961dIyXQ==
+kiwi-bundle-react@2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/kiwi-bundle-react/-/kiwi-bundle-react-2.0.10.tgz#497ea212b51d68cb20abe67773e59d80a84f36f2"
+  integrity sha512-dy0CeJbRL5prx8xG/esnl69xOGSuxwBHWeIjKeBn+aHtqMp71xvr1cLqyCe8QKOPBZj1VPAs5AgfmHcWbs2Ddw==
   dependencies:
     "@babel/core" "7.11.6"
-    "@babel/plugin-transform-flow-strip-types" "^7.10.4"
     "@babel/runtime" "7.11.2"
     "@react-native-community/eslint-config" "2.0.0"
     "@react-native-community/masked-view" "^0.1.10"
@@ -8497,10 +8496,10 @@ kiwi-bundle-react@2.0.6:
     react-scripts "3.4.3"
     react-test-renderer "16.13.1"
 
-kiwi-bundle@3.2.9:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/kiwi-bundle/-/kiwi-bundle-3.2.9.tgz#5e62c7f3fbafc6c112266a160414afdde71e5077"
-  integrity sha512-SGH7LlOvjeQZYdE0VySPjDQAOu7HikULWZnXHTij1cfs2xzU8bSXVPwrzzmsXomoZSZ1K/FCN77Ncgg5iwfAtg==
+kiwi-bundle@3.2.10:
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/kiwi-bundle/-/kiwi-bundle-3.2.10.tgz#efeffa8c5a8a9bd6ca858c6898d11dc0d29668b9"
+  integrity sha512-7WXMmGYIBNtEX0E+MfMtoByg/XitwAPzVjx5PGaAFjLIAs33CHZ/AlzDwph/HrzWKLVpXTbL0j1N+kBe3VI+BA==
   dependencies:
     "@types/jest" "26.0.14"
     "@types/node" "14.11.1"

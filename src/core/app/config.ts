@@ -1,4 +1,5 @@
-import { ReactNative } from "../../vendors";
+import { ReactNative } from "../../vendors"
+import { Language } from "dropin-client"
 
 export type AppConfig = {
   key: string
@@ -16,9 +17,15 @@ export type AppConfig = {
       style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
     }
   }
+  i18n?: {
+    languages?: Language[]
+  }
   platforms?: {
     web?: {
       title?: string | ((page?: string) => string)
+    }
+    i18n?: {
+      urlQueryParam?: string
     }
   }
 }

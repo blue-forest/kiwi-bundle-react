@@ -1,5 +1,5 @@
 
-![Kiwi Bundle React](./assets/cover.png)
+![Kiwi Bundle React](./demo/src/assets/cover.png)
 
 
 # Features

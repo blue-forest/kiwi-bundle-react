@@ -81,24 +81,32 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
       console.log("RENDER -", "NAVIGATION")
       return (
         <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
-          <Stack.Navigator screenOptions={{
-            headerShown: !config.appearance.header?.hide,
-            headerStyle: config.appearance.header?.style,
-          }}>
-          {Object.keys(links.pages).map(page => {
-            const route = config.navigation.routes[page]
-            return <Stack.Screen
-              key={page}
-              name={page}
-              component={links.pages[page]}
-              options={{
-                headerTitle: route.title,
-                headerLeft: links.custom?.header?.left,
-                headerRight: links.custom?.header?.right,
-              }}
-            />
-          })}
-        </Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: !config.appearance.header?.hide,
+              headerLeft: links.custom?.header?.left,
+              headerRight: links.custom?.header?.right,
+              cardStyle: ReactNative.Platform.OS === "web" ? {
+                height: "100vh",
+              } : {},
+              headerStyle: [
+                {
+                  borderBottomWidth: 0,
+                },
+                config.appearance.header?.style,
+              ],
+            }}
+            children={Object.keys(links.pages).map(page => {
+              const route = config.navigation.routes[page]
+              return <Stack.Screen
+                key={page}
+                name={page}
+                component={links.pages[page]}
+                options={{ headerTitle: route.title }}
+              />
+            }
+          )}
+        />
         </NavigationContainer>
       )
     }

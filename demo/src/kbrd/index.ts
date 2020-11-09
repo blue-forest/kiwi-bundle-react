@@ -1,4 +1,5 @@
 import { App } from "kiwi-bundle-react"
+import { Language } from "dropin-client"
 
 export const KBRD = App({
   key: "kbrd",
@@ -39,6 +40,9 @@ export const KBRD = App({
       grey: "rgb(229, 229, 231)",
     } as const,
   },
+  i18n: {
+    languages: [Language.FRENCH, Language.ENGLISH],
+  },
   platforms: {
     web: {
       title: page => {
@@ -47,6 +51,9 @@ export const KBRD = App({
           title += " - " + page
         }
         return title
+      },
+      i18n: {
+        urlQueryParam: "locale",
       },
     },
   },
@@ -61,7 +68,6 @@ export const KBRD = App({
   },
   custom: {
     header: {
-      left: import("./custom/HeaderLeft"),
       right: import("./custom/HeaderRight"),
     },
   },

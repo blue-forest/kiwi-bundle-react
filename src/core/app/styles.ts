@@ -1,12 +1,12 @@
 import { ReactNative } from "../../vendors"
 
-export type StyleSheetViewStyle = ReactNative.ViewStyle
+export type StyleSheetStyleView = ReactNative.ViewStyle
 
-export type StyleSheetTextStyle = ReactNative.TextStyle
+export type StyleSheetStyleText = ReactNative.TextStyle
 
-export type StyleSheetImageStyle = ReactNative.ImageStyle
+export type StyleSheetStyleImage = ReactNative.ImageStyle
 
-export type StyleSheetStyle = StyleSheetViewStyle | StyleSheetTextStyle | StyleSheetImageStyle
+export type StyleSheetStyle = StyleSheetStyleView | StyleSheetStyleText | StyleSheetStyleImage
 
 export type StyleSheetMediaQuery = {
   min?: number
