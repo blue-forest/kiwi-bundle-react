@@ -1,13 +1,13 @@
 import { React, ReactNative } from "../vendors"
 
-type Props = {
+type Props = Omit<ReactNative.ImagePropsBase, "source"> & {
   source: string | ReactNative.ImageSourcePropType
   style?: ReactNative.StyleProp<ReactNative.ImageStyle>
 }
 
 export const Image = (props: Props) => {
-  return <ReactNative.Image
-    source={props.source as ReactNative.ImageSourcePropType}
-    style={props.style}
+  const { source, ...propsLeft } = props
+  return <ReactNative.Image {...propsLeft}
+    source={source as ReactNative.ImageSourcePropType}
   />
 }
