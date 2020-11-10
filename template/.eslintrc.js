@@ -1,4 +1,7 @@
 module.exports = {
   root: true,
-  extends: "./node_modules/kiwi-bundle/configs/eslint/react.json",
+  extends: [
+    "@react-native-community",
+    "./node_modules/kiwi-bundle/configs/eslint/react.json",
+  ],
 }
