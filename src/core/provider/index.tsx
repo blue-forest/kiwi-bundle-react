@@ -1,7 +1,14 @@
 import "./imports"
 import { React, ReactNative } from "../../vendors"
 import { createStackNavigator, StackHeaderLeftButtonProps } from "@react-navigation/stack"
-import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
+import {
+  DefaultTheme,
+  DocumentTitleOptions,
+  LinkingOptions,
+  NavigationContainer,
+  PathConfigMap,
+  Theme,
+} from "@react-navigation/native"
 import { AppLinks, AppLinksCustom } from "../app/links"
 import { AppConfig } from "../app/config"
 import { AppOptions } from "../app/options"
@@ -12,6 +19,7 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
   links: Links,
   options: AppOptions,
 ): ReactNative.ComponentProvider => {
+
   // LINKING
   const Stack = createStackNavigator()
   const linking: LinkingOptions = {
@@ -27,6 +35,7 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
       }, {}),
     },
   }
+
   // TITLE
   let documentTitle: DocumentTitleOptions | undefined
   if(ReactNative.Platform.OS === "web" && typeof config.platforms?.web?.title !== "undefined") {
@@ -42,6 +51,7 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
       },
     }
   }
+
   // THEME
   const generateTheme = (scheme: ReactNative.ColorSchemeName): Theme => {
     if(typeof links.themes !== "undefined") {
@@ -57,8 +67,11 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
     }
     return DefaultTheme
   }
+
   return () => {
+
     return () => {
+
       // THEME
       let themeName = "default"
       const [ theme, setTheme ] = React.useState<Theme>(generateTheme(ReactNative.useColorScheme()))
@@ -78,12 +91,13 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
           },
         })
       }, [ theme ])
+
       // RENDER
       console.log("RENDER -", "NAVIGATION")
       return (
         <NavigationContainer linking={linking} documentTitle={documentTitle} theme={theme}>
           <Stack.Navigator
-            screenOptions={{
+            screenOptions={screenProps => ({
               headerShown: !config.appearance.header?.hide,
               cardStyle: ReactNative.Platform.OS === "web" ? {
                 height: "100vh",
@@ -94,7 +108,19 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
                 },
                 config.appearance.header?.style,
               ],
-            }}
+              headerLeft: typeof links.custom?.header?.left === "undefined" ? undefined : (props) => {
+                return (links.custom?.header?.left as AppLinksCustom<Config, StackHeaderLeftButtonProps>)(props, {
+                  page: screenProps.route.name,
+                  navigation: screenProps.navigation,
+                })
+              },
+              headerRight: typeof links.custom?.header?.right === "undefined" ? undefined : props => {
+                return (links.custom?.header?.right as AppLinksCustom<Config, {}>)(props, {
+                  page: screenProps.route.name,
+                  navigation: screenProps.navigation,
+                })
+              },
+            })}
             children={Object.keys(links.pages).map(page => {
               const route = config.navigation.routes[page]
               return <Stack.Screen
@@ -103,12 +129,6 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
                 component={links.pages[page]}
                 options={{
                   headerTitle: route.header?.hideTitle ? "" : i18n(route.title || ""),
-                  headerLeft: typeof links.custom?.header?.left === "undefined" ? undefined : props => {
-                    return (links.custom?.header?.left as AppLinksCustom<Config, StackHeaderLeftButtonProps>)(props, page)
-                  },
-                  headerRight: typeof links.custom?.header?.right === "undefined" ? undefined : props => {
-                    return (links.custom?.header?.right as AppLinksCustom<Config, {}>)(props, page)
-                  },
                 }}
               />
             }

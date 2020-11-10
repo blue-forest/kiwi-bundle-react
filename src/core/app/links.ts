@@ -2,10 +2,14 @@ import { AppConfig } from "./config"
 import { ArchitectComponent } from "../architect/component"
 import { AppCustomHeaderLeft, AppCustomHeaderRight } from "./custom"
 import { AppTheme } from "./theme"
+import { NavigationActions } from "../provider/navigation"
 
 export type AppLinksCustom<Config extends AppConfig, Props> = (
   props: Props,
-  page: keyof Config["navigation"]["routes"],
+  params: {
+    page: keyof Config["navigation"]["routes"]
+    navigation: NavigationActions<Config>
+  },
 ) => React.ReactNode
 
 export type AppLinksImports<Config extends AppConfig> = {
