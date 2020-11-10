@@ -7,12 +7,12 @@ type Props = {
   very?: string
 }
 
-export default KBRD.Page<Props>(self => self
-  .render(({ props }) => (
+export default KBRD.Page<Props>((self) =>
+  self.render(({ props }) => (
     <Kiwi.View>
       <Kiwi.Text>Route ":first" parameter : {props.first}</Kiwi.Text>
       <Kiwi.Text>Route ":second" parameter : {props.second}</Kiwi.Text>
       <Kiwi.Text>Extra parameter "very" : {props.very || ""}</Kiwi.Text>
     </Kiwi.View>
-  ))
+  )),
 )
