@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.2.10"
+    "kiwi-bundle": "3.2.11"
   },
   "dependencies": {
     "@babel/core": "7.11.6",

@@ -49,8 +49,8 @@ Create a **./package.json** file :
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.2.10",
-    "kiwi-bundle-react": "2.0.10"
+    "kiwi-bundle": "3.2.11",
+    "kiwi-bundle-react": "2.0.11"
   },
   "browserslist": {
     "production": [
