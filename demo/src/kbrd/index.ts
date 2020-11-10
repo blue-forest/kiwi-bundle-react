@@ -7,18 +7,26 @@ export const KBRD = App({
     routes: {
       HOME: {
         path: "/",
-        title: "Accueil",
+        title: { en: "Home", fr: "Accueil" },
         header: {
           hideTitle: true,
         },
       },
       COMPONENTS: {
         path: "/components",
-        title: "Composants",
+        title: { en: "Components", fr: "Composants" },
       },
-      PARAMS: {
-        path: "/params/:first/:second",
-        title: "Paramètres",
+      STYLES: {
+        path: "/styles",
+        title: "Styles",
+      },
+      DATA: {
+        path: "/data",
+        title: { en: "Data", fr: "Données" },
+      },
+      NAVIGATION: {
+        path: "/navigation/:first/:second",
+        title: "Navigation",
       },
     },
     prefixes: [
@@ -66,13 +74,16 @@ export const KBRD = App({
   pages: {
     HOME: import("./pages/Home"),
     COMPONENTS: import("./pages/Components"),
-    PARAMS: import("./pages/Params"),
+    STYLES: import("./pages/Styles"),
+    DATA: import("./pages/Data"),
+    NAVIGATION: import("./pages/Navigation"),
   },
   themes: {
     default: import("./themes/default"),
   },
   custom: {
     header: {
+      left: import("./custom/HeaderLeft"),
       right: import("./custom/HeaderRight"),
     },
   },

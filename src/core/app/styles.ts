@@ -1,6 +1,6 @@
 import { ReactNative } from "../../vendors"
 
-export type StyleSheetStyleView = ReactNative.ViewStyle
+export type StyleSheetStyleView = ReactNative.ViewStyle & { cursor?: "pointer" }
 
 export type StyleSheetStyleText = ReactNative.TextStyle
 

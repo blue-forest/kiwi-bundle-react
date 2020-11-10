@@ -44,7 +44,7 @@ export const App = <Config extends AppConfig, Links extends AppLinksImports<Conf
       return style as S1 & S2
     },
     Store: <Data>(data: Data) => Store<Data>(data),
-    Custom: <Props extends ArchitectComponentProps>(custom: AppLinksCustom<Props>) => custom,
+    Custom: <Props extends ArchitectComponentProps>(custom: AppLinksCustom<Config, Props>) => custom,
     Render: () => {
       const resolveImports = <Content>(from: { [key: string]: Promise<{ default: Content }> | undefined }) => {
         return Object.keys(from).reduce<Promise<{ [key: string]: Content }>>((promise, key) => promise.then(all => {

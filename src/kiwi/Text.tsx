@@ -1,17 +1,16 @@
 import { React, ReactNative } from "../vendors"
+import { StyleSheetStyleText } from "../core/app/styles"
+import { i18n, NameField_Text } from "dropin-client"
 
-type Props = {
-  children?: React.ReactNode
-  style?: ReactNative.StyleProp<ReactNative.TextStyle>
-  onPress?: (event: ReactNative.GestureResponderEvent) => void
-  onLongPress?: (event: ReactNative.GestureResponderEvent) => void
+interface Props extends ReactNative.TextProps {
+  style?: ReactNative.StyleProp<StyleSheetStyleText>
+  children?: NameField_Text
 }
 
 export const Text = (props: Props) => {
-  return <ReactNative.Text
-    children={props.children}
-    style={props.style}
-    onPress={props.onPress}
-    onLongPress={props.onLongPress}
+  let { children, ...propsLeft } = props
+  if(typeof children === "string") children = i18n(children)
+  return <ReactNative.Text {...propsLeft}
+    children={children}
   />
 }

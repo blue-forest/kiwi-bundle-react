@@ -1,5 +1,5 @@
 import { ReactNative } from "../../vendors"
-import { Language } from "dropin-client"
+import { Language, NameField_ByLanguage } from "dropin-client"
 
 export type AppConfig = {
   key: string
@@ -7,7 +7,7 @@ export type AppConfig = {
     routes: {
       [name: string]: {
         path: string
-        title?: string
+        title?: string | NameField_ByLanguage<string>
         header?: {
           hideTitle?: boolean
         }
@@ -29,9 +29,9 @@ export type AppConfig = {
   platforms?: {
     web?: {
       title?: string | ((page?: string) => string)
-    }
-    i18n?: {
-      urlQueryParam?: string
+      i18n?: {
+        urlQueryParam?: string
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -23,13 +23,15 @@
     }
   },
   "devDependencies": {
-    "kiwi-bundle": "3.2.10"
+    "kiwi-bundle": "3.2.11"
   },
   "dependencies": {
     "@babel/core": "7.11.6",
     "@babel/runtime": "7.11.2",
+    "@react-native-community/checkbox": "^0.5.5",
     "@react-native-community/eslint-config": "2.0.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/picker": "^1.8.1",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
     "@types/react": "16.9.52",
