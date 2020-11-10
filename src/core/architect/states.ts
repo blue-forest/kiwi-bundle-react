@@ -18,7 +18,7 @@ export type ArchitectStates<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends ArchitectComponentStyle<Style>,
   > = <States extends ArchitectComponentStates>(states: States) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States>,
     "style" | "states"
@@ -28,7 +28,7 @@ export const ArchitectStates = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends ArchitectComponentStyle<Style>,
   >(
     options: ArchitectOptions<Config, Links, Props, Style>
   ): ArchitectStates<Config, Links, Props, Style> => {

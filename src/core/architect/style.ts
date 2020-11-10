@@ -18,7 +18,7 @@ export type ArchitectStyle<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  > = <Style extends ArchitectComponentStyle>(style: Style) => Omit<
+  > = <Style extends ArchitectComponentStyle<Style>>(style: Style) => Omit<
     ArchitectSelf<Config, Links, Props, Style>,
     "style"
   >
@@ -30,7 +30,7 @@ export const ArchitectStyle = <
   >(
     options: ArchitectOptions<Config, Links, Props>
   ): ArchitectStyle<Config, Links, Props> => {
-  return <Style extends ArchitectComponentStyle>(style: Style) => {
+  return <Style extends ArchitectComponentStyle<Style>>(style: Style) => {
     options.context.style = style
     return {
       states: ArchitectStates<Config, Links, Props, Style>(options),

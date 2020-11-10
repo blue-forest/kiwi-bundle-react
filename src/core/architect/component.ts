@@ -8,7 +8,9 @@ export enum ArchitectComponentType {
 
 export type ArchitectComponentProps = { [name: string]: any }
 
-export type ArchitectComponentStyle = { [name: string]: StyleSheetStyle | StyleSheetMediaQuery[] }
+export type ArchitectComponentStyle<Style extends ArchitectComponentStyle<Style>> = {
+  [name in keyof Style]: StyleSheetStyle | StyleSheetMediaQuery[]
+}
 
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 

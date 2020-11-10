@@ -13,7 +13,7 @@ export type ArchitectFunctions<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends ArchitectComponentStyle<Style>,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   > = <Functions extends ArchitectComponentFunctions>(
@@ -27,7 +27,7 @@ export const ArchitectFunctions = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends ArchitectComponentStyle<Style>,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   >(
