@@ -1,6 +1,6 @@
 import { KBRD } from ".."
 
-export const ComponentsPageStyle = KBRD.StyleSheet({
+export const ComponentsPageStyle = KBRD.StyleSheet(() => ({
   textContainer: {
     backgroundColor: "green",
   },
@@ -10,4 +10,4 @@ export const ComponentsPageStyle = KBRD.StyleSheet({
   container: {
     flexDirection: "row",
   },
-} as const)
+}))

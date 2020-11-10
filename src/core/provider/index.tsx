@@ -102,7 +102,9 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
                 key={page}
                 name={page}
                 component={links.pages[page]}
-                options={{ headerTitle: route.title }}
+                options={{
+                  headerTitle: route.header?.hideTitle ? "" : route.title
+                }}
               />
             }
           )}

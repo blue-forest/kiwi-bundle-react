@@ -5,7 +5,13 @@ export type AppConfig = {
   key: string
   navigation: {
     routes: {
-      [name: string]: { path: string, title?: string }
+      [name: string]: {
+        path: string
+        title?: string
+        header?: {
+          hideTitle?: boolean
+        }
+      }
     }
     prefixes: string[]
   }

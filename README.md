@@ -3,8 +3,8 @@
 
 
 # Features
-- out-of-the box configurations for [TypeScript](https://github.com/microsoft/TypeScript), [React](https://github.com/facebook/react), [React Navigation](https://github.com/react-navigation), [MobX](https://github.com/mobxjs/mobx), [Babel](https://github.com/babel/babel), [ESLint](https://github.com/eslint/eslint), [Prettier](https://github.com/prettier/prettier) and [Flow](https://github.com/facebook/flow)
-- integration of [react-native-web](https://github.com/necolas/react-native-web) for building **web**, **Android** and **iOS** apps with the same code
+- out-of-the box configurations for [TypeScript](https://github.com/microsoft/TypeScript), [React](https://github.com/facebook/react), [React Navigation](https://github.com/react-navigation), [Babel](https://github.com/babel/babel), [ESLint](https://github.com/eslint/eslint), [Prettier](https://github.com/prettier/prettier) and [Flow](https://github.com/facebook/flow)
+- integration of [react-native-web](https://github.com/necolas/react-native-web) for building **web**, **Android** and **iOS** apps with a same codebase
 - **instant start-up** and **hot reloading** to see your components changes in real time
 - complete toolbox with built-in **router**, **logger**, **states management** and **styling** simplified to the limit
 

@@ -8,6 +8,9 @@ export const KBRD = App({
       HOME: {
         path: "/",
         title: "Accueil",
+        header: {
+          hideTitle: true,
+        },
       },
       COMPONENTS: {
         path: "/components",
@@ -33,6 +36,8 @@ export const KBRD = App({
       small: 10,
       medium: 15,
       big: 20,
+      global_padding: 30,
+      global_margin: 4,
     } as const,
     colors: {
       blue: "rgb(2, 68, 198)",
