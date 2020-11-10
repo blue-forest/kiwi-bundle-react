@@ -4,7 +4,7 @@ import { HomePageStyle } from "./Home.style"
 import CoverImage from "../../assets/cover.png"
 
 export default KBRD.Page(self => self
-  .style(HomePageStyle)
+  .style({ ...HomePageStyle } as const)
   .render(({ style, navigation }) => (
     <ReactNative.SafeAreaView style={style.container}>
       <Kiwi.Image source={CoverImage} style={style.cover}/>

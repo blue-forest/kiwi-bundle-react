@@ -1,4 +1,3 @@
-import { StyleSheet } from "react-native"
 import { KBRD } from ".."
 
 export const HomePageStyle = KBRD.StyleSheet(({ sizes }) => ({
@@ -20,12 +19,5 @@ export const HomePageStyle = KBRD.StyleSheet(({ sizes }) => ({
     width: 200,
     marginTop: sizes.global_margin,
     marginBottom: sizes.global_margin,
-    resizeMode: ""
   },
 }))
-
-StyleSheet.create({
-  test: {
-    resizeMode: ""
-  }
-})

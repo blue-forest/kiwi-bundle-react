@@ -20,7 +20,7 @@ export type ArchitectSelf<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle<Style> = any,
+  Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {},

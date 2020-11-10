@@ -18,7 +18,7 @@ export type ArchitectValues<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle<Style>,
+  Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   > = <Values extends ArchitectComponentValues>(values: Values)
     => Omit<
@@ -30,7 +30,7 @@ export const ArchitectValues = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle<Style>,
+  Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   >(
     options: ArchitectOptions<Config, Links, Props, Style, States>
