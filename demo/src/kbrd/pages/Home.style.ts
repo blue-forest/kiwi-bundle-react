@@ -1,24 +1,31 @@
-import { StyleSheetStyleImage } from "kiwi-bundle-react"
+import { StyleSheet } from "react-native"
 import { KBRD } from ".."
 
-export const HomePageStyle = KBRD.StyleSheet(() => ({
+export const HomePageStyle = KBRD.StyleSheet(({ sizes }) => ({
   container: {
     flex: 1,
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingBottom: 30,
     alignItems: "center",
+    paddingLeft: sizes.global_padding,
+    paddingRight: sizes.global_padding,
+    paddingBottom: sizes.global_padding,
   },
   cover: {
     flex: 1,
     width: "100%",
     maxHeight: 300,
     resizeMode: "contain",
-    marginBottom: 4,
-  } as StyleSheetStyleImage,
-  button: {
-    marginTop: 4,
-    marginBottom: 4,
-    width: 200,
+    marginBottom: sizes.global_margin,
   },
-} as const))
+  button: {
+    width: 200,
+    marginTop: sizes.global_margin,
+    marginBottom: sizes.global_margin,
+    resizeMode: ""
+  },
+}))
+
+StyleSheet.create({
+  test: {
+    resizeMode: ""
+  }
+})

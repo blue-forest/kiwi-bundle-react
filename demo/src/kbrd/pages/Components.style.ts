@@ -10,4 +10,4 @@ export const ComponentsPageStyle = KBRD.StyleSheet(() => ({
   container: {
     flexDirection: "row",
   },
-} as const))
+}))

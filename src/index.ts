@@ -1,6 +1,7 @@
 export { App } from "./core/app"
 export * from "./core/app/styles"
 export * from "./core/app/custom"
+export * from "./core/architect/component"
 export * as Kiwi from "./kiwi"
 export * from "./vendors"
 export { Store } from "./utils/store"
