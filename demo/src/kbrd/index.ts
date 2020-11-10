@@ -20,13 +20,13 @@ export const KBRD = App({
         path: "/styles",
         title: "Styles",
       },
+      DATA: {
+        path: "/data",
+        title: { en: "Data", fr: "Données" },
+      },
       NAVIGATION: {
         path: "/navigation/:first/:second",
         title: "Navigation",
-      },
-      STORES: {
-        path: "/stores",
-        title: "Stores",
       },
     },
     prefixes: [
@@ -75,8 +75,8 @@ export const KBRD = App({
     HOME: import("./pages/Home"),
     COMPONENTS: import("./pages/Components"),
     STYLES: import("./pages/Styles"),
+    DATA: import("./pages/Data"),
     NAVIGATION: import("./pages/Navigation"),
-    STORES: import("./pages/Stores"),
   },
   themes: {
     default: import("./themes/default"),
