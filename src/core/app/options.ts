@@ -9,4 +9,3 @@ export type AppOptions<Themes = any> = {
     }
   }
 }
-
