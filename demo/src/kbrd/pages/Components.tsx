@@ -1,7 +1,7 @@
 import { React, Kiwi } from "kiwi-bundle-react"
 import { KBRD } from ".."
 import { ButtonComponent } from "../components/Button"
-import { CounterStore } from "../stores/counter"
+//import { CounterStore } from "../stores/counter"
 import { ComponentsPageStyle } from "./Components.style"
 
 type States = {
@@ -41,7 +41,7 @@ export default KBRD.Page(self => self
     console.log("COMPONENTS", "RENDER")
     const scheme = appearance.theme.scheme.get()
     return <Kiwi.View>
-      <Kiwi.Text>Current counter : {CounterStore.data.get()?.current}</Kiwi.Text>
+      {/*<Kiwi.Text>Current counter : {CounterStore.data.get()?.current}</Kiwi.Text>*/}
       <Kiwi.View style={style.textContainer}>
         <Kiwi.Text style={style.text}>{states.get.count}</Kiwi.Text>
       </Kiwi.View>

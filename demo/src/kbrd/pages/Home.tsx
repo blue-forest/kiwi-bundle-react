@@ -14,16 +14,19 @@ export default KBRD.Page(self => self
         onPress={() => { navigation.push("COMPONENTS") }}
       />
       <Kiwi.Button
-        title="Navigation"
-        containerStyle={style.button}
-      />
-      <Kiwi.Button
         title="Styles"
         containerStyle={style.button}
+        onPress={() => { navigation.push("STYLES") }}
+      />
+      <Kiwi.Button
+        title="Navigation"
+        containerStyle={style.button}
+        onPress={() => { navigation.push("NAVIGATION", { first: "it", second: "works", very: "well" }) }}
       />
       <Kiwi.Button
         title="Stores"
         containerStyle={style.button}
+        onPress={() => { navigation.push("STORES") }}
       />
     </ReactNative.SafeAreaView>
   ))

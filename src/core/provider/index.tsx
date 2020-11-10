@@ -1,10 +1,11 @@
 import "./imports"
 import { React, ReactNative } from "../../vendors"
-import { createStackNavigator } from "@react-navigation/stack"
+import { createStackNavigator, StackHeaderLeftButtonProps } from "@react-navigation/stack"
 import { DefaultTheme, DocumentTitleOptions, LinkingOptions, NavigationContainer, PathConfigMap, Theme } from "@react-navigation/native"
-import { AppLinks } from "../app/links"
+import { AppLinks, AppLinksCustom } from "../app/links"
 import { AppConfig } from "../app/config"
 import { AppOptions } from "../app/options"
+import { i18n } from "dropin-client"
 
 export const Provider = <Config extends AppConfig, Links extends AppLinks<Config>>(
   config: Config,
@@ -35,7 +36,7 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
       formatter: (_, route) => {
         if(typeof configTitle === "string") return configTitle
         if(typeof route !== "undefined" && typeof config.navigation.routes[route.name]?.title !== "undefined") {
-          return configTitle(config.navigation.routes[route.name].title)
+          return configTitle(i18n(config.navigation.routes[route.name].title || ""))
         }
         return ""
       },
@@ -84,8 +85,6 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
           <Stack.Navigator
             screenOptions={{
               headerShown: !config.appearance.header?.hide,
-              headerLeft: links.custom?.header?.left,
-              headerRight: links.custom?.header?.right,
               cardStyle: ReactNative.Platform.OS === "web" ? {
                 height: "100vh",
               } : {},
@@ -103,7 +102,13 @@ export const Provider = <Config extends AppConfig, Links extends AppLinks<Config
                 name={page}
                 component={links.pages[page]}
                 options={{
-                  headerTitle: route.header?.hideTitle ? "" : route.title
+                  headerTitle: route.header?.hideTitle ? "" : i18n(route.title || ""),
+                  headerLeft: typeof links.custom?.header?.left === "undefined" ? undefined : props => {
+                    return (links.custom?.header?.left as AppLinksCustom<Config, StackHeaderLeftButtonProps>)(props, page)
+                  },
+                  headerRight: typeof links.custom?.header?.right === "undefined" ? undefined : props => {
+                    return (links.custom?.header?.right as AppLinksCustom<Config, {}>)(props, page)
+                  },
                 }}
               />
             }

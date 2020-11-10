@@ -36,7 +36,7 @@ export const ArchitectValues = <
     options: ArchitectOptions<Config, Links, Props, Style, States>
   ): ArchitectValues<Config, Links, Props, Style, States> => {
   return <Values extends ArchitectComponentValues>(values: Values) => {
-    console.log(values)
+    options.cache.values = values
     return {
       functions: ArchitectFunctions<Config, Links, Props, Style, States, Values>(options),
       onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, {}>(options),

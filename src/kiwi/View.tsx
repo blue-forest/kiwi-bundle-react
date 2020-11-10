@@ -1,10 +1,11 @@
 import React from "react"
 import * as ReactNative from "react-native"
+import { StyleSheetStyleView } from "../core/app/styles"
 
 type Props = {
-  children?: React.ReactNode
-  style?: ReactNative.StyleProp<ReactNative.ViewStyle>
+  style?: ReactNative.StyleProp<StyleSheetStyleView>
   onPress?: (event: ReactNative.NativeSyntheticEvent<ReactNative.NativeTouchEvent>) => void
+  children?: React.ReactNode
 }
 
 export const View = (props: Props) => {
@@ -13,9 +14,7 @@ export const View = (props: Props) => {
     style={props.style}
   />
   if (typeof props.onPress !== "undefined") {
-    return <ReactNative.TouchableWithoutFeedback onPress={props.onPress}>
-      {view}
-    </ReactNative.TouchableWithoutFeedback>
+    return <ReactNative.TouchableWithoutFeedback onPress={props.onPress} children={view}/>
   }
   return view
 }
