@@ -7,7 +7,10 @@ type Props = Omit<ReactNative.ImagePropsBase, "source"> & {
 
 export const Image = (props: Props) => {
   const { source, ...propsLeft } = props
-  return <ReactNative.Image {...propsLeft}
-    source={source as ReactNative.ImageSourcePropType}
-  />
+  return (
+    <ReactNative.Image
+      {...propsLeft}
+      source={source as ReactNative.ImageSourcePropType}
+    />
+  )
 }

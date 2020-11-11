@@ -6,5 +6,5 @@ interface Props<Item> extends ReactNative.VirtualizedListProps<Item> {
 }
 
 export function VirtualizedList<Item = any>(props: Props<Item>) {
-  return <ReactNative.VirtualizedList {...props}/>
+  return <ReactNative.VirtualizedList {...props} />
 }

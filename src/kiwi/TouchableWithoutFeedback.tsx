@@ -6,5 +6,5 @@ interface Props extends ReactNative.TouchableWithoutFeedbackProps {
 }
 
 export const TouchableWithoutFeedback = (props: Props) => {
-  return <ReactNative.TouchableWithoutFeedback {...props}/>
+  return <ReactNative.TouchableWithoutFeedback {...props} />
 }
