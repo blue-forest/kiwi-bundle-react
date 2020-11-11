@@ -1,11 +1,10 @@
-import { React } from "../vendors"
-import CheckBoxBase, { CheckBoxProps } from "@react-native-community/checkbox"
+import { React, ReactNative } from "../vendors"
 import { StyleSheetStyleView } from "../core/app/styles"
 
-interface Props extends CheckBoxProps {
+interface Props extends ReactNative.CheckBoxProps {
   style?: StyleSheetStyleView
 }
 
 export const CheckBox = (props: Props) => {
-  return <CheckBoxBase {...props}/>
+  return <ReactNative.CheckBox {...props} />
 }
