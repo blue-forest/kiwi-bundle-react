@@ -5,6 +5,8 @@ import { ComponentsPageStyle } from "./Components.style"
 type States = {
   checkbox: boolean
   switch: boolean
+  modalOpen: boolean
+  picker: string
   textInput: string
 }
 
@@ -14,12 +16,16 @@ export default KBRD.Page((self) =>
     .states<States>({
       checkbox: false,
       switch: false,
+      modalOpen: false,
+      picker: "",
       textInput: "",
     })
     .render(({ style, states }) => {
       console.log("States :", {
         checkbox: states.get.checkbox,
         switch: states.get.switch,
+        modalOpen: states.get.modalOpen,
+        picker: states.get.picker,
         textInput: states.get.textInput,
       } as States)
       return (
@@ -62,13 +68,30 @@ export default KBRD.Page((self) =>
           />
 
           <Kiwi.Text style={style.title} children="KeyboardAvoidingView" />
-          <Kiwi.Button title="Open view" />
+          <Kiwi.KeyboardAvoidingView style={{ width: "100%", height: 100 }}>
+            <Kiwi.View style={{ flex: 1, backgroundColor: "green" }}/>
+          </Kiwi.KeyboardAvoidingView>
 
           <Kiwi.Text style={style.title} children="Modal" />
-          <Kiwi.Button title="Open modal" />
+          <Kiwi.Modal visible={states.get.modalOpen}>
+            <Kiwi.View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <Kiwi.Button
+                title="Close modal"
+                onPress={() => { states.set.modalOpen(false) }}
+              />
+            </Kiwi.View>
+          </Kiwi.Modal>
+          <Kiwi.Button
+            title="Open modal"
+            onPress={() => { states.set.modalOpen(true) }}
+          />
 
           <Kiwi.Text style={style.title} children="Picker" />
-          <Kiwi.Picker>
+          <Kiwi.Picker
+            selectedValue={states.get.picker}
+            onValueChange={value => { states.set.picker(value) }}
+          >
+            <Kiwi.PickerItem label="" value="" />
             <Kiwi.PickerItem label="Line 1" value="1" />
             <Kiwi.PickerItem label="Line 2" value="2" />
             <Kiwi.PickerItem label="Line 3" value="3" />
@@ -78,7 +101,9 @@ export default KBRD.Page((self) =>
           <Kiwi.Button title="Open view" />
 
           <Kiwi.Text style={style.title} children="ScrollView" />
-          <Kiwi.Button title="Open view" />
+          <Kiwi.ScrollView style={{ width: "100%", height: 100 }}>
+            <Kiwi.View style={{ backgroundColor: "purple", height: 200 }}/>
+          </Kiwi.ScrollView>
 
           <Kiwi.Text style={style.title} children="SectionList" />
           <Kiwi.SectionList
@@ -90,6 +115,9 @@ export default KBRD.Page((self) =>
               { title: "line 3", data: ["A3", "B3", "C3"] },
             ]}
           />
+
+          <Kiwi.Text style={style.title} children="StatusBar" />
+          <Kiwi.Button title="Open view" />
 
           <Kiwi.Text style={style.title} children="Switch" />
           <Kiwi.Switch
@@ -104,6 +132,7 @@ export default KBRD.Page((self) =>
           <Kiwi.TextInput
             value={states.get.textInput}
             onChangeText={text => { states.set.textInput(text) }}
+            style={{ backgroundColor: "white" }}
           />
 
           <Kiwi.Text style={style.title} children="TouchableHighlight" />
@@ -123,7 +152,10 @@ export default KBRD.Page((self) =>
           </Kiwi.TouchableOpacity>
 
           <Kiwi.Text style={style.title} children="View" />
-          <Kiwi.Button title="Open view" />
+          <Kiwi.View style={{ width: "100%", flexDirection: "row" }}>
+            <Kiwi.Text style={{ flex: 1, textAlign: "center" }}>Left</Kiwi.Text>
+            <Kiwi.Text style={{ flex: 1, textAlign: "center" }}>Right</Kiwi.Text>
+          </Kiwi.View>
 
           <Kiwi.Text style={style.title} children="VirtualizedList" />
           <Kiwi.VirtualizedList

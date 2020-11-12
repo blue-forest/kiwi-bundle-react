@@ -131,7 +131,7 @@ export const Provider = <
               cardStyle:
                 ReactNative.Platform.OS === "web"
                   ? {
-                      minHeight: "100vh",
+                      height: "100vh",
                     }
                   : {},
               headerStyle: [

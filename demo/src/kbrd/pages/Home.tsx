@@ -39,6 +39,11 @@ export default KBRD.Page((self) =>
           })
         }}
       />
+      <Kiwi.Button
+        title="Tools"
+        containerStyle={style.button}
+        onPress={() => {}}
+      />
     </ReactNative.SafeAreaView>
   )),
 )
