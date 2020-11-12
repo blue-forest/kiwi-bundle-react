@@ -1,6 +1,6 @@
 {
   "name": "kiwi-bundle-react",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "author": "Nazim Lachter <nazim@blueforest.cc>",
   "repository": "git@github.com:theblueforest/kiwi-bundle-react.git",
   "license": "Apache-2.0",
@@ -40,8 +40,8 @@
     "babel-jest": "26.6.3",
     "dropin-client": "0.0.6",
     "metro-react-native-babel-preset": "0.64.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "react-native": "0.63.3",
     "react-native-gesture-handler": "1.8.0",
     "react-native-reanimated": "1.13.1",
@@ -49,7 +49,7 @@
     "react-native-screens": "2.14.0",
     "react-native-web": "0.14.8",
     "react-scripts": "3.4.4",
-    "react-test-renderer": "17.0.1"
+    "react-test-renderer": "16.14.0"
   },
   "files": [
     "/dist",
