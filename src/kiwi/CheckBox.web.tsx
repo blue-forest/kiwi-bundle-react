@@ -1,10 +1,10 @@
 import { React, ReactNative } from "../vendors"
 import { StyleSheetStyleView } from "../core/app/styles"
 
-interface Props extends ReactNative.ModalProps {
+interface Props extends ReactNative.CheckBoxProps {
   style?: StyleSheetStyleView
 }
 
-export const Modal = (props: Props) => {
-  return <ReactNative.Modal {...props} />
+export const CheckBox = (props: Props) => {
+  return <ReactNative.CheckBox {...props} />
 }
