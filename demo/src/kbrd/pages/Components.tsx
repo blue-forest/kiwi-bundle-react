@@ -46,7 +46,7 @@ export default KBRD.Page((self) =>
         <Kiwi.Button title="Open modal" />
 
         <Kiwi.Text style={style.title} children="Picker" />
-        <Kiwi.Picker>
+        <Kiwi.Picker style={{ height: 50, width: 150 }}>
           <Kiwi.PickerItem label="Line 1" value="1" />
           <Kiwi.PickerItem label="Line 2" value="2" />
           <Kiwi.PickerItem label="Line 3" value="3" />
@@ -99,7 +99,9 @@ export default KBRD.Page((self) =>
 
         <Kiwi.Text style={style.title} children="VirtualizedList" />
         <Kiwi.VirtualizedList
-          renderItem={({ item }) => <Kiwi.Text>{item.title}</Kiwi.Text>}
+          renderItem={({ item }) => (
+            <Kiwi.Text key={item.key}>{item.title}</Kiwi.Text>
+          )}
           getItemCount={() => 5}
           getItem={(_, index) => {
             return {
