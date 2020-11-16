@@ -23,14 +23,46 @@ export type ArchitectSelf<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
+  Functions extends ArchitectComponentFunctions = {}
   > = {
     style: ArchitectStyle<Config, Links, Props>
     states: ArchitectStates<Config, Links, Props, Style>
     values: ArchitectValues<Config, Links, Props, Style, States>
     functions: ArchitectFunctions<Config, Links, Props, Style, States, Values>
-    onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions>
-    onMount: ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions>
-    onUnmount: ArchitectOnUnmount<Config, Links, Props, Style, States, Values, Functions>
-    render: ArchitectRender<Config, Links, Props, Style, States, Values, Functions>
+    onInit: ArchitectOnInit<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Values,
+      Functions
+    >
+    onMount: ArchitectOnMount<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Values,
+      Functions
+    >
+    onUnmount: ArchitectOnUnmount<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Values,
+      Functions
+    >
+    render: ArchitectRender<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Values,
+      Functions
+    >
   }

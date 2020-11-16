@@ -83,7 +83,7 @@ export const App = <
       }
       return style as S1 & S2
     },
-    Store: <Data>(data: Data) => Store<Data>(data),
+    Store: <Data>(data: Data): Store<Data> => Store<Data>(data),
     Custom: <Props extends ArchitectComponentProps>(
       custom: AppLinksCustom<Config, Props>,
     ) => custom,

@@ -1,10 +1,9 @@
-
 export type Store<Data> = {
   data: {
     get: () => Data | undefined
     set: (data: Data) => void
   }
-  bind: (callbacks: { get?: () => Data, set?: (data: Data) => void }) => void
+  bind: (callbacks: { get?: () => Data; set?: (data: Data) => void }) => void
 }
 
 export const Store = <Data>(data?: Data): Store<Data> => {
@@ -14,17 +13,23 @@ export const Store = <Data>(data?: Data): Store<Data> => {
     get = () => data
   }
   return {
-    bind: cb => {
-      if (typeof cb.get !== "undefined") get = cb.get
-      if (typeof cb.set !== "undefined") set.push(cb.set)
+    bind: (cb) => {
+      if (typeof cb.get !== "undefined") {
+        get = cb.get
+      }
+      if (typeof cb.set !== "undefined") {
+        set.push(cb.set)
+      }
     },
     data: {
       get: () => {
-        if (typeof get === "undefined") return
+        if (typeof get === "undefined") {
+          return
+        }
         return get()
       },
-      set: data => {
-        set.forEach(cb => cb(data))
+      set: (newData) => {
+        set.forEach((cb) => cb(newData))
       },
     },
   }
