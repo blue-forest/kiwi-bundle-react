@@ -14,7 +14,7 @@ export const CounterLayout = KBRD.Component<Props>((self) =>
   self
     .style(CounterLayoutStyle)
     .states<States>({
-      count: 0,
+      count: GlobalStore.get.counter(),
     })
     .onInit(({ states }) => {
       GlobalStore.bind({

@@ -1,4 +1,4 @@
-export type Store<Data> = {
+export type DynamicData<Data> = {
   data: {
     get: () => Data | undefined
     set: (data: Data) => void
@@ -6,7 +6,7 @@ export type Store<Data> = {
   bind: (callbacks: { get?: () => Data; set?: (data: Data) => void }) => void
 }
 
-export const Store = <Data>(data?: Data): Store<Data> => {
+export const DynamicData = <Data>(data?: Data): DynamicData<Data> => {
   let get: () => Data
   let set: ((data: Data) => void)[] = []
   if (typeof data !== "undefined") {

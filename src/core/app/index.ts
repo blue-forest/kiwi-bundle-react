@@ -7,15 +7,20 @@ import {
   AppLinksImports,
 } from "./links"
 import { Architect } from "../architect"
-import { Store } from "../../utils/store"
+import { DynamicData } from "../../utils/store"
 import {
   ArchitectComponentProps,
+  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentType,
 } from "../architect/component"
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
+
+type AppStore<Data extends ArchitectComponentStores> = {
+  get: { [name in keyof Data]: () => Data[name] }
+}
 
 export const App = <
   Config extends AppConfig,
@@ -26,7 +31,7 @@ export const App = <
 ) => {
   const options: AppOptions = {
     actions: {
-      theme: { name: Store(), scheme: Store() },
+      theme: { name: DynamicData(), scheme: DynamicData() },
     },
   }
   return {
@@ -83,7 +88,14 @@ export const App = <
       }
       return style as S1 & S2
     },
-    Store: <Data>(data: Data): Store<Data> => Store<Data>(data),
+    Store: <Data extends ArchitectComponentStores>(data: Data) => {
+      //return DynamicData<Data>(data)
+      const store: AppStore<any> = { get: {} }
+      Object.keys(data).forEach((key) => {
+        store.get[key] = () => data[key]
+      })
+      return store as AppStore<Data>
+    },
     Custom: <Props extends ArchitectComponentProps>(
       custom: AppLinksCustom<Config, Props>,
     ) => custom,

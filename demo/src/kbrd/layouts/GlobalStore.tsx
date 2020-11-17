@@ -6,12 +6,12 @@ export const GlobalStoreLayout = KBRD.Component((self) =>
   self
     .onInit(({ update }) => {
       console.log({ type: "onInit", name: "GlobalStoreLayout" })
-      GlobalStore.bind({ set: update })
+      GlobalStore.onUpdate.counter({ update })
     })
     .render(() => {
       console.log({ type: "render", name: "GlobalStoreLayout" })
       return <Kiwi.View>
-        <Kiwi.Text children={`Counter : ${GlobalStore.data.get()?.counter || 0}`} />
+        <Kiwi.Text children={`Counter : ${GlobalStore.get.counter()}`} />
       </Kiwi.View>
     }),
 )
