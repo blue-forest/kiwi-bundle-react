@@ -17,10 +17,11 @@ export const CounterLayout = KBRD.Component<Props>((self) =>
       count: GlobalStore.get.counter(),
     })
     .onInit(({ states }) => {
-      GlobalStore.bind({
-        get: () => ({ counter: states.get.count }),
-        set: store => { states.set.count(store.counter) },
-      })
+      GlobalStore.bind.counter(states.set.count)
+    })
+    .onUpdate(({ states }) => {
+      console.log({ type: "onUpdate", name: "CounterLayout" })
+      GlobalStore.set.counter(states.get.count)
     })
     .render(({ style, states }) => {
       console.log({ type: "render", name: "CounterLayout" })

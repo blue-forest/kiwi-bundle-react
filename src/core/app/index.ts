@@ -20,6 +20,9 @@ import { AppTheme } from "./theme"
 
 type AppStore<Data extends ArchitectComponentStores> = {
   get: { [name in keyof Data]: () => Data[name] }
+  set: { [name in keyof Data]: (data: Data[name]) => void }
+  bind: { [name in keyof Data]: (data: Data[name]) => void }
+  onUpdate: { [name in keyof Data]: (callback: () => void) => void }
 }
 
 export const App = <
@@ -31,7 +34,10 @@ export const App = <
 ) => {
   const options: AppOptions = {
     actions: {
-      theme: { name: DynamicData(), scheme: DynamicData() },
+      theme: {
+        name: DynamicData(""),
+        scheme: DynamicData<ReactNative.ColorSchemeName>("light"),
+      },
     },
   }
   return {
@@ -89,10 +95,15 @@ export const App = <
       return style as S1 & S2
     },
     Store: <Data extends ArchitectComponentStores>(data: Data) => {
-      //return DynamicData<Data>(data)
-      const store: AppStore<any> = { get: {} }
+      const store: AppStore<any> = { get: {}, set: {}, bind: {}, onUpdate: {} }
       Object.keys(data).forEach((key) => {
-        store.get[key] = () => data[key]
+        const dynamic = DynamicData<Data>(data[key])
+        store.bind[key] = dynamic.bind
+        store.get[key] = dynamic.data.get
+        store.set[key] = dynamic.data.set
+        store.onUpdate[key] = (cb) => {
+          console.log(cb)
+        }
       })
       return store as AppStore<Data>
     },

@@ -6,12 +6,9 @@ export type DynamicData<Data> = {
   bind: (callbacks: { get?: () => Data; set?: (data: Data) => void }) => void
 }
 
-export const DynamicData = <Data>(data?: Data): DynamicData<Data> => {
-  let get: () => Data
+export const DynamicData = <Data>(data: Data): DynamicData<Data> => {
+  let get: () => Data = () => data
   let set: ((data: Data) => void)[] = []
-  if (typeof data !== "undefined") {
-    get = () => data
-  }
   return {
     bind: (cb) => {
       if (typeof cb.get !== "undefined") {
@@ -22,12 +19,7 @@ export const DynamicData = <Data>(data?: Data): DynamicData<Data> => {
       }
     },
     data: {
-      get: () => {
-        if (typeof get === "undefined") {
-          return
-        }
-        return get()
-      },
+      get,
       set: (newData) => {
         set.forEach((cb) => cb(newData))
       },
