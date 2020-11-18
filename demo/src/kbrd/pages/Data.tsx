@@ -1,6 +1,7 @@
 import { React, Kiwi } from "kiwi-bundle-react"
 import { KBRD } from ".."
-import { CounterLayout } from "../layouts/Counter"
+import { CounterGlobalLayout } from "../layouts/CounterGlobal"
+import { CounterLocalLayout } from "../layouts/CounterLocal"
 import { GlobalStoreLayout } from "../layouts/GlobalStore"
 import { ComponentsPageStyle } from "./Components.style"
 
@@ -37,13 +38,13 @@ export default KBRD.Page((self) =>
       },
     }))
     .onInit(() => {
-      console.log("COMPONENTS", "INIT")
+      console.log({ type: "init", name: "DataPage" })
     })
     .onMount(() => {
-      console.log("COMPONENTS", "MOUNT")
+      console.log({ type: "mount", name: "DataPage" })
     })
     .onUnmount(() => {
-      console.log("COMPONENTS", "UNMOUNT")
+      console.log({ type: "unmount", name: "DataPage" })
     })
     .render(() => {
       console.log({ type: "render", name: "DataPage" })
@@ -54,8 +55,12 @@ export default KBRD.Page((self) =>
             <GlobalStoreLayout/>
           </Kiwi.View>
           <Kiwi.View>
-            <Kiwi.Text>Counter Layout</Kiwi.Text>
-            <CounterLayout/>
+            <Kiwi.Text>Local Counter Layout</Kiwi.Text>
+            <CounterLocalLayout/>
+          </Kiwi.View>
+          <Kiwi.View>
+            <Kiwi.Text>Global Counter Layout</Kiwi.Text>
+            <CounterGlobalLayout/>
           </Kiwi.View>
         </Kiwi.View>
       )
