@@ -16,7 +16,7 @@ import {
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
-import { AppStoreActions, AppStoreOptions, AppStoreValues } from "./store"
+import { AppStore, AppStoreOptions, AppStoreValues } from "./store"
 
 export const App = <
   Config extends AppConfig,
@@ -90,14 +90,14 @@ export const App = <
     Store: <Values extends AppStoreValues>(
       storeOptions: AppStoreOptions<Values>,
     ) => {
-      const store: AppStoreActions<any> = { get: {}, set: {} }
+      const store: Omit<AppStore<string, any>, "bind"> = { get: {}, set: {} }
       Object.keys(storeOptions.values).forEach((key) => {
         const dynamic = DynamicData(storeOptions.values[key])
         store.get[key] = dynamic.data.get
         store.set[key] = dynamic.data.set
       })
       return {
-        ...(store as AppStoreActions<Values>),
+        ...store,
         bind: () => {
           //const bind: Omit<AppStore<any>, "bind"> = { get: {}, set: {} }
           return {
@@ -106,7 +106,7 @@ export const App = <
             set: {},
           }
         },
-      }
+      } as AppStore<typeof storeOptions["id"], Values>
     },
     Custom: <Props extends ArchitectComponentProps>(
       custom: AppLinksCustom<Config, Props>,

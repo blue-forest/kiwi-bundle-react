@@ -29,11 +29,7 @@ export type ArchitectContext<
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }
     }
-    stores: ArrayFlattening<Stores> extends AppStoreBind<
-      infer Id,
-      infer _,
-      infer _
-    >
+    stores: Stores extends ArchitectComponentStores<infer Id>
     ? {
       test: Id // { [name in Id]: any }
     }
