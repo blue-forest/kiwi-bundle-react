@@ -40,7 +40,7 @@ export type ArchitectOnInit<
     ) => void,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
-    "style" | "states" | "values" | "functions" | "onInit"
+    "style" | "states" | "stores" | "values" | "functions" | "onInit"
   >
 
 export const ArchitectOnInit = <

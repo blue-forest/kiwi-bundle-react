@@ -40,6 +40,7 @@ export type ArchitectOnUpdate<
     ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
     | "style"
     | "states"
+    | "stores"
     | "values"
     | "functions"
     | "onInit"

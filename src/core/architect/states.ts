@@ -13,6 +13,7 @@ import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
+import { ArchitectStores } from "./stores"
 import { ArchitectValues } from "./values"
 
 export type ArchitectStates<
@@ -38,6 +39,7 @@ export const ArchitectStates = <
   return <States extends ArchitectComponentStates>(states: States) => {
     options.cache.states = states
     return {
+      stores: ArchitectStores<Config, Links, Props, Style, States>(options),
       values: ArchitectValues<Config, Links, Props, Style, States, {}>(options),
       functions: ArchitectFunctions<
         Config,

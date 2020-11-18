@@ -11,6 +11,7 @@ import { ArchitectFunctions } from "./functions"
 import { ArchitectComponentProps, ArchitectComponentStyle } from "./component"
 import { AppConfig } from "../app/config"
 import { ArchitectOnUpdate } from "./onUpdate"
+import { ArchitectStores } from "./stores"
 
 export type ArchitectStyle<
   Config extends AppConfig,
@@ -31,6 +32,7 @@ export const ArchitectStyle = <
     options.context.style = style
     return {
       states: ArchitectStates<Config, Links, Props, Style>(options),
+      stores: ArchitectStores<Config, Links, Props, Style, {}>(options),
       values: ArchitectValues<Config, Links, Props, Style, {}, {}>(options),
       functions: ArchitectFunctions<Config, Links, Props, Style, {}, {}, {}>(
         options,

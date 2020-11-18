@@ -15,6 +15,7 @@ import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectRender } from "./render"
 import { ArchitectStates } from "./states"
+import { ArchitectStores } from "./stores"
 import { ArchitectStyle } from "./style"
 import { ArchitectValues } from "./values"
 
@@ -30,6 +31,7 @@ export type ArchitectSelf<
   > = {
     style: ArchitectStyle<Config, Links, Props>
     states: ArchitectStates<Config, Links, Props, Style>
+    stores: ArchitectStores<Config, Links, Props, Style, States>
     values: ArchitectValues<Config, Links, Props, Style, States, Stores>
     functions: ArchitectFunctions<
       Config,

@@ -40,7 +40,7 @@ export type ArchitectFunctions<
     ) => Functions,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
-    "style" | "states" | "values" | "functions"
+    "style" | "states" | "stores" | "values" | "functions"
   >
 
 export const ArchitectFunctions = <

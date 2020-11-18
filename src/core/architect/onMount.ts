@@ -39,7 +39,7 @@ export type ArchitectOnMount<
     ) => void,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
-    "style" | "states" | "values" | "functions" | "onInit" | "onMount"
+    "style" | "states" | "stores" | "values" | "functions" | "onInit" | "onMount"
   >
 
 export const ArchitectOnMount = <

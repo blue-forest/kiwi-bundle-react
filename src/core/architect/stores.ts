@@ -5,7 +5,6 @@ import {
   ArchitectComponentStates,
   ArchitectComponentStores,
   ArchitectComponentStyle,
-  ArchitectComponentValues,
 } from "./component"
 import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
@@ -15,34 +14,36 @@ import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
+import { ArchitectValues } from "./values"
 
-export type ArchitectValues<
+export type ArchitectStores<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores
-  > = <Values extends ArchitectComponentValues>(
-    values: Values,
+  States extends ArchitectComponentStates
+  > = <Stores extends ArchitectComponentStores>(
+    stores: Stores,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values>,
-    "style" | "states" | "stores" | "values"
+    ArchitectSelf<Config, Links, Props, Style, States, Stores>,
+    "style" | "states" | "stores"
   >
 
-export const ArchitectValues = <
+export const ArchitectStores = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores
+  States extends ArchitectComponentStates
 >(
-  options: ArchitectOptions<Config, Links, Props, Style, States, Stores>,
-): ArchitectValues<Config, Links, Props, Style, States, Stores> => {
-  return <Values extends ArchitectComponentValues>(values: Values) => {
-    options.cache.values = values
+  options: ArchitectOptions<Config, Links, Props, Style, States>,
+): ArchitectStores<Config, Links, Props, Style, States> => {
+  return <Stores extends ArchitectComponentStores>(stores: Stores) => {
+    options.cache.values = stores
     return {
+      values: ArchitectValues<Config, Links, Props, Style, States, Stores>(
+        options,
+      ),
       functions: ArchitectFunctions<
         Config,
         Links,
@@ -50,7 +51,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values
+        {}
       >(options),
       onInit: ArchitectOnInit<
         Config,
@@ -59,7 +60,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values,
+        {},
         {}
       >(options),
       onMount: ArchitectOnMount<
@@ -69,7 +70,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values,
+        {},
         {}
       >(options),
       onUpdate: ArchitectOnUpdate<
@@ -79,7 +80,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values,
+        {},
         {}
       >(options),
       onUnmount: ArchitectOnUnmount<
@@ -89,7 +90,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values,
+        {},
         {}
       >(options),
       render: ArchitectRender<
@@ -99,7 +100,7 @@ export const ArchitectValues = <
         Style,
         States,
         Stores,
-        Values,
+        {},
         {}
       >(options),
     }
