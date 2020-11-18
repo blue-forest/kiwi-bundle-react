@@ -16,9 +16,10 @@ export type ArchitectComponentStyle = {
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
 export type ArchitectComponentStores<
+  Id extends string = string,
   Values extends AppStoreValues = {},
   BindingValues extends AppStoreBindValues<Values> = []
-  > = AppStoreBind<Values, BindingValues>[]
+  > = AppStoreBind<Id, Values, BindingValues>[]
 
 export type ArchitectComponentValues = { [name: string]: any }
 

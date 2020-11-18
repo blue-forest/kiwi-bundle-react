@@ -27,7 +27,7 @@ export type AppLinksImports<Config extends AppConfig> = {
 
 export type AppLinksResolve = {
   pages: { [page: string]: Promise<{ default: ArchitectComponent }> }
-  stores?: { [store: string]: Promise<{ default: AppStore<any> }> }
+  stores?: { [store: string]: Promise<{ default: AppStore<string, any> }> }
   themes?: { [theme: string]: Promise<{ default: AppTheme<any> }> }
   custom?: {
     header?: {
@@ -39,7 +39,7 @@ export type AppLinksResolve = {
 
 export type AppLinks<Config extends AppConfig> = {
   pages: { [name in keyof Config["navigation"]["routes"]]: ArchitectComponent }
-  stores?: { [store: string]: AppStore<any> }
+  stores?: { [store: string]: AppStore<string, any> }
   themes?: { [theme: string]: AppTheme<Config> }
   custom?: {
     header?: {

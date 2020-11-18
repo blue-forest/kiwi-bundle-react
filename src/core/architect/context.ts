@@ -1,4 +1,5 @@
 import { Theme } from "@react-navigation/native"
+import { ArrayFlattening } from "../../utils/types"
 import { ReactNative } from "../../vendors"
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
@@ -28,12 +29,13 @@ export type ArchitectContext<
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }
     }
-    stores: Stores extends AppStoreBind<infer Values, infer BindValues>[]
+    stores: ArrayFlattening<Stores> extends AppStoreBind<
+      infer Id,
+      infer _,
+      infer _
+    >
     ? {
-      [name in keyof BindValues]: {
-        get: { [key in keyof Values[name]]: Stores[name][key] }
-        set: { [key in keyof Values[name]]: (v: Stores[name][key]) => void }
-      }
+      test: Id // { [name in Id]: any }
     }
     : never
     values: Values

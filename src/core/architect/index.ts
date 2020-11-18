@@ -41,7 +41,7 @@ export const Architect = <
       props: {} as any,
       style: {},
       states: { get: {}, set: {} },
-      stores: {},
+      stores: {} as any,
       values: {},
       functions: {},
       update: () => { },

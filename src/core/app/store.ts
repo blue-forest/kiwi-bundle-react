@@ -1,31 +1,34 @@
-export type AppStoreValues<Values extends AppStoreValues<Values>> = {
-  [name in keyof Values]: Values[name]
-}
+import { ArrayFlattening } from "../../utils/types"
 
-export type AppStoreOptions<Values extends AppStoreValues<Values>> = {
+export type AppStoreValues = { [name: string]: any }
+
+export type AppStoreOptions<Values extends AppStoreValues> = {
   id: string
   values: Values
 }
 
-export type AppStoreBindValues<
-  Values extends AppStoreValues<Values>
-  > = (keyof Values)[]
-
-type ArrayFlattening<Type> = Type extends (infer Child)[] ? Child : never
+export type AppStoreBindValues<Values extends AppStoreValues> = (keyof Values)[]
 
 export type AppStoreBind<
-  Values extends AppStoreValues<Values>,
+  Id extends string,
+  Values extends AppStoreValues,
   BindValues extends AppStoreBindValues<Values>
   > = {
-    id: string
+    id: Id
     get: { [name in ArrayFlattening<BindValues>]: Values[name] }
     set: { [name in ArrayFlattening<BindValues>]: (data: Values[name]) => void }
   }
 
-export type AppStore<Values extends AppStoreValues<Values>> = {
+export type AppStoreActions<Values extends AppStoreValues> = {
   get: { [name in keyof Values]: () => Values[name] }
   set: { [name in keyof Values]: (data: Values[name]) => void }
-  bind: <BindValues extends AppStoreBindValues<Values>>(
-    values: BindValues,
-  ) => AppStoreBind<Values, BindValues>
 }
+
+export type AppStore<
+  Id extends string,
+  Values extends AppStoreValues
+  > = AppStoreActions<Values> & {
+    bind: <BindValues extends AppStoreBindValues<Values>>(
+      values: BindValues,
+    ) => AppStoreBind<Id, Values, BindValues>
+  }
