@@ -3,6 +3,7 @@ import { AppLinksImports } from "../app/links"
 import {
   ArchitectComponentProps,
   ArchitectComponentStates,
+  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -20,11 +21,12 @@ export type ArchitectValues<
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates
+  States extends ArchitectComponentStates,
+  Stores extends ArchitectComponentStores
   > = <Values extends ArchitectComponentValues>(
     values: Values,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values>,
+    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values>,
     "style" | "states" | "values"
   >
 
@@ -33,10 +35,11 @@ export const ArchitectValues = <
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
-  States extends ArchitectComponentStates
+  States extends ArchitectComponentStates,
+  Stores extends ArchitectComponentStores
 >(
-  options: ArchitectOptions<Config, Links, Props, Style, States>,
-): ArchitectValues<Config, Links, Props, Style, States> => {
+  options: ArchitectOptions<Config, Links, Props, Style, States, Stores>,
+): ArchitectValues<Config, Links, Props, Style, States, Stores> => {
   return <Values extends ArchitectComponentValues>(values: Values) => {
     options.cache.values = values
     return {
@@ -46,17 +49,26 @@ export const ArchitectValues = <
         Props,
         Style,
         States,
+        Stores,
         Values
       >(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, Values, {}>(
-        options,
-      ),
+      onInit: ArchitectOnInit<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        Stores,
+        Values,
+        {}
+      >(options),
       onMount: ArchitectOnMount<
         Config,
         Links,
         Props,
         Style,
         States,
+        Stores,
         Values,
         {}
       >(options),
@@ -66,6 +78,7 @@ export const ArchitectValues = <
         Props,
         Style,
         States,
+        Stores,
         Values,
         {}
       >(options),
@@ -75,12 +88,20 @@ export const ArchitectValues = <
         Props,
         Style,
         States,
+        Stores,
         Values,
         {}
       >(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, Values, {}>(
-        options,
-      ),
+      render: ArchitectRender<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        Stores,
+        Values,
+        {}
+      >(options),
     }
   }
 }

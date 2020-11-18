@@ -4,6 +4,7 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
+  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -23,19 +24,29 @@ export type ArchitectSelf<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
+  Stores extends ArchitectComponentStores = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {}
   > = {
     style: ArchitectStyle<Config, Links, Props>
     states: ArchitectStates<Config, Links, Props, Style>
-    values: ArchitectValues<Config, Links, Props, Style, States>
-    functions: ArchitectFunctions<Config, Links, Props, Style, States, Values>
+    values: ArchitectValues<Config, Links, Props, Style, States, Stores>
+    functions: ArchitectFunctions<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Stores,
+      Values
+    >
     onInit: ArchitectOnInit<
       Config,
       Links,
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >
@@ -45,6 +56,7 @@ export type ArchitectSelf<
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >
@@ -54,6 +66,7 @@ export type ArchitectSelf<
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >
@@ -63,6 +76,7 @@ export type ArchitectSelf<
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >
@@ -72,6 +86,7 @@ export type ArchitectSelf<
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >

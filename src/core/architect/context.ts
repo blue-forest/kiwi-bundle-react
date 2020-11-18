@@ -6,6 +6,7 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
+  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -16,6 +17,7 @@ export type ArchitectContext<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
+  Stores extends ArchitectComponentStores = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {}
   > = {
@@ -24,6 +26,12 @@ export type ArchitectContext<
     states: {
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }
+    }
+    stores: {
+      [name in keyof Stores]: {
+        get: { [key in keyof Stores[name]]: Stores[name][key] }
+        set: { [key in keyof Stores[name]]: (v: Stores[name][key]) => void }
+      }
     }
     values: Values
     functions: Functions

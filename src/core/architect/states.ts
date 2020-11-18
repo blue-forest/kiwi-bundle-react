@@ -38,20 +38,8 @@ export const ArchitectStates = <
   return <States extends ArchitectComponentStates>(states: States) => {
     options.cache.states = states
     return {
-      values: ArchitectValues<Config, Links, Props, Style, States>(options),
-      functions: ArchitectFunctions<Config, Links, Props, Style, States, {}>(
-        options,
-      ),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, {}>(
-        options,
-      ),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, States, {}, {}>(
-        options,
-      ),
-      onUpdate: ArchitectOnUpdate<Config, Links, Props, Style, States, {}, {}>(
-        options,
-      ),
-      onUnmount: ArchitectOnUnmount<
+      values: ArchitectValues<Config, Links, Props, Style, States, {}>(options),
+      functions: ArchitectFunctions<
         Config,
         Links,
         Props,
@@ -60,7 +48,40 @@ export const ArchitectStates = <
         {},
         {}
       >(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, {}, {}>(
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, {}, {}>(
+        options,
+      ),
+      onMount: ArchitectOnMount<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        {},
+        {},
+        {}
+      >(options),
+      onUpdate: ArchitectOnUpdate<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        {},
+        {},
+        {}
+      >(options),
+      onUnmount: ArchitectOnUnmount<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        {},
+        {},
+        {}
+      >(options),
+      render: ArchitectRender<Config, Links, Props, Style, States, {}, {}, {}>(
         options,
       ),
     }

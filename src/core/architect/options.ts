@@ -8,6 +8,7 @@ import {
   ArchitectComponentType,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
+  ArchitectComponentStores,
 } from "./component"
 import { ArchitectContext } from "./context"
 
@@ -17,6 +18,7 @@ export type ArchitectOptions<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
+  Stores extends ArchitectComponentStores = any,
   Values extends ArchitectComponentValues = any,
   Functions extends ArchitectComponentFunctions = any
   > = {
@@ -31,6 +33,7 @@ export type ArchitectOptions<
       Props,
       Style,
       States,
+      Stores,
       Values,
       Functions
     >
@@ -44,6 +47,7 @@ export type ArchitectOptions<
           Props,
           Style,
           States,
+          Stores,
           Values,
           Functions
         >,
@@ -55,6 +59,7 @@ export type ArchitectOptions<
           Props,
           Style,
           States,
+          Stores,
           Values,
           Functions
         >,
@@ -66,6 +71,7 @@ export type ArchitectOptions<
           Props,
           Style,
           States,
+          Stores,
           Values,
           Functions
         >,
@@ -77,6 +83,7 @@ export type ArchitectOptions<
           Props,
           Style,
           States,
+          Stores,
           Values,
           Functions
         >,
@@ -88,6 +95,7 @@ export type ArchitectOptions<
           Props,
           Style,
           States,
+          Stores,
           Values,
           Functions
         >,

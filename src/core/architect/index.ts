@@ -40,6 +40,7 @@ export const Architect = <
       props: {} as any,
       style: {},
       states: { get: {}, set: {} },
+      stores: {},
       values: {},
       functions: {},
       update: () => { },
@@ -48,17 +49,25 @@ export const Architect = <
     return architect({
       style: ArchitectStyle<Config, Links, Props>(children),
       states: ArchitectStates<Config, Links, Props, {}>(children),
-      values: ArchitectValues<Config, Links, Props, {}, {}>(children),
-      functions: ArchitectFunctions<Config, Links, Props, {}, {}, {}>(children),
-      onInit: ArchitectOnInit<Config, Links, Props, {}, {}, {}, {}>(children),
-      onMount: ArchitectOnMount<Config, Links, Props, {}, {}, {}, {}>(children),
-      onUpdate: ArchitectOnUpdate<Config, Links, Props, {}, {}, {}, {}>(
+      values: ArchitectValues<Config, Links, Props, {}, {}, {}>(children),
+      functions: ArchitectFunctions<Config, Links, Props, {}, {}, {}, {}>(
         children,
       ),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, {}>(
+      onInit: ArchitectOnInit<Config, Links, Props, {}, {}, {}, {}, {}>(
         children,
       ),
-      render: ArchitectRender<Config, Links, Props, {}, {}, {}, {}>(children),
+      onMount: ArchitectOnMount<Config, Links, Props, {}, {}, {}, {}, {}>(
+        children,
+      ),
+      onUpdate: ArchitectOnUpdate<Config, Links, Props, {}, {}, {}, {}, {}>(
+        children,
+      ),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, {}, {}>(
+        children,
+      ),
+      render: ArchitectRender<Config, Links, Props, {}, {}, {}, {}, {}>(
+        children,
+      ),
     })
   }
 }

@@ -6,6 +6,7 @@ import {
   ArchitectComponentStates,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
+  ArchitectComponentStores,
 } from "./component"
 import { ArchitectContext } from "./context"
 import { ArchitectOnUnmount } from "./onUnmount"
@@ -20,6 +21,7 @@ export type ArchitectOnMount<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
+  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
   > = (
@@ -30,12 +32,13 @@ export type ArchitectOnMount<
         Props,
         Style,
         States,
+        Stores,
         Values,
         Functions
       >,
     ) => void,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
     "style" | "states" | "values" | "functions" | "onInit" | "onMount"
   >
 
@@ -45,6 +48,7 @@ export const ArchitectOnMount = <
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
+  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
 >(
@@ -54,10 +58,20 @@ export const ArchitectOnMount = <
     Props,
     Style,
     States,
+    Stores,
     Values,
     Functions
   >,
-): ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions> => {
+): ArchitectOnMount<
+  Config,
+  Links,
+  Props,
+  Style,
+  States,
+  Stores,
+  Values,
+  Functions
+> => {
   return (onMount) => {
     options.cache.onMount = onMount
     return {

@@ -14,7 +14,7 @@ export type ArchitectComponentStyle = {
 
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
-export type ArchitectComponentStores = { [name: string]: any }
+export type ArchitectComponentStores = { [store: string]: string[] }
 
 export type ArchitectComponentValues = { [name: string]: any }
 
