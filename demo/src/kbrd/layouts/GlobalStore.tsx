@@ -1,11 +1,12 @@
 import { React, Kiwi } from "kiwi-bundle-react"
 import { KBRD } from ".."
+import { GlobalStore } from "../stores/global"
 
 export const GlobalStoreLayout = KBRD.Component((self) =>
   self
-    .stores({
-      global: [ "counter" ],
-    })
+    .stores([
+      GlobalStore.bind([ "counter" ]),
+    ])
     .render(({ stores }) => {
       console.log({ type: "render", name: "GlobalStoreLayout" })
       return <Kiwi.View>

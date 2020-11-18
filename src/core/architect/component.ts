@@ -1,3 +1,4 @@
+import { AppStoreBind, AppStoreBindValues, AppStoreValues } from "../app/store"
 import { StyleSheetStyle } from "../app/styles"
 
 export enum ArchitectComponentType {
@@ -14,7 +15,10 @@ export type ArchitectComponentStyle = {
 
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
-export type ArchitectComponentStores = { [store: string]: string[] }
+export type ArchitectComponentStores<
+  Values extends AppStoreValues = {},
+  BindingValues extends AppStoreBindValues<Values> = []
+  > = AppStoreBind<Values, BindingValues>[]
 
 export type ArchitectComponentValues = { [name: string]: any }
 

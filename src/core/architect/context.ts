@@ -2,6 +2,7 @@ import { Theme } from "@react-navigation/native"
 import { ReactNative } from "../../vendors"
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
+import { AppStoreBind } from "../app/store"
 import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
@@ -17,7 +18,7 @@ export type ArchitectContext<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores = [],
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {}
   > = {
@@ -27,12 +28,14 @@ export type ArchitectContext<
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }
     }
-    stores: {
-      [name in keyof Stores]: {
-        get: { [key in keyof Stores[name]]: Stores[name][key] }
-        set: { [key in keyof Stores[name]]: (v: Stores[name][key]) => void }
+    stores: Stores extends AppStoreBind<infer Values, infer BindValues>[]
+    ? {
+      [name in keyof BindValues]: {
+        get: { [key in keyof Values[name]]: Stores[name][key] }
+        set: { [key in keyof Values[name]]: (v: Stores[name][key]) => void }
       }
     }
+    : never
     values: Values
     functions: Functions
     OS: ReactNative.PlatformOSType

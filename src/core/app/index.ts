@@ -16,7 +16,7 @@ import {
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
-import { AppStore, AppStoreData } from "./store"
+import { AppStore, AppStoreOptions, AppStoreValues } from "./store"
 
 export const App = <
   Config extends AppConfig,
@@ -87,18 +87,23 @@ export const App = <
       }
       return style as S1 & S2
     },
-    Store: <Data extends AppStoreData>(data: Data) => {
-      const store: AppStore<any> = { get: {}, set: {}, bind: {}, onUpdate: {} }
-      Object.keys(data).forEach((key) => {
-        const dynamic = DynamicData<Data>(data[key])
-        store.bind[key] = dynamic.bind
-        store.get[key] = dynamic.data.get
-        store.set[key] = dynamic.data.set
-        store.onUpdate[key] = (cb) => {
-          console.log(cb)
-        }
+    Store: <Values extends AppStoreValues<Values>>(
+      storeOptions: AppStoreOptions<Values>,
+    ): AppStore<Values> => {
+      const context: AppStoreActions<any> = {
+        id: storeOptions.id,
+        get: {},
+        set: {},
+      }
+      Object.keys(storeOptions.values).forEach((key) => {
+        const dynamic = DynamicData<Values>(storeOptions.values[key])
+        context.get[key] = dynamic.data.get
+        context.set[key] = dynamic.data.set
       })
-      return store as AppStore<Data>
+      return {
+        ...(context as AppStoreActions<Values>),
+        bind: (values) => ({ ...(context as AppStoreActions<Values>), values }),
+      }
     },
     Custom: <Props extends ArchitectComponentProps>(
       custom: AppLinksCustom<Config, Props>,

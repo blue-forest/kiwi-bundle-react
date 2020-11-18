@@ -25,7 +25,7 @@ export type ArchitectSelf<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
-  Stores extends ArchitectComponentStores = {},
+  Stores extends ArchitectComponentStores = [],
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {}
   > = {

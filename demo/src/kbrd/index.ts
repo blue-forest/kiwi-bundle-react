@@ -78,9 +78,6 @@ export const KBRD = App(
       DATA: import("./pages/Data"),
       NAVIGATION: import("./pages/Navigation"),
     },
-    stores: {
-      global: import("./stores/global"),
-    },
     themes: {
       default: import("./themes/default"),
     },

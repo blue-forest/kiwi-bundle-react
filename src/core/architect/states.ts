@@ -40,17 +40,17 @@ export const ArchitectStates = <
     options.cache.states = states
     return {
       stores: ArchitectStores<Config, Links, Props, Style, States>(options),
-      values: ArchitectValues<Config, Links, Props, Style, States, {}>(options),
+      values: ArchitectValues<Config, Links, Props, Style, States, []>(options),
       functions: ArchitectFunctions<
         Config,
         Links,
         Props,
         Style,
         States,
-        {},
+        [],
         {}
       >(options),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, States, {}, {}, {}>(
+      onInit: ArchitectOnInit<Config, Links, Props, Style, States, [], {}, {}>(
         options,
       ),
       onMount: ArchitectOnMount<
@@ -59,7 +59,7 @@ export const ArchitectStates = <
         Props,
         Style,
         States,
-        {},
+        [],
         {},
         {}
       >(options),
@@ -69,7 +69,7 @@ export const ArchitectStates = <
         Props,
         Style,
         States,
-        {},
+        [],
         {},
         {}
       >(options),
@@ -79,11 +79,11 @@ export const ArchitectStates = <
         Props,
         Style,
         States,
-        {},
+        [],
         {},
         {}
       >(options),
-      render: ArchitectRender<Config, Links, Props, Style, States, {}, {}, {}>(
+      render: ArchitectRender<Config, Links, Props, Style, States, [], {}, {}>(
         options,
       ),
     }

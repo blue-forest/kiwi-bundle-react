@@ -39,7 +39,8 @@ export const ArchitectStores = <
   options: ArchitectOptions<Config, Links, Props, Style, States>,
 ): ArchitectStores<Config, Links, Props, Style, States> => {
   return <Stores extends ArchitectComponentStores>(stores: Stores) => {
-    options.cache.values = stores
+    // options.context.stores = stores
+    console.log(stores)
     return {
       values: ArchitectValues<Config, Links, Props, Style, States, Stores>(
         options,

@@ -33,17 +33,17 @@ export const ArchitectStyle = <
     return {
       states: ArchitectStates<Config, Links, Props, Style>(options),
       stores: ArchitectStores<Config, Links, Props, Style, {}>(options),
-      values: ArchitectValues<Config, Links, Props, Style, {}, {}>(options),
-      functions: ArchitectFunctions<Config, Links, Props, Style, {}, {}, {}>(
+      values: ArchitectValues<Config, Links, Props, Style, {}, []>(options),
+      functions: ArchitectFunctions<Config, Links, Props, Style, {}, [], {}>(
         options,
       ),
-      onInit: ArchitectOnInit<Config, Links, Props, Style, {}, {}, {}, {}>(
+      onInit: ArchitectOnInit<Config, Links, Props, Style, {}, [], {}, {}>(
         options,
       ),
-      onMount: ArchitectOnMount<Config, Links, Props, Style, {}, {}, {}, {}>(
+      onMount: ArchitectOnMount<Config, Links, Props, Style, {}, [], {}, {}>(
         options,
       ),
-      onUpdate: ArchitectOnUpdate<Config, Links, Props, Style, {}, {}, {}, {}>(
+      onUpdate: ArchitectOnUpdate<Config, Links, Props, Style, {}, [], {}, {}>(
         options,
       ),
       onUnmount: ArchitectOnUnmount<
@@ -52,11 +52,11 @@ export const ArchitectStyle = <
         Props,
         Style,
         {},
-        {},
+        [],
         {},
         {}
       >(options),
-      render: ArchitectRender<Config, Links, Props, Style, {}, {}, {}, {}>(
+      render: ArchitectRender<Config, Links, Props, Style, {}, [], {}, {}>(
         options,
       ),
     }
