@@ -10,20 +10,13 @@ import { Architect } from "../architect"
 import { DynamicData } from "../../utils/store"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentType,
 } from "../architect/component"
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
-
-type AppStore<Data extends ArchitectComponentStores> = {
-  get: { [name in keyof Data]: () => Data[name] }
-  set: { [name in keyof Data]: (data: Data[name]) => void }
-  bind: { [name in keyof Data]: (data: Data[name]) => void }
-  onUpdate: { [name in keyof Data]: (callback: () => void) => void }
-}
+import { AppStore, AppStoreData } from "./store"
 
 export const App = <
   Config extends AppConfig,
@@ -94,7 +87,7 @@ export const App = <
       }
       return style as S1 & S2
     },
-    Store: <Data extends ArchitectComponentStores>(data: Data) => {
+    Store: <Data extends AppStoreData>(data: Data) => {
       const store: AppStore<any> = { get: {}, set: {}, bind: {}, onUpdate: {} }
       Object.keys(data).forEach((key) => {
         const dynamic = DynamicData<Data>(data[key])
