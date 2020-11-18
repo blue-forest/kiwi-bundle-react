@@ -11,6 +11,7 @@ import { ArchitectContext } from "./context"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
+import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
@@ -74,6 +75,15 @@ export const ArchitectFunctions = <
         Functions
       >(options),
       onMount: ArchitectOnMount<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        Values,
+        Functions
+      >(options),
+      onUpdate: ArchitectOnUpdate<
         Config,
         Links,
         Props,

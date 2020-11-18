@@ -1,6 +1,10 @@
 import { React } from "../../vendors"
 import { AppLinksImports } from "../app/links"
-import { NavigationProp, useNavigation, useTheme } from "@react-navigation/native"
+import {
+  NavigationProp,
+  useNavigation,
+  useTheme,
+} from "@react-navigation/native"
 import { ArchitectContext } from "./context"
 import { ArchitectOptions } from "./options"
 import { AppConfig } from "../app/config"
@@ -21,32 +25,52 @@ export type ArchitectRender<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
+  Functions extends ArchitectComponentFunctions
   > = (
     render: (
-      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
-    ) => React.ReactElement
+      context: ArchitectContext<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        Values,
+        Functions
+      >,
+    ) => React.ReactElement,
   ) => ArchitectComponent<Props>
 
-export const ArchitectRender = <Config extends AppConfig,
+export const ArchitectRender = <
+  Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  >(
-    options: ArchitectOptions<Config, Links, Props, Style, any, Values, Functions>
-  ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => render => {
+  Functions extends ArchitectComponentFunctions
+>(
+  options: ArchitectOptions<
+    Config,
+    Links,
+    Props,
+    Style,
+    any,
+    Values,
+    Functions
+  >,
+): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => (
+  render,
+  ) => {
     let started = false
-    return props => {
+    return (props) => {
       // PROPS
-      options.context.props = options.type === ArchitectComponentType.PAGE ? props.route.params : props
+      options.context.props =
+        options.type === ArchitectComponentType.PAGE ? props.route.params : props
 
       // STATES
       const states = options.cache.states
       if (typeof states !== "undefined") {
-        Object.keys(states).forEach(name => {
+        Object.keys(states).forEach((name) => {
           const state = React.useState(states[name])
           options.context.states.get[name] = state[0]
           options.context.states.set[name] = state[1]
@@ -58,9 +82,14 @@ export const ArchitectRender = <Config extends AppConfig,
       options.context.appearance.theme.colors = colors
 
       // NAVIGATION
-      const navigation: NavigationProp<any> = options.type === ArchitectComponentType.PAGE ? props.navigation : useNavigation()
+      const navigation: NavigationProp<any> =
+        options.type === ArchitectComponentType.PAGE
+          ? props.navigation
+          : useNavigation()
       options.context.navigation = {
-        push: (route, params) => { navigation.navigate(route, params) },
+        push: (route, params) => {
+          navigation.navigate(route, params)
+        },
       }
 
       // FUNCTIONS
@@ -69,8 +98,10 @@ export const ArchitectRender = <Config extends AppConfig,
       }
 
       // UPDATE
-      const update = React.useReducer(u => ++u, 0)[1]
-      options.context.update = () => { update() }
+      const update = React.useReducer((u) => ++u, 0)[1]
+      options.context.update = () => {
+        update()
+      }
 
       // INIT
       if (!started) {
@@ -78,6 +109,8 @@ export const ArchitectRender = <Config extends AppConfig,
           options.cache.onInit(options.context)
         }
         started = true
+      } else if (typeof options.cache.onUpdate !== "undefined") {
+        options.cache.onUpdate(options.context)
       }
 
       // MOUNT / UNMOUNT

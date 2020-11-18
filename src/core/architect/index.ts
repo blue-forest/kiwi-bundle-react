@@ -7,6 +7,7 @@ import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
+import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
@@ -17,8 +18,14 @@ import { ArchitectValues } from "./values"
 export const Architect = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>
->(options: Omit<ArchitectOptions<Config, Links, {}>, "context" | "cache">) => {
-  return <Props extends ArchitectComponentProps>(architect: (self: ArchitectSelf<Config, Links, Props>) => ArchitectComponent<Props>) => {
+>(
+  options: Omit<ArchitectOptions<Config, Links, {}>, "context" | "cache">,
+) => {
+  return <Props extends ArchitectComponentProps>(
+    architect: (
+      self: ArchitectSelf<Config, Links, Props>,
+    ) => ArchitectComponent<Props>,
+  ) => {
     const context: ArchitectContext<Config, Links, Props> = {
       appearance: {
         colors: options.app.config.appearance.colors,
@@ -45,7 +52,12 @@ export const Architect = <
       functions: ArchitectFunctions<Config, Links, Props, {}, {}, {}>(children),
       onInit: ArchitectOnInit<Config, Links, Props, {}, {}, {}, {}>(children),
       onMount: ArchitectOnMount<Config, Links, Props, {}, {}, {}, {}>(children),
-      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, {}>(children),
+      onUpdate: ArchitectOnUpdate<Config, Links, Props, {}, {}, {}, {}>(
+        children,
+      ),
+      onUnmount: ArchitectOnUnmount<Config, Links, Props, {}, {}, {}, {}>(
+        children,
+      ),
       render: ArchitectRender<Config, Links, Props, {}, {}, {}, {}>(children),
     })
   }
