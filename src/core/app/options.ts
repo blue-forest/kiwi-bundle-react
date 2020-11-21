@@ -1,4 +1,4 @@
-import { DynamicData } from "../../utils/store"
+import { DynamicData } from "../../utils/dynamicData"
 import { ReactNative } from "../../vendors"
 
 export type AppOptions<Themes = any> = {
