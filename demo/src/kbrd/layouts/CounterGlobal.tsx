@@ -11,7 +11,7 @@ export const CounterGlobalLayout = KBRD.Component((self) =>
     .render(() => {
       console.log({ type: "render", name: "CounterGlobalLayout" })
       return <CounterComponent
-        count={GlobalStore.get.counter}
+        count={GlobalStore.get.counter()}
         setCount={GlobalStore.set.counter}
       />
     }),
