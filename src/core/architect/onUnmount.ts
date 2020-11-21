@@ -6,7 +6,6 @@ import {
   ArchitectComponentStates,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
-  ArchitectComponentStores,
 } from "./component"
 import { ArchitectContext } from "./context"
 import { ArchitectOptions } from "./options"
@@ -19,7 +18,6 @@ export type ArchitectOnUnmount<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
   > = (
@@ -30,13 +28,12 @@ export type ArchitectOnUnmount<
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >,
     ) => void,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
     | "style"
     | "states"
     | "stores"
@@ -54,7 +51,6 @@ export const ArchitectOnUnmount = <
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
 >(
@@ -64,7 +60,6 @@ export const ArchitectOnUnmount = <
     Props,
     Style,
     States,
-    Stores,
     Values,
     Functions
   >,
@@ -74,7 +69,6 @@ export const ArchitectOnUnmount = <
   Props,
   Style,
   States,
-  Stores,
   Values,
   Functions
 > => {

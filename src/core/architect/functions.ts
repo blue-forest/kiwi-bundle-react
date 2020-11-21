@@ -4,7 +4,6 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -23,7 +22,6 @@ export type ArchitectFunctions<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues
   > = <Functions extends ArchitectComponentFunctions>(
     functions: (
@@ -33,13 +31,12 @@ export type ArchitectFunctions<
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >,
     ) => Functions,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
     "style" | "states" | "stores" | "values" | "functions"
   >
 
@@ -49,19 +46,10 @@ export const ArchitectFunctions = <
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues
 >(
-  options: ArchitectOptions<
-    Config,
-    Links,
-    Props,
-    Style,
-    States,
-    Stores,
-    Values
-  >,
-): ArchitectFunctions<Config, Links, Props, Style, States, Stores, Values> => {
+  options: ArchitectOptions<Config, Links, Props, Style, States, Values>,
+): ArchitectFunctions<Config, Links, Props, Style, States, Values> => {
   return <Functions extends ArchitectComponentFunctions>(
     functions: (
       context: ArchitectContext<
@@ -70,7 +58,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >,
@@ -84,7 +71,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >(options),
@@ -94,7 +80,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >(options),
@@ -104,7 +89,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >(options),
@@ -114,7 +98,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >(options),
@@ -124,7 +107,6 @@ export const ArchitectFunctions = <
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >(options),

@@ -16,7 +16,6 @@ import {
   ArchitectComponent,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
-  ArchitectComponentStores,
 } from "./component"
 
 export type ArchitectRender<
@@ -25,7 +24,6 @@ export type ArchitectRender<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
   > = (
@@ -36,7 +34,6 @@ export type ArchitectRender<
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >,
@@ -49,7 +46,6 @@ export const ArchitectRender = <
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
 >(
@@ -59,85 +55,77 @@ export const ArchitectRender = <
     Props,
     Style,
     any,
-    any,
     Values,
     Functions
   >,
-): ArchitectRender<
-  Config,
-  Links,
-  Props,
-  Style,
-  States,
-  Stores,
-  Values,
-  Functions
-> => (render) => {
-  let started = false
-  return (props) => {
-    // PROPS
-    options.context.props =
-      options.type === ArchitectComponentType.PAGE ? props.route.params : props
+): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => (
+  render,
+  ) => {
+    let started = false
+    return (props) => {
+      // PROPS
+      options.context.props =
+        options.type === ArchitectComponentType.PAGE ? props.route.params : props
 
-    // STATES
-    const states = options.cache.states
-    if (typeof states !== "undefined") {
-      Object.keys(states).forEach((name) => {
-        const state = React.useState(states[name])
-        options.context.states.get[name] = state[0]
-        options.context.states.set[name] = state[1]
-      })
-    }
-
-    // THEME COLORS
-    const { colors } = useTheme()
-    options.context.appearance.theme.colors = colors
-
-    // NAVIGATION
-    const navigation: NavigationProp<any> =
-      options.type === ArchitectComponentType.PAGE
-        ? props.navigation
-        : useNavigation()
-    options.context.navigation = {
-      push: (route, params) => {
-        navigation.navigate(route, params)
-      },
-    }
-
-    // FUNCTIONS
-    if (typeof options.cache.functions !== "undefined") {
-      options.context.functions = options.cache.functions(options.context)
-    }
-
-    // UPDATE
-    const update = React.useReducer((u) => ++u, 0)[1]
-    options.context.update = () => {
-      update()
-    }
-
-    // INIT
-    if (!started) {
-      if (typeof options.cache.onInit !== "undefined") {
-        options.cache.onInit(options.context)
+      // STATES
+      const states = options.cache.states
+      if (typeof states !== "undefined") {
+        Object.keys(states).forEach((name) => {
+          const state = React.useState(states[name])
+          options.context.states.get[name] = state[0]
+          options.context.states.set[name] = state[1]
+        })
       }
-      started = true
-    } else if (typeof options.cache.onUpdate !== "undefined") {
-      options.cache.onUpdate(options.context)
-    }
 
-    // MOUNT / UNMOUNT
-    React.useEffect(() => {
-      if (typeof options.cache.onMount !== "undefined") {
-        options.cache.onMount(options.context)
+      // THEME COLORS
+      const { colors } = useTheme()
+      options.context.appearance.theme.colors = colors
+
+      // NAVIGATION
+      const navigation: NavigationProp<any> =
+        options.type === ArchitectComponentType.PAGE
+          ? props.navigation
+          : useNavigation()
+      options.context.navigation = {
+        push: (route, params) => {
+          navigation.navigate(route, params)
+        },
       }
-      return () => {
-        if (typeof options.cache.onUnmount !== "undefined") {
-          options.cache.onUnmount(options.context)
+
+      // FUNCTIONS
+      if (typeof options.cache.functions !== "undefined") {
+        options.context.functions = options.cache.functions(options.context)
+      }
+
+      // UPDATE
+      const update = React.useReducer((u) => ++u, 0)[1]
+      options.context.update = () => {
+        update()
+      }
+
+      // INIT
+      if (!started) {
+        if (typeof options.cache.onInit !== "undefined") {
+          options.cache.onInit(options.context)
         }
+        started = true
+      } else if (typeof options.cache.onUpdate !== "undefined") {
+        options.cache.onUpdate(options.context)
       }
-    }, [])
 
-    // RENDER
-    return render(options.context)
+      // MOUNT / UNMOUNT
+      React.useEffect(() => {
+        if (typeof options.cache.onMount !== "undefined") {
+          options.cache.onMount(options.context)
+        }
+        return () => {
+          if (typeof options.cache.onUnmount !== "undefined") {
+            options.cache.onUnmount(options.context)
+          }
+        }
+      }, [])
+
+      // RENDER
+      return render(options.context)
+    }
   }
-}

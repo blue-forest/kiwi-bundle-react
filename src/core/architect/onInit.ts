@@ -4,7 +4,6 @@ import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStores,
   ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
@@ -22,7 +21,6 @@ export type ArchitectOnInit<
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
   > = (
@@ -33,13 +31,12 @@ export type ArchitectOnInit<
         Props,
         Style,
         States,
-        Stores,
         Values,
         Functions
       >,
     ) => void,
   ) => Omit<
-    ArchitectSelf<Config, Links, Props, Style, States, Stores, Values, Functions>,
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
     "style" | "states" | "stores" | "values" | "functions" | "onInit"
   >
 
@@ -49,7 +46,6 @@ export const ArchitectOnInit = <
   Props extends ArchitectComponentProps,
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
-  Stores extends ArchitectComponentStores,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
 >(
@@ -59,20 +55,10 @@ export const ArchitectOnInit = <
     Props,
     Style,
     States,
-    Stores,
     Values,
     Functions
   >,
-): ArchitectOnInit<
-  Config,
-  Links,
-  Props,
-  Style,
-  States,
-  Stores,
-  Values,
-  Functions
-> => {
+): ArchitectOnInit<Config, Links, Props, Style, States, Values, Functions> => {
   return (onInit) => {
     options.cache.onInit = onInit
     return {
