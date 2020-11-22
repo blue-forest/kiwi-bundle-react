@@ -1,11 +1,8 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
 import { AppStoreBinding } from "../app/store"
-import {
-  ArchitectComponentProps,
-  ArchitectComponentStates,
-  ArchitectComponentStyle,
-} from "./component"
+import { AppStyleSheet } from "../app/styles"
+import { ArchitectComponentProps, ArchitectComponentStates } from "./component"
 import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
@@ -20,7 +17,7 @@ export type ArchitectStores<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates
   > = <Stores extends AppStoreBinding[]>(
     stores: Stores,
@@ -33,7 +30,7 @@ export const ArchitectStores = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates
 >(
   options: ArchitectOptions<Config, Links, Props, Style, States>,

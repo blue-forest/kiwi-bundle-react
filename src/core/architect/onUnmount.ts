@@ -1,8 +1,8 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
+import { AppStyleSheet } from "../app/styles"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentStates,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
@@ -16,7 +16,7 @@ export type ArchitectOnUnmount<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
@@ -49,7 +49,7 @@ export const ArchitectOnUnmount = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions

@@ -2,11 +2,11 @@ import { Theme } from "@react-navigation/native"
 import { ReactNative } from "../../vendors"
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
+import { AppStyleSheet } from "../app/styles"
 import {
   ArchitectComponentFunctions,
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
 
@@ -14,13 +14,17 @@ export type ArchitectContext<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
+  Style extends AppStyleSheet = any,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
   Functions extends ArchitectComponentFunctions = {}
   > = {
     props: Props
-    style: Style
+    style: {
+      [name in keyof Style]: Style[name] extends { style: infer SubStyle }[]
+      ? SubStyle
+      : Style[name]
+    }
     states: {
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }

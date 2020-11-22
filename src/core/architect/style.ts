@@ -8,16 +8,17 @@ import { ArchitectOnMount } from "./onMount"
 import { ArchitectOnUnmount } from "./onUnmount"
 import { ArchitectValues } from "./values"
 import { ArchitectFunctions } from "./functions"
-import { ArchitectComponentProps, ArchitectComponentStyle } from "./component"
+import { ArchitectComponentProps } from "./component"
 import { AppConfig } from "../app/config"
 import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectStores } from "./stores"
+import { AppStyleSheet, renderStyle } from "../app/styles"
 
 export type ArchitectStyle<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps
-  > = <Style extends ArchitectComponentStyle>(
+  > = <Style extends AppStyleSheet>(
     style: Style,
   ) => Omit<ArchitectSelf<Config, Links, Props, Style>, "style">
 
@@ -28,8 +29,14 @@ export const ArchitectStyle = <
 >(
   options: ArchitectOptions<Config, Links, Props>,
 ): ArchitectStyle<Config, Links, Props> => {
-  return <Style extends ArchitectComponentStyle>(style: Style) => {
-    options.context.style = style
+  return <Style extends AppStyleSheet>(style: Style) => {
+    renderStyle(
+      style,
+      (currentStyle) => {
+        options.context.style = currentStyle
+      },
+      options.context.update,
+    )
     return {
       states: ArchitectStates<Config, Links, Props, Style>(options),
       stores: ArchitectStores<Config, Links, Props, Style, {}>(options),
