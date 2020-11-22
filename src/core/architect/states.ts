@@ -1,10 +1,7 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
-import {
-  ArchitectComponentProps,
-  ArchitectComponentStyle,
-  ArchitectComponentStates,
-} from "./component"
+import { AppStyleSheet } from "../app/styles"
+import { ArchitectComponentProps, ArchitectComponentStates } from "./component"
 import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
 import { ArchitectOnMount } from "./onMount"
@@ -20,7 +17,7 @@ export type ArchitectStates<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle
+  Style extends AppStyleSheet
   > = <States extends ArchitectComponentStates>(
     states: States,
   ) => Omit<
@@ -32,7 +29,7 @@ export const ArchitectStates = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle
+  Style extends AppStyleSheet
 >(
   options: ArchitectOptions<Config, Links, Props, Style>,
 ): ArchitectStates<Config, Links, Props, Style> => {

@@ -1,9 +1,9 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
 import { AppOptions } from "../app/options"
+import { AppStyleSheet } from "../app/styles"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentStates,
   ArchitectComponentType,
   ArchitectComponentFunctions,
@@ -15,7 +15,7 @@ export type ArchitectOptions<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle = any,
+  Style extends AppStyleSheet = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
   Functions extends ArchitectComponentFunctions = any

@@ -1,9 +1,9 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
+import { AppStyleSheet } from "../app/styles"
 import {
   ArchitectComponentProps,
   ArchitectComponentStates,
-  ArchitectComponentStyle,
   ArchitectComponentValues,
 } from "./component"
 import { ArchitectFunctions } from "./functions"
@@ -19,7 +19,7 @@ export type ArchitectValues<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates
   > = <Values extends ArchitectComponentValues>(
     values: Values,
@@ -32,7 +32,7 @@ export const ArchitectValues = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates
 >(
   options: ArchitectOptions<Config, Links, Props, Style, States>,
