@@ -10,13 +10,13 @@ import { Architect } from "../architect"
 import { DynamicData } from "../../utils/dynamicData"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentType,
 } from "../architect/component"
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
 import { AppStore, AppStoreValues } from "./store"
+import { AppStyleSheet } from "./styles"
 
 export const App = <
   Config extends AppConfig,
@@ -53,10 +53,7 @@ export const App = <
         colors: config.appearance.colors,
       })
     },
-    StyleSheet: <
-      S1 extends ArchitectComponentStyle,
-      S2 extends ArchitectComponentStyle
-    >(
+    StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(
       style1: (app: {
         colors: Config["appearance"]["colors"]
         sizes: Config["appearance"]["sizes"]
@@ -67,7 +64,7 @@ export const App = <
       }) => S1,
       style2?: S2,
     ): S1 & S2 => {
-      const style: ArchitectComponentStyle = style1({
+      const style: AppStyleSheet = style1({
         colors: config.appearance.colors,
         sizes: config.appearance.sizes,
         dimensions: {
