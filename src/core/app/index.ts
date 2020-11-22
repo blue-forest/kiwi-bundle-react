@@ -89,17 +89,27 @@ export const App = <
     },
     Store: <Values extends AppStoreValues>(values: Values) => {
       const store: Omit<AppStore, "bind"> = { get: {}, set: {} }
-      Object.keys(values).forEach((key) => {
-        const dynamic = DynamicData(values[key])
-        store.get[key] = dynamic.data.get
-        store.set[key] = dynamic.data.set
+      const callbacks: { [valueKey: string]: (() => void)[] } = {}
+      Object.keys(values).forEach((valueKey) => {
+        let current = values[valueKey]
+        store.get[valueKey] = () => current
+        store.set[valueKey] = (data) => {
+          current = data
+          if (typeof callbacks[valueKey] !== "undefined") {
+            callbacks[valueKey].forEach((cb) => cb())
+          }
+        }
       })
       return {
         ...(store as any),
-        bind: (bindValues) => {
-          return (onUpdate) => {
-            console.log(bindValues, onUpdate)
-          }
+        bind: (bindValues) => (onUpdate) => {
+          bindValues.forEach((valueKey) => {
+            const valueKeyString = valueKey as string
+            if (typeof callbacks[valueKeyString] === "undefined") {
+              callbacks[valueKeyString] = []
+            }
+            callbacks[valueKeyString].push(onUpdate)
+          })
         },
       } as AppStore<Values>
     },

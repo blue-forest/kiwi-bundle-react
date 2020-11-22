@@ -119,7 +119,6 @@ export const Provider = <
       }, [theme])
 
       // RENDER
-      console.log("RENDER -", "NAVIGATION")
       return (
         <NavigationContainer
           linking={linking}

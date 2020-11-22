@@ -39,8 +39,7 @@ export const ArchitectStores = <
   options: ArchitectOptions<Config, Links, Props, Style, States>,
 ): ArchitectStores<Config, Links, Props, Style, States> => {
   return <Stores extends AppStoreBinding[]>(stores: Stores) => {
-    // options.context.stores = stores
-    console.log(stores)
+    stores.forEach((onUpdate) => onUpdate(() => options.context.update()))
     return {
       values: ArchitectValues<Config, Links, Props, Style, States>(options),
       functions: ArchitectFunctions<Config, Links, Props, Style, States, {}>(
