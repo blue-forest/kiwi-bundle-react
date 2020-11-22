@@ -18,20 +18,79 @@ export type ArchitectOptions<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = any,
   Values extends ArchitectComponentValues = any,
-  Functions extends ArchitectComponentFunctions = any,
+  Functions extends ArchitectComponentFunctions = any
   > = {
     type: ArchitectComponentType
     app: {
       config: Config
       options: AppOptions<keyof Links["themes"]>
     }
-    context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
+    context: ArchitectContext<
+      Config,
+      Links,
+      Props,
+      Style,
+      States,
+      Values,
+      Functions
+    >
     cache: {
       states?: States
       values?: Values
-      functions?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => Functions
-      onInit?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
-      onMount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
-      onUnmount?: (context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>) => void
+      functions?: (
+        context: ArchitectContext<
+          Config,
+          Links,
+          Props,
+          Style,
+          States,
+          Values,
+          Functions
+        >,
+      ) => Functions
+      onInit?: (
+        context: ArchitectContext<
+          Config,
+          Links,
+          Props,
+          Style,
+          States,
+          Values,
+          Functions
+        >,
+      ) => void
+      onMount?: (
+        context: ArchitectContext<
+          Config,
+          Links,
+          Props,
+          Style,
+          States,
+          Values,
+          Functions
+        >,
+      ) => void
+      onUpdate?: (
+        context: ArchitectContext<
+          Config,
+          Links,
+          Props,
+          Style,
+          States,
+          Values,
+          Functions
+        >,
+      ) => void
+      onUnmount?: (
+        context: ArchitectContext<
+          Config,
+          Links,
+          Props,
+          Style,
+          States,
+          Values,
+          Functions
+        >,
+      ) => void
     }
   }

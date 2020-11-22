@@ -9,6 +9,7 @@ import {
 } from "./component"
 import { ArchitectContext } from "./context"
 import { ArchitectOnUnmount } from "./onUnmount"
+import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
@@ -20,13 +21,22 @@ export type ArchitectOnMount<
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
+  Functions extends ArchitectComponentFunctions
   > = (
     onMount: (
-      context: ArchitectContext<Config, Links, Props, Style, States, Values, Functions>
-    ) => void
-  ) => Omit<ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
-    "style" | "states" | "values" | "functions" | "onInit" | "onMount"
+      context: ArchitectContext<
+        Config,
+        Links,
+        Props,
+        Style,
+        States,
+        Values,
+        Functions
+      >,
+    ) => void,
+  ) => Omit<
+    ArchitectSelf<Config, Links, Props, Style, States, Values, Functions>,
+    "style" | "states" | "stores" | "values" | "functions" | "onInit" | "onMount"
   >
 
 export const ArchitectOnMount = <
@@ -36,13 +46,22 @@ export const ArchitectOnMount = <
   Style extends ArchitectComponentStyle,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
-  Functions extends ArchitectComponentFunctions,
-  >(
-    options: ArchitectOptions<Config, Links, Props, Style, States, Values, Functions>
-  ): ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions> => {
-  return onMount => {
+  Functions extends ArchitectComponentFunctions
+>(
+  options: ArchitectOptions<
+    Config,
+    Links,
+    Props,
+    Style,
+    States,
+    Values,
+    Functions
+  >,
+): ArchitectOnMount<Config, Links, Props, Style, States, Values, Functions> => {
+  return (onMount) => {
     options.cache.onMount = onMount
     return {
+      onUpdate: ArchitectOnUpdate(options),
       onUnmount: ArchitectOnUnmount(options),
       render: ArchitectRender(options),
     }

@@ -4,8 +4,9 @@ import { StyleSheetStyleView } from "../core/app/styles"
 
 interface Props extends ReactNative.PickerProps {
   style?: StyleSheetStyleView
+  children?: React.ReactNode
 }
 
 export const Picker = (props: Props) => {
-  return <PickerBase {...props}/>
+  return <PickerBase {...props} />
 }

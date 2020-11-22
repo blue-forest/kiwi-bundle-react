@@ -1,9 +1,10 @@
 import { AppConfig } from "../app/config"
 import { AppLinksImports } from "../app/links"
+import { AppStoreBinding } from "../app/store"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentStates,
+  ArchitectComponentStyle,
 } from "./component"
 import { ArchitectFunctions } from "./functions"
 import { ArchitectOnInit } from "./onInit"
@@ -13,33 +14,33 @@ import { ArchitectOnUpdate } from "./onUpdate"
 import { ArchitectOptions } from "./options"
 import { ArchitectRender } from "./render"
 import { ArchitectSelf } from "./self"
-import { ArchitectStores } from "./stores"
 import { ArchitectValues } from "./values"
 
-export type ArchitectStates<
+export type ArchitectStores<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle
-  > = <States extends ArchitectComponentStates>(
-    states: States,
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates
+  > = <Stores extends AppStoreBinding[]>(
+    stores: Stores,
   ) => Omit<
     ArchitectSelf<Config, Links, Props, Style, States>,
-    "style" | "states"
+    "style" | "states" | "stores"
   >
 
-export const ArchitectStates = <
+export const ArchitectStores = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle
+  Style extends ArchitectComponentStyle,
+  States extends ArchitectComponentStates
 >(
-  options: ArchitectOptions<Config, Links, Props, Style>,
-): ArchitectStates<Config, Links, Props, Style> => {
-  return <States extends ArchitectComponentStates>(states: States) => {
-    options.cache.states = states
+  options: ArchitectOptions<Config, Links, Props, Style, States>,
+): ArchitectStores<Config, Links, Props, Style, States> => {
+  return <Stores extends AppStoreBinding[]>(stores: Stores) => {
+    stores.forEach((onUpdate) => onUpdate(() => options.context.update()))
     return {
-      stores: ArchitectStores<Config, Links, Props, Style, States>(options),
       values: ArchitectValues<Config, Links, Props, Style, States>(options),
       functions: ArchitectFunctions<Config, Links, Props, Style, States, {}>(
         options,

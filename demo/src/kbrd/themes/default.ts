@@ -1,7 +1,6 @@
 import { KBRD } from ".."
 
 export default KBRD.Theme(({ colors }) => ({
-
   primary: {
     light: "rgb(0, 122, 255)",
     dark: "rgb(10, 132, 255)",
@@ -31,5 +30,4 @@ export default KBRD.Theme(({ colors }) => ({
     light: "rgb(255, 59, 48)",
     dark: "rgb(255, 69, 58)",
   },
-
 }))

@@ -6,7 +6,9 @@ export type StyleSheetStyleText = ReactNative.TextStyle
 
 export type StyleSheetStyleImage = ReactNative.ImageStyle
 
-export type StyleSheetStyle = StyleSheetStyleView & StyleSheetStyleText & StyleSheetStyleImage
+export type StyleSheetStyle = StyleSheetStyleView &
+  StyleSheetStyleText &
+  StyleSheetStyleImage
 
 export type StyleSheetMediaQuery = {
   min?: number

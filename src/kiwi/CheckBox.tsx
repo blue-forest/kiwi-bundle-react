@@ -7,5 +7,5 @@ interface Props extends CheckBoxProps {
 }
 
 export const CheckBox = (props: Props) => {
-  return <CheckBoxBase {...props}/>
+  return <CheckBoxBase {...props} />
 }

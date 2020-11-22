@@ -4,6 +4,7 @@ export const HomePageStyle = KBRD.StyleSheet(({ sizes }) => ({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     paddingLeft: sizes.global_padding,
     paddingRight: sizes.global_padding,
     paddingBottom: sizes.global_padding,

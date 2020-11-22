@@ -17,7 +17,7 @@ export type ArchitectContext<
   Style extends ArchitectComponentStyle = any,
   States extends ArchitectComponentStates = {},
   Values extends ArchitectComponentValues = {},
-  Functions extends ArchitectComponentFunctions = {},
+  Functions extends ArchitectComponentFunctions = {}
   > = {
     props: Props
     style: Style
@@ -33,7 +33,7 @@ export type ArchitectContext<
       theme: {
         get: () => keyof Links["themes"] | undefined
         set: (theme: keyof Links["themes"]) => void
-        colors: Theme["colors"],
+        colors: Theme["colors"]
         scheme: {
           get: () => ReactNative.ColorSchemeName
           set: (scheme: ReactNative.ColorSchemeName) => void
@@ -41,7 +41,10 @@ export type ArchitectContext<
       }
     }
     navigation: {
-      push: (route: keyof Config["navigation"]["routes"], params?: { [key: string]: string }) => void
+      push: (
+        route: keyof Config["navigation"]["routes"],
+        params?: { [key: string]: string },
+      ) => void
     }
     update: () => void
   }
