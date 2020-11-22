@@ -23,7 +23,9 @@ export type AppStyleSheet<Style = StyleSheetStyle | StyleSheetMediaQuery[]> = {
 const windowDimensions = ReactNative.Dimensions.get("window")
 let WIDTH = windowDimensions.width
 let HEIGHT = windowDimensions.height
-//const ON_UPDATE: (() => void)[] = []
+
+const minUpdates: { [min: number]: (() => void)[] } = {}
+const maxUpdates: { [max: number]: (() => void)[] } = {}
 
 const resized = () => {
   console.log("UPDATE", WIDTH, HEIGHT)
@@ -45,12 +47,12 @@ export const renderStyle = (
       (finalStyle, name) => {
         const currentStyle = style[name]
         if (Array.isArray(currentStyle)) {
-          finalStyle[name] = currentStyle.reduce<StyleSheetStyle>(
-            (all, current) => {
+          const generate = () => {
+            return currentStyle.reduce<StyleSheetStyle>((all, current) => {
               return Object.assign(all, current.style)
-            },
-            {},
-          )
+            }, {})
+          }
+          finalStyle[name] = generate()
         } else {
           finalStyle[name] = currentStyle
         }
@@ -59,5 +61,4 @@ export const renderStyle = (
       {},
     ),
   )
-  console.log(style, update)
 }
