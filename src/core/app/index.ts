@@ -88,27 +88,28 @@ export const App = <
       return style as S1 & S2
     },
     Store: <Values extends AppStoreValues>(values: Values) => {
-      const store: Omit<AppStore, "bind"> = { get: {}, set: {} }
-      const callbacks: { [valueKey: string]: (() => void)[] } = {}
-      Object.keys(values).forEach((valueKey) => {
-        let current = values[valueKey]
-        store.get[valueKey] = () => current
-        store.set[valueKey] = (data) => {
-          current = data
-          if (typeof callbacks[valueKey] !== "undefined") {
-            callbacks[valueKey].forEach((cb) => cb())
-          }
-        }
-      })
+      const methods: Omit<AppStore, "bind"> = { get: {}, set: {} }
+      const onUpdateBindings = Object.keys(values).reduce<{
+        [key: string]: (cb: () => void) => void
+      }>((all, key) => {
+        let value = values[key]
+        const data = DynamicData(value)
+        data.bind({
+          get: () => value,
+          set: (newValue) => {
+            value = newValue
+          },
+        })
+        methods.get[key] = data.data.get
+        methods.set[key] = data.data.set
+        all[key] = data.onUpdate
+        return all
+      }, {})
       return {
-        ...(store as any),
+        ...methods,
         bind: (bindValues) => (onUpdate) => {
           bindValues.forEach((valueKey) => {
-            const valueKeyString = valueKey as string
-            if (typeof callbacks[valueKeyString] === "undefined") {
-              callbacks[valueKeyString] = []
-            }
-            callbacks[valueKeyString].push(onUpdate)
+            onUpdateBindings[valueKey as string](onUpdate)
           })
         },
       } as AppStore<Values>
