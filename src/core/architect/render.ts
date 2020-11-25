@@ -10,19 +10,19 @@ import { ArchitectOptions } from "./options"
 import { AppConfig } from "../app/config"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentStates,
   ArchitectComponentType,
   ArchitectComponent,
   ArchitectComponentFunctions,
   ArchitectComponentValues,
 } from "./component"
+import { AppStyleSheet } from "../app/styles"
 
 export type ArchitectRender<
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
@@ -44,7 +44,7 @@ export const ArchitectRender = <
   Config extends AppConfig,
   Links extends AppLinksImports<Config>,
   Props extends ArchitectComponentProps,
-  Style extends ArchitectComponentStyle,
+  Style extends AppStyleSheet,
   States extends ArchitectComponentStates,
   Values extends ArchitectComponentValues,
   Functions extends ArchitectComponentFunctions
@@ -98,10 +98,7 @@ export const ArchitectRender = <
       }
 
       // UPDATE
-      const update = React.useReducer((u) => ++u, 0)[1]
-      options.context.update = () => {
-        update()
-      }
+      options.context.update = React.useReducer((u) => ++u, 0)[1]
 
       // INIT
       if (!started) {

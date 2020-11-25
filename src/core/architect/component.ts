@@ -1,5 +1,3 @@
-import { StyleSheetStyle } from "../app/styles"
-
 export enum ArchitectComponentType {
   COMPONENT,
   LAYOUT,
@@ -7,10 +5,6 @@ export enum ArchitectComponentType {
 }
 
 export type ArchitectComponentProps = { [name: string]: any }
-
-export type ArchitectComponentStyle = {
-  [name: string]: StyleSheetStyle // | StyleSheetMediaQuery[]
-}
 
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 

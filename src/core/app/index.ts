@@ -10,13 +10,13 @@ import { Architect } from "../architect"
 import { DynamicData } from "../../utils/dynamicData"
 import {
   ArchitectComponentProps,
-  ArchitectComponentStyle,
   ArchitectComponentType,
 } from "../architect/component"
 import { AppConfig } from "./config"
 import { AppOptions } from "./options"
 import { AppTheme } from "./theme"
 import { AppStore, AppStoreValues } from "./store"
+import { AppStyleSheet } from "./styles"
 
 export const App = <
   Config extends AppConfig,
@@ -53,10 +53,7 @@ export const App = <
         colors: config.appearance.colors,
       })
     },
-    StyleSheet: <
-      S1 extends ArchitectComponentStyle,
-      S2 extends ArchitectComponentStyle
-    >(
+    StyleSheet: <S1 extends AppStyleSheet, S2 extends AppStyleSheet>(
       style1: (app: {
         colors: Config["appearance"]["colors"]
         sizes: Config["appearance"]["sizes"]
@@ -67,7 +64,7 @@ export const App = <
       }) => S1,
       style2?: S2,
     ): S1 & S2 => {
-      const style: ArchitectComponentStyle = style1({
+      const style: AppStyleSheet = style1({
         colors: config.appearance.colors,
         sizes: config.appearance.sizes,
         dimensions: {
@@ -88,27 +85,28 @@ export const App = <
       return style as S1 & S2
     },
     Store: <Values extends AppStoreValues>(values: Values) => {
-      const store: Omit<AppStore, "bind"> = { get: {}, set: {} }
-      const callbacks: { [valueKey: string]: (() => void)[] } = {}
-      Object.keys(values).forEach((valueKey) => {
-        let current = values[valueKey]
-        store.get[valueKey] = () => current
-        store.set[valueKey] = (data) => {
-          current = data
-          if (typeof callbacks[valueKey] !== "undefined") {
-            callbacks[valueKey].forEach((cb) => cb())
-          }
-        }
-      })
+      const methods: Omit<AppStore, "bind"> = { get: {}, set: {} }
+      const onUpdateBindings = Object.keys(values).reduce<{
+        [key: string]: (cb: () => void) => void
+      }>((all, key) => {
+        let value = values[key]
+        const data = DynamicData(value)
+        data.bind({
+          get: () => value,
+          set: (newValue) => {
+            value = newValue
+          },
+        })
+        methods.get[key] = data.data.get
+        methods.set[key] = data.data.set
+        all[key] = data.onUpdate
+        return all
+      }, {})
       return {
-        ...(store as any),
+        ...methods,
         bind: (bindValues) => (onUpdate) => {
           bindValues.forEach((valueKey) => {
-            const valueKeyString = valueKey as string
-            if (typeof callbacks[valueKeyString] === "undefined") {
-              callbacks[valueKeyString] = []
-            }
-            callbacks[valueKeyString].push(onUpdate)
+            onUpdateBindings[valueKey as string](onUpdate)
           })
         },
       } as AppStore<Values>
