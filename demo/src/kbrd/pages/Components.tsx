@@ -8,6 +8,7 @@ type States = {
   modalOpen: boolean
   picker: string
   textInput: string
+  test: number
 }
 
 export default KBRD.Page((self) =>
@@ -19,6 +20,7 @@ export default KBRD.Page((self) =>
       modalOpen: false,
       picker: "",
       textInput: "",
+      test: 0,
     })
     .render(({ style, states }) => {
       console.log("States :", {

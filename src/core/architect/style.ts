@@ -35,7 +35,7 @@ export const ArchitectStyle = <
       (currentStyle) => {
         options.context.style = currentStyle
       },
-      options.context.update,
+      () => options.context.update(),
     )
     return {
       states: ArchitectStates<Config, Links, Props, Style>(options),
