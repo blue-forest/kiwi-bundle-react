@@ -1,4 +1,5 @@
 import { ReactNative } from "../../vendors"
+import { DimensionsWidth, onDimensionsChange } from "./dimensions"
 
 export type StyleSheetStyleView = ReactNative.ViewStyle & { cursor?: "pointer" }
 
@@ -20,21 +21,38 @@ export type AppStyleSheet<Style = StyleSheetStyle | StyleSheetMediaQuery[]> = {
   [name: string]: Style
 }
 
-const windowDimensions = ReactNative.Dimensions.get("window")
-let WIDTH = windowDimensions.width
-let HEIGHT = windowDimensions.height
+const stylesUpdates: {
+  min: { [min: number]: (() => void)[] }
+  currentMin?: number
+  max: { [max: number]: (() => void)[] }
+  currentMax?: number
+} = { min: {}, max: {} }
 
-const minUpdates: { [min: number]: (() => void)[] } = {}
-const maxUpdates: { [max: number]: (() => void)[] } = {}
-
-const resized = () => {
-  console.log("UPDATE", WIDTH, HEIGHT)
-}
-
-ReactNative.Dimensions.addEventListener("change", ({ window }) => {
-  WIDTH = window.width
-  HEIGHT = window.height
-  resized()
+onDimensionsChange({
+  width: ({ width }) => {
+    const min = Object.keys(stylesUpdates.min).reduce<number>((all, key) => {
+      const keyMin = Number(key)
+      return width > keyMin ? keyMin : all
+    }, 0)
+    if (
+      typeof stylesUpdates.currentMin === "undefined" ||
+      (min !== 0 && min !== stylesUpdates.currentMin)
+    ) {
+      stylesUpdates.currentMin = min
+      console.log("MIN", min)
+    }
+    const max = Object.keys(stylesUpdates.max).reduce<number>((all, key) => {
+      const keyMax = Number(key)
+      return width < keyMax ? keyMax : all
+    }, 0)
+    if (
+      typeof stylesUpdates.currentMax === "undefined" ||
+      (max !== 0 && max !== stylesUpdates.currentMax)
+    ) {
+      stylesUpdates.currentMax = max
+      console.log("MAX", max)
+    }
+  },
 })
 
 export const renderStyle = (
@@ -42,23 +60,77 @@ export const renderStyle = (
   set: (style: AppStyleSheet<StyleSheetStyle>) => void,
   update: () => void,
 ) => {
-  set(
-    Object.keys(style).reduce<AppStyleSheet<StyleSheetStyle>>(
-      (finalStyle, name) => {
-        const currentStyle = style[name]
-        if (Array.isArray(currentStyle)) {
-          const generate = () => {
-            return currentStyle.reduce<StyleSheetStyle>((all, current) => {
+  const generate = (watchForUpdates: boolean) => {
+    let limits: { min?: number; max?: number } | undefined
+    const finalStyle = Object.keys(style).reduce<
+      AppStyleSheet<StyleSheetStyle>
+    >((styleChildren, name) => {
+      const currentStyle = style[name]
+      if (Array.isArray(currentStyle)) {
+        styleChildren[name] = currentStyle.reduce<StyleSheetStyle>(
+          (all, current) => {
+            if (
+              (typeof current.min === "undefined" ||
+                DimensionsWidth >= current.min) &&
+              (typeof current.max === "undefined" ||
+                DimensionsWidth <= current.max)
+            ) {
+              if (watchForUpdates) {
+                if (
+                  typeof current.min !== "undefined" &&
+                  (typeof limits === "undefined" ||
+                    typeof limits.min === "undefined" ||
+                    current.min < limits.min)
+                ) {
+                  if (typeof limits === "undefined") {
+                    limits = { min: current.min }
+                  } else {
+                    limits.min = current.min
+                  }
+                }
+                if (
+                  typeof current.max !== "undefined" &&
+                  (typeof limits === "undefined" ||
+                    typeof limits.max === "undefined" ||
+                    current.max > limits.max)
+                ) {
+                  if (typeof limits === "undefined") {
+                    limits = { max: current.max }
+                  } else {
+                    limits.max = current.max
+                  }
+                }
+              }
               return Object.assign(all, current.style)
-            }, {})
-          }
-          finalStyle[name] = generate()
-        } else {
-          finalStyle[name] = currentStyle
+            }
+            return all
+          },
+          {},
+        )
+      } else {
+        styleChildren[name] = currentStyle
+      }
+      return styleChildren
+    }, {})
+    set(finalStyle)
+    if (typeof limits !== "undefined") {
+      const trigger = () => {
+        generate(false)
+        update()
+      }
+      if (typeof limits.min !== "undefined") {
+        if (typeof stylesUpdates.min[limits.min] === "undefined") {
+          stylesUpdates.min[limits.min] = []
         }
-        return finalStyle
-      },
-      {},
-    ),
-  )
+        stylesUpdates.min[limits.min].push(trigger)
+      }
+      if (typeof limits.max !== "undefined") {
+        if (typeof stylesUpdates.max[limits.max] === "undefined") {
+          stylesUpdates.max[limits.max] = []
+        }
+        stylesUpdates.max[limits.max].push(trigger)
+      }
+    }
+  }
+  generate(true)
 }
