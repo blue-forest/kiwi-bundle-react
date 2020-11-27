@@ -29,20 +29,23 @@ const stylesUpdates: {
 } = { min: {}, max: {} }
 
 const setStyleDimensions = (width: number, isInit: boolean) => {
-  const min = Object.keys(stylesUpdates.min).reduce<number>((all, key) => {
-    const keyMin = Number(key)
-    return width > keyMin ? keyMin : all
-  }, 0)
+  const min = Object.keys(stylesUpdates.min)
+    .map((s) => Number(s))
+    .sort((a, b) => a - b)
+    .reduce<number>((all, current) => (width > current ? current : all), 0)
   if (isInit || min !== stylesUpdates.currentMin) {
     stylesUpdates.currentMin = min
     if (!isInit && typeof stylesUpdates.min[min] !== "undefined") {
       stylesUpdates.min[min].forEach((cb) => cb(min))
     }
   }
-  const max = Object.keys(stylesUpdates.max).reduce<number>((all, key) => {
-    const keyMax = Number(key)
-    return width < keyMax ? keyMax : all
-  }, 0)
+  const maxList = Object.keys(stylesUpdates.max)
+    .map((s) => Number(s))
+    .sort((a, b) => b - a)
+  const max = maxList.reduce<number>(
+    (all, current) => (width < current ? current : all),
+    maxList[0],
+  )
   if (isInit || max !== stylesUpdates.currentMax) {
     stylesUpdates.currentMax = max
     if (!isInit && typeof stylesUpdates.max[max] !== "undefined") {
@@ -58,8 +61,11 @@ export const renderStyle = (
   set: (style: AppStyleSheet<StyleSheetStyle>) => void,
   update: () => void,
 ) => {
+  const limits: { min: number[]; max: number[] } = {
+    min: [0],
+    max: [Infinity],
+  }
   const generate = (width: number, isInit: boolean) => {
-    const limits: { min?: number; max?: number } = {}
     set(
       Object.keys(style).reduce<AppStyleSheet<StyleSheetStyle>>(
         (styleChildren, name) => {
@@ -68,19 +74,11 @@ export const renderStyle = (
             styleChildren[name] = currentStyle.reduce<StyleSheetStyle>(
               (all, current) => {
                 if (isInit) {
-                  if (
-                    typeof current.min !== "undefined" &&
-                    (typeof limits.min === "undefined" ||
-                      current.min < limits.min)
-                  ) {
-                    limits.min = current.min
+                  if (typeof current.min !== "undefined") {
+                    limits.min.push(current.min)
                   }
-                  if (
-                    typeof current.max !== "undefined" &&
-                    (typeof limits.max === "undefined" ||
-                      current.max > limits.max)
-                  ) {
-                    limits.max = current.max
+                  if (typeof current.max !== "undefined") {
+                    limits.max.push(current.max)
                   }
                 }
                 if (
@@ -107,26 +105,18 @@ export const renderStyle = (
         generate(newWidth, false)
         update()
       }
-      if (typeof limits.min !== "undefined") {
-        if (typeof stylesUpdates.min[limits.min] === "undefined") {
-          stylesUpdates.min[limits.min] = []
+      limits.min.forEach((limit) => {
+        if (typeof stylesUpdates.min[limit] === "undefined") {
+          stylesUpdates.min[limit] = []
         }
-        stylesUpdates.min[limits.min].push(trigger)
-        if (typeof stylesUpdates.min[0] === "undefined") {
-          stylesUpdates.min[0] = []
+        stylesUpdates.min[limit].push(trigger)
+      })
+      limits.max.forEach((limit) => {
+        if (typeof stylesUpdates.max[limit] === "undefined") {
+          stylesUpdates.max[limit] = []
         }
-        stylesUpdates.min[0].push(trigger)
-      }
-      if (typeof limits.max !== "undefined") {
-        if (typeof stylesUpdates.max[limits.max] === "undefined") {
-          stylesUpdates.max[limits.max] = []
-        }
-        stylesUpdates.max[limits.max].push(trigger)
-        if (typeof stylesUpdates.max[0] === "undefined") {
-          stylesUpdates.max[0] = []
-        }
-        stylesUpdates.max[0].push(trigger)
-      }
+        stylesUpdates.max[limit].unshift(trigger)
+      })
     }
   }
   generate(DimensionsWidth, true)

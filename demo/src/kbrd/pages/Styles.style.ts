@@ -11,17 +11,17 @@ export const StylesPageStyle = KBRD.StyleSheet(() => ({
       }
     },
     {
-      min: 300,
-      max: 400,
+      min: 200,
+      max: 800,
       style: {
-        backgroundColor: "red",
+        backgroundColor: "blue",
       },
     },
     {
-      min: 350,
-      max: 380,
+      min: 400,
+      max: 600,
       style: {
-        backgroundColor: "blue",
+        backgroundColor: "red",
       },
     },
   ],
