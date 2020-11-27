@@ -30,18 +30,23 @@ const stylesUpdates: {
 
 onDimensionsChange({
   width: ({ width }) => {
-    const min = Object.keys(stylesUpdates.min).reduce<number>((all, key) => {
+    const minKeys = Object.keys(stylesUpdates.min)
+    const min = minKeys.reduce<number>((all, key) => {
       const keyMin = Number(key)
       return width > keyMin ? keyMin : all
     }, 0)
-    if (
-      typeof stylesUpdates.currentMin === "undefined" ||
-      (min !== 0 && min !== stylesUpdates.currentMin)
-    ) {
-      stylesUpdates.currentMin = min
-      console.log("MIN", min)
+    if (minKeys.length !== 0) {
+      if (typeof stylesUpdates.currentMin === "undefined") {
+        stylesUpdates.currentMin = min
+      } else if (min !== stylesUpdates.currentMin) {
+        console.log("MIN", min)
+      }
     }
-    const max = Object.keys(stylesUpdates.max).reduce<number>((all, key) => {
+    /*(typeof stylesUpdates.currentMin === "undefined" ||
+        (min !== 0 && min !== stylesUpdates.currentMin))
+    ) {*/
+    //}
+    /*const max = Object.keys(stylesUpdates.max).reduce<number>((all, key) => {
       const keyMax = Number(key)
       return width < keyMax ? keyMax : all
     }, 0)
@@ -51,7 +56,7 @@ onDimensionsChange({
     ) {
       stylesUpdates.currentMax = max
       console.log("MAX", max)
-    }
+    }*/
   },
 })
 
@@ -123,14 +128,27 @@ export const renderStyle = (
           stylesUpdates.min[limits.min] = []
         }
         stylesUpdates.min[limits.min].push(trigger)
+        if (
+          typeof stylesUpdates.currentMin === "undefined" ||
+          limits.min < stylesUpdates.currentMin
+        ) {
+          stylesUpdates.currentMin = limits.min
+        }
       }
       if (typeof limits.max !== "undefined") {
         if (typeof stylesUpdates.max[limits.max] === "undefined") {
           stylesUpdates.max[limits.max] = []
         }
         stylesUpdates.max[limits.max].push(trigger)
+        if (
+          typeof stylesUpdates.currentMax === "undefined" ||
+          limits.max < stylesUpdates.currentMax
+        ) {
+          stylesUpdates.currentMax = limits.max
+        }
       }
     }
   }
   generate(true)
+  console.log(stylesUpdates)
 }
