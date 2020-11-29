@@ -1,1 +1,1 @@
-import "./src/kbr"
+import "./src"
