@@ -61,7 +61,6 @@ export const ArchitectRender = <
 ): ArchitectRender<Config, Links, Props, Style, States, Values, Functions> => (
   render,
   ) => {
-    let started = false
     return (props) => {
       // PROPS
       options.context.props =
@@ -101,11 +100,12 @@ export const ArchitectRender = <
       options.context.update = React.useReducer((u) => ++u, 0)[1]
 
       // INIT
-      if (!started) {
+      const isInit = React.useRef(false)
+      if (!isInit.current) {
         if (typeof options.cache.onInit !== "undefined") {
           options.cache.onInit(options.context)
         }
-        started = true
+        isInit.current = true
       } else if (typeof options.cache.onUpdate !== "undefined") {
         options.cache.onUpdate(options.context)
       }
