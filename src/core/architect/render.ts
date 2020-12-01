@@ -99,14 +99,28 @@ export const ArchitectRender = <
       // UPDATE
       options.context.update = React.useReducer((u) => ++u, 0)[1]
 
-      // INIT
+      // VALUES
+      if (typeof options.cache.values !== "undefined") {
+        Object.keys(options.cache.values).forEach((valueKey) => {
+          const ref = React.useRef(options.cache.values![valueKey])
+          options.context.values[valueKey as keyof Values] = {
+            get: () => ref.current,
+            set: (r: any) => {
+              ref.current = r
+            },
+          }
+        })
+      }
+
       const isInit = React.useRef(false)
       if (!isInit.current) {
+        // INIT
         if (typeof options.cache.onInit !== "undefined") {
           options.cache.onInit(options.context)
         }
         isInit.current = true
       } else if (typeof options.cache.onUpdate !== "undefined") {
+        // UPDATE
         options.cache.onUpdate(options.context)
       }
 
