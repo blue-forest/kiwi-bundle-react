@@ -8,6 +8,7 @@ interface Props extends ReactNative.ViewProps {
     event: ReactNative.NativeSyntheticEvent<ReactNative.NativeTouchEvent>,
   ) => void
   children?: React.ReactNode
+  ref?: React.Ref<any>
 }
 
 export const View = (props: Props) => {
