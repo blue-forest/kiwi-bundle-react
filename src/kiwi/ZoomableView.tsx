@@ -4,9 +4,6 @@ import { StyleSheetStyleView } from "../core/app/styles"
 
 export interface ZoomableViewProps {
   children?: React.ReactNode
-  onZoomUp?: () => void
-  onZoomDown?: () => void
-  onMove?: (movement: { x: number; y: number }) => void
   style?: ReactNative.StyleProp<StyleSheetStyleView>
 }
 

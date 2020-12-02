@@ -3,18 +3,30 @@ import { ZoomableViewProps } from "./ZoomableView"
 
 export const ZoomableView = (props: ZoomableViewProps) => {
   const ref: any = React.createRef()
+  const [scale, setScale] = React.useState(1)
+  const [translate, setTranslate] = React.useState({ x: 0, y: 0 })
+  let isMouseDown = React.useRef(false)
   React.useEffect(() => {
-    if (typeof props.onMove !== "undefined") {
-      ref.current.onmousedown = (downEvent: any) => {
-        if (downEvent.target === ref.current) {
-          const onMouseMove = (event: any) => {
-            props.onMove!({ x: event.movementX, y: event.movementX })
+    ref.current.onmouseup = () => {
+      isMouseDown.current = false
+    }
+    ref.current.onmousedown = (event: any) => {
+      isMouseDown.current = event.target === ref.current
+    }
+    ref.current.onmousemove = (event: any) => {
+      if (isMouseDown.current) {
+        if (event.buttons !== 1) {
+          isMouseDown.current = false
+        } else {
+          let x = translate.x + event.movementX
+          if (x <= 0) {
+            x = 0
           }
-          ref.current.addEventListener("mousemove", onMouseMove)
-          ref.current.onmouseup = () => {
-            ref.current.removeEventListener("mousemove", onMouseMove)
-            ref.current.onmouseup = null
+          let y = translate.y + event.movementY
+          if (y <= 0) {
+            y = 0
           }
+          setTranslate({ x, y })
         }
       }
     }
@@ -24,18 +36,36 @@ export const ZoomableView = (props: ZoomableViewProps) => {
     ref.current.onwheel = (event: any) => {
       //console.log(event.offsetX, event.offsetY)
       if (event.deltaY < 0) {
-        if (typeof props.onZoomUp !== "undefined") {
-          props.onZoomUp()
+        if (scale < 1) {
+          setScale(scale + 0.1)
         }
       } else {
-        if (typeof props.onZoomDown !== "undefined") {
-          props.onZoomDown()
+        if (scale > 0.2) {
+          setScale(scale - 0.1)
         }
       }
       event.preventDefault()
     }
-  }, [props, ref])
+  }, [props, ref, scale, translate])
   return (
-    <ReactNative.View ref={ref} style={props.style} children={props.children} />
+    <ReactNative.View
+      ref={ref}
+      style={[
+        {
+          overflow: "hidden",
+        },
+        props.style,
+      ]}>
+      <ReactNative.View
+        style={{
+          transform: [
+            { scale },
+            { translateX: translate.x },
+            { translateY: translate.y },
+          ],
+        }}
+        children={props.children}
+      />
+    </ReactNative.View>
   )
 }

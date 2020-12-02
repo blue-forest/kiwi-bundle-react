@@ -2,7 +2,7 @@ import { ReactNative } from "../../vendors"
 import { DimensionsWidth, onDimensionsChange } from "./dimensions"
 
 export type StyleSheetStyleView = ReactNative.ViewStyle & {
-  cursor?: "pointer" | "move"
+  cursor?: "pointer" | "move" | "initial"
 }
 
 export type StyleSheetStyleText = ReactNative.TextStyle
