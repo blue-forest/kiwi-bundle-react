@@ -64,7 +64,9 @@ export const ArchitectRender = <
     return (props) => {
       // PROPS
       options.context.props =
-        options.type === ArchitectComponentType.PAGE ? props.route.params : props
+        options.type === ArchitectComponentType.PAGE
+          ? props.route.params || []
+          : props
 
       // STATES
       const states = options.cache.states
