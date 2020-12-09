@@ -1,11 +1,17 @@
-import { React, ReactNative } from "../vendors"
+import { React } from "../vendors"
+import { View } from "./View"
 import { ZoomableViewProps } from "./ZoomableView"
+
+const MIN_ZOOM = 0.1
+const MAX_ZOOM = 4
 
 export const ZoomableView = (props: ZoomableViewProps) => {
   const ref: any = React.createRef()
+  let isMouseDown = React.useRef(false)
+  let [isCtrlDown, setIsCtrlDown] = React.useState(false)
+  let oldY = React.useRef(-1)
   const [scale, setScale] = React.useState(1)
   const [translate, setTranslate] = React.useState({ x: 0, y: 0 })
-  let isMouseDown = React.useRef(false)
   React.useEffect(() => {
     ref.current.onmouseup = () => {
       isMouseDown.current = false
@@ -19,11 +25,11 @@ export const ZoomableView = (props: ZoomableViewProps) => {
           isMouseDown.current = false
         } else {
           let x = translate.x + event.movementX
-          if (x <= 0) {
+          if (x >= 0) {
             x = 0
           }
           let y = translate.y + event.movementY
-          if (y <= 0) {
+          if (y >= 0) {
             y = 0
           }
           setTranslate({ x, y })
@@ -31,11 +37,31 @@ export const ZoomableView = (props: ZoomableViewProps) => {
       }
     }
 
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Control") {
+        console.log("keydown")
+        setIsCtrlDown(true)
+      }
+    }
+
+    const keyup = (event: KeyboardEvent) => {
+      if (event.key === "Control") {
+        console.log("keyup")
+        setIsCtrlDown(false)
+      }
+    }
+
+    console.log("test")
+
+    document.addEventListener("keydown", keydown, false)
+
+    document.addEventListener("keydown", keyup, false)
+
     ref.current.ondragstart = () => false
 
     ref.current.onwheel = (event: any) => {
       //console.log(event.offsetX, event.offsetY)
-      if (event.deltaY < 0) {
+      /*if (event.deltaY < 0) {
         if (scale < 1) {
           setScale(scale + 0.1)
         }
@@ -43,20 +69,33 @@ export const ZoomableView = (props: ZoomableViewProps) => {
         if (scale > 0.2) {
           setScale(scale - 0.1)
         }
+      }*/
+      const zoomDelta = (event.offsetY - oldY.current) / 10
+      if (oldY.current < 0) {
+        oldY.current = event.offsetY
+      }
+      if (Math.abs(zoomDelta) > 5) {
+        //const oldScale = scale
+        setScale(
+          Math.max(Math.min(MAX_ZOOM, scale + zoomDelta / 100), MIN_ZOOM),
+        )
+        oldY.current = event.offsetY
+        console.log(oldY.current)
       }
       event.preventDefault()
     }
-  }, [props, ref, scale, translate])
+  })
   return (
-    <ReactNative.View
+    <View
       ref={ref}
       style={[
         {
           overflow: "hidden",
+          cursor: isCtrlDown ? "move" : "pointer",
         },
         props.style,
       ]}>
-      <ReactNative.View
+      <View
         style={{
           transform: [
             { scale },
@@ -66,6 +105,6 @@ export const ZoomableView = (props: ZoomableViewProps) => {
         }}
         children={props.children}
       />
-    </ReactNative.View>
+    </View>
   )
 }

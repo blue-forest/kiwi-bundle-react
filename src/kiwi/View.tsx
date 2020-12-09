@@ -2,24 +2,23 @@ import React from "react"
 import * as ReactNative from "react-native"
 import { StyleSheetStyleView } from "../core/app/styles"
 
-interface Props extends ReactNative.ViewProps {
+interface Props
+  extends ReactNative.ViewProps,
+    React.ClassAttributes<ReactNative.View> {
   style?: ReactNative.StyleProp<StyleSheetStyleView>
   onPress?: (
     event: ReactNative.NativeSyntheticEvent<ReactNative.NativeTouchEvent>,
   ) => void
   children?: React.ReactNode
-  ref?: React.Ref<any>
 }
 
-export const View = (props: Props) => {
-  const view = <ReactNative.View {...props} />
-  if (typeof props.onPress === "undefined") {
-    return view
+export const View = React.forwardRef<ReactNative.View, Props>((props, ref) => {
+  const { onPress, ...rest } = props
+  const view = <ReactNative.View ref={ref} {...rest} />
+  if (typeof onPress !== "undefined") {
+    return (
+      <ReactNative.TouchableWithoutFeedback onPress={onPress} children={view} />
+    )
   }
-  return (
-    <ReactNative.TouchableWithoutFeedback
-      onPress={props.onPress}
-      children={view}
-    />
-  )
-}
+  return view
+})
