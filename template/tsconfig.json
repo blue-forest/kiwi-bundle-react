@@ -1,15 +1,15 @@
 {
   "extends": "./node_modules/kiwi-bundle/configs/ts/react.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "build"
+    "rootDir": "./src",
+    "outDir": "./build"
   },
   "include": [
-    "src/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx"
+    "./src/**/*.test.ts",
+    "./src/**/*.test.tsx"
   ]
 }

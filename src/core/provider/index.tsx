@@ -30,6 +30,8 @@ export const Provider = <
   const linking: LinkingOptions = {
     enabled: true,
     prefixes: config.navigation.prefixes,
+    getStateFromPath: config.navigation.getStateFromPath,
+    getPathFromState: config.navigation.getPathFromState,
     config: {
       screens: Object.keys(config.navigation.routes).reduce<PathConfigMap>(
         (screens, route) => {

@@ -1,5 +1,6 @@
 import { ReactNative } from "../../vendors"
 import { Language, NameField_ByLanguage } from "dropin-client"
+import { LinkingOptions } from "@react-navigation/native"
 
 export type AppConfig = {
   key: string
@@ -13,6 +14,8 @@ export type AppConfig = {
         }
       }
     }
+    getStateFromPath?: LinkingOptions["getStateFromPath"]
+    getPathFromState?: LinkingOptions["getPathFromState"]
     prefixes: string[]
   }
   appearance: {
@@ -20,7 +23,9 @@ export type AppConfig = {
     colors: { [name: string]: string }
     header?: {
       hide?: boolean
-      style?: ReactNative.Animated.WithAnimatedValue<ReactNative.StyleProp<ReactNative.ViewStyle>>
+      style?: ReactNative.Animated.WithAnimatedValue<
+        ReactNative.StyleProp<ReactNative.ViewStyle>
+      >
     }
   }
   i18n?: {

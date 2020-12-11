@@ -29,7 +29,12 @@ export type ArchitectContext<
       get: { [name in keyof States]: States[name] }
       set: { [name in keyof States]: (v: States[name]) => void }
     }
-    values: Values
+    values: {
+      [value in keyof Values]: {
+        get: () => Values[value]
+        set: (value: Values[value]) => void
+      }
+    }
     functions: Functions
     OS: ReactNative.PlatformOSType
     appearance: {

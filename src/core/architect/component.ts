@@ -8,7 +8,7 @@ export type ArchitectComponentProps = { [name: string]: any }
 
 export type ArchitectComponentStates = Required<{ [name: string]: any }>
 
-export type ArchitectComponentValues = { [name: string]: any }
+export type ArchitectComponentValues = Required<{ [name: string]: any }>
 
 export type ArchitectComponentFunctions = Required<{
   [name: string]: (...params: any) => any
