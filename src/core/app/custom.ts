@@ -1,4 +1,7 @@
-import { StackHeaderLeftButtonProps, HeaderBackButton } from "@react-navigation/stack"
+import {
+  StackHeaderLeftButtonProps,
+  HeaderBackButton,
+} from "@react-navigation/stack"
 
 export type AppCustomHeaderLeft = StackHeaderLeftButtonProps
 
